@@ -8,10 +8,10 @@ import json
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_colwidth', 140)
 
-with open('TSN_news_true.json', encoding='utf-8') as json_file:
+with open('Data_set/TSN_news_true.json', encoding='utf-8') as json_file:
     data = json.load(json_file)
 print('\nDone Loading TSN_news_true.json\n')
-with open('fake_news_on_russian_language.json', encoding='utf-8') as json_file2:
+with open('Data_set/fake_news_on_russian_language.json', encoding='utf-8') as json_file2:
     data2 = json.load(json_file2)
 print('\nDone Loading fake_news_on_russian_language.json\n')
 
