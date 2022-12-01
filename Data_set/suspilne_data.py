@@ -6,8 +6,8 @@ import json
 
 # Environment settings: 
 pd.set_option('display.max_rows', None)
-pd.set_option('display.max_colwidth', 250)
-pd.set_option('display.max_colwidth', 250)
+pd.set_option('display.max_colwidth', 280)
+pd.set_option('display.max_colwidth', 280)
 
 #open file
 with open('Data_set/data/suspilne.json', encoding='utf-8') as json_file:
@@ -25,16 +25,28 @@ while(True):
             i+=1
             continue
         elif(str(suspilne['messages'][i]['text_entities'][0]['text'])):
-            j = 0
             buffer = ''
-            if 'Украин' in str(suspilne['messages'][i]['text_entities']) and ('Миноборон' or 'миноборон' or 'Глав' or 'глав' or 'фейк') not in str(suspilne['messages'][i]['text_entities']):
+            j=0
+            if 'новини ранку' in str(suspilne['messages'][i]['text_entities']):
+                while('новини ранку' not in suspilne['messages'][i]['text_entities'][j]['text']):
+                        j+=1
+                j+=1
                 while(True):
+                    #if('🔹' not in suspilne['messages'][i]['text_entities'][j]['text']):
                     try:
                         buffer += (suspilne['messages'][i]['text_entities'][j]['text']).replace('\n' or '\\', ' ')
+                        #print(buffer)
                         j+=1
                     except:
                         break
-                text.append(demoji.replace(buffer, ""))
+                buffer = buffer.split('🔹')
+                for k in range(len(buffer)):
+                    try:
+                        if len(buffer[k]) < 5:
+                            continue
+                        text.append(demoji.replace(buffer[k], ""))
+                    except:
+                        break
         i+=1
         continue
     except: 
@@ -45,4 +57,4 @@ dataframe['Label'] = 'True'
 dataframe['Text'].str.strip()
 print('\n\n\n\n')
 print(dataframe)
-dataframe.to_csv('suspilne_news.csv')
+dataframe.to_csv('Data_set/data/suspilne_news.csv')

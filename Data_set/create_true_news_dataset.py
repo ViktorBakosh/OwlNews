@@ -5,7 +5,7 @@ from googletrans import Translator
 import json
 
 # Environment settings: 
-pd.set_option('display.max_rows', None)a
+pd.set_option('display.max_rows', None)
 pd.set_option('display.max_colwidth', 250)
 pd.set_option('display.max_colwidth', 250)
 
@@ -45,4 +45,4 @@ dataframe['Label'] = 'True'
 dataframe['Text'].str.strip()
 print('\n\n\n\n')
 print(dataframe)
-dataframe.to_csv('NR_news.csv')
+dataframe.to_csv('data/NR_news.csv')
