@@ -10,7 +10,7 @@ pd.set_option('display.max_colwidth', 210)
 
 with open('Data_set/data/Novosti_Ukrainy_Online.json', encoding='utf-8') as json_file:
     data = json.load(json_file)
-print('\nDone Loading TSN_news_true.json\n')
+print('\nDone Loading Novosti_Ukrainy_Online.json\n')
 
 #make True news column
 i = 0
@@ -42,7 +42,7 @@ try:
         translate.append((translator.translate(text[element], src='ru', dest='uk')).text)
 except Exception as e:
         print('\n\n',e)
-dataframe = pd.DataFrame(text, columns=['Text'])
+dataframe = pd.DataFrame(translate, columns=['Text'])
 dataframe['Label'] = 'True'
 dataframe['Text'].str.strip()
 dataframe.drop(useless_data)
