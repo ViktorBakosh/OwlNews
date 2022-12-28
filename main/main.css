@@ -4,6 +4,7 @@
   box-sizing: border-box;
 }
 
+
 .body{
   background:#f4f1de;
   background-repeat: no-repeat;
@@ -15,7 +16,51 @@ a{
   text-decoration: none;
 }
 
+/*  */
 
+#toTopBtn {
+   position: fixed;
+   display: none;
+  bottom: 26px;
+  right: 39px;
+  z-index: 98;
+  padding: 21px;
+  background-color: #e07a5f;
+  
+}
+
+.js .cd-top--fade-out {
+  opacity: .5;
+}
+
+.js .cd-top--is-visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+.js .cd-top {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .3s,visibility .3s,background-color .3s;
+}
+
+.cd-top {
+  position: fixed;
+  bottom: 20px;
+  bottom: var(--cd-back-to-top-margin);
+  right: 20px;
+  right: var(--cd-back-to-top-margin);
+  display: inline-block;
+  height: 40px;
+  height: var(--cd-back-to-top-size);
+  width: 40px;
+  width: var(--cd-back-to-top-size);
+  box-shadow: 0 0 10px rgba(0,0,0,.05) !important;
+  background: url(https://res.cloudinary.com/dxfq3iotg/image/upload/v1571057658/cd-top-arrow.svg) no-repeat center 50%;
+  background-color:#e07a5f;
+  background-color: hsla(var(--cd-color-3-h),var(--cd-color-3-s),var(--cd-color-3-l),0.8);
+}
+/*  */
 .main-class{
 
 }
@@ -73,7 +118,7 @@ a{
   text-align: center;
   border: 1px solid #e27a5f;
   box-sizing: border-box;
-  border-radius: 15px;
+  border-radius: 50px;
   padding: 5px 15px;
   width: 100%;
 }
@@ -106,15 +151,24 @@ a{
   margin: 0 auto;
 }
 
-.circles-position{
-  /* position: fixed; */
-  /* display: flex;
-  justify-content: space-around ;  */
-  /* position:absolute; */
-/* padding-left: 200px; */
+.fantom{
+  width: 120px;
+}
+
+.circles-block{
+
+  /* display: block;
+
+  position: fixed;
+
+  transform: translateX(-610px); */
+
 }
 
 .sites-logo{
+  position: -webkit-sticky; /* Safari & IE */
+  position: sticky;
+  top: 20px;
   /* position: relative; */
   /* align-items: center; */
   /* background: red; */
@@ -122,6 +176,11 @@ a{
   /* width: 120px; */
   padding: 0px 10px ;
 }
+
+.logo-link{
+  border-radius:50px;
+}
+
 
 .circle-logo{
   margin-bottom: 10px;
@@ -172,9 +231,12 @@ a{
 }
 
 .news-photo{
-  height: 200px;
+  /* height: 200px;*/
   width: 320px;
+  aspect-ratio: 3/2;
+  object-fit:cover;
   border: 1px solid #f4f1de;
+  
 }
 
 .info-list{
