@@ -37,30 +37,40 @@ a{
 } 
 
 #toTopBtn {
-   position: fixed;
-   display: none;
+  position: fixed;
+  display: none;
   bottom: 26px;
   right: 39px;
   z-index: 98;
   padding: 21px;
+  /* background: url(../img/owl3.png)  no-repeat center 50%; */
+  object-fit:cover;
+  /* aspect-ratio: 3/2;  */
+  width: 40px;
+  height: 40px;
+  /* object-fit:fill; */
   background-color: #e07a5f;
+  /* object-fit:fill; */
   
 }
 
-.js .cd-top--fade-out {
+/* .js .cd-top--fade-out {
   opacity: .5;
+  
 }
 
 .js .cd-top--is-visible {
   visibility: visible;
   opacity: 1;
+  
 }
 
 .js .cd-top {
   visibility: hidden;
   opacity: 0;
-  transition: opacity .3s,visibility .3s,background-color .3s;
-}
+  /* transition: opacity .3s,visibility .3s,background-color .3s; 
+    
+} */
 
 .cd-top {
   position: fixed;
@@ -75,8 +85,12 @@ a{
   width: var(--cd-back-to-top-size);
   box-shadow: 0 0 10px rgba(0,0,0,.05) !important;
   background: url(https://res.cloudinary.com/dxfq3iotg/image/upload/v1571057658/cd-top-arrow.svg) no-repeat center 50%;
+  
   background-color:#e07a5f;
   background-color: hsla(var(--cd-color-3-h),var(--cd-color-3-s),var(--cd-color-3-l),0.8);
+  
+  aspect-ratio: 3/2;
+  object-fit:scale-down;
 }
 /*  */
 .main-class{
