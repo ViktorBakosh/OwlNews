@@ -18,6 +18,24 @@ a{
 
 /*  */
 
+.scrollBoxTwo::-webkit-scrollbar-thumb{
+  background-color: rgb(48, 48, 48);
+} 
+
+*/
+.scrollBoxTwo{
+  height: 100%;
+  overflow-y: auto;
+}
+
+/*styling for the scrollbar*/
+  /*style for the scroll bar area*/
+.scrollBoxTwo::-webkit-scrollbar{background-color: #3d405b;}
+  /*style for the scrolling part of the bar*/
+.scrollBoxTwo::-webkit-scrollbar-thumb{
+  background-color: #e07a5f;
+} 
+
 #toTopBtn {
    position: fixed;
    display: none;
