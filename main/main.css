@@ -19,10 +19,14 @@
   background-attachment: fixed;
 }
 
-a{
-  text-decoration: none;
+
+
+.a{
 }
 
+.a:hover{
+  text-decoration:none;
+}
 /*  */
 
 .scrollBoxTwo::-webkit-scrollbar-thumb{
@@ -385,3 +389,5 @@ background-color: var(--dark-blue-color);
 .arrow{
   font-size: 50px;
 }
+
+
