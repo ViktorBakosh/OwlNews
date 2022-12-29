@@ -14,9 +14,9 @@
 
 <body id="container" class="scrollBoxTwo body">
     <a href="#" id="toTopBtn" class="cd-top text-replace js-cd-top cd-top--is-visible cd-top--fade-out" data-abc="true">
-        <!-- <img  src="../OwlNews/img/owl3.png" alt=""> -->
+        
     </a>
-   
+    
     <div class="main-class">    
         <header  class="main-header">
             <div class="main-wrapper header-wrapper">
@@ -70,10 +70,23 @@
                     <div class="block-news">
                         <div class="search-block">
                             <div class="search-container">
-                                <form action="/action_page.php">
+                                <table class="elementsContainer">
+                                    <tr>
+                                        <td>
+                                            <input type="text" placeholder="—   —   —   —   —   —"
+                                            class="search">
+                                        </td>
+                                        <td>
+                                            <a href="#">
+                                                <img class="search-logo" src="../img/lupa2.png" alt="lupa">                                                
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <!-- <form action="/action_page.php">
                                 <input type="text" placeholder="Search.." name="search">
                                     <button type="submit"><i class="fa fa-search"></i></button>
-                                </form>
+                                </form> -->
                             </div>
                         </div>
                         <div class="news">
@@ -150,7 +163,11 @@
                 </div>
             </div>
         </main>
+        
     </div>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="app.js"></script>
 </body>
