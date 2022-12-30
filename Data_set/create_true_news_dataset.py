@@ -45,4 +45,5 @@ dataframe['Label'] = 'True'
 dataframe['Text'].str.strip()
 print('\n\n\n\n')
 print(dataframe)
+
 dataframe.to_csv('data/NR_news.csv')

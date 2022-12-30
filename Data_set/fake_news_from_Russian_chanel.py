@@ -27,5 +27,3 @@ def import_data_from_site():
     # remove useless words
     cleaned_text = {x.replace('ФЕЙК: ', '').replace('НЕПРАВДА: ', '').replace('МАНІПУЛЯЦІЯ: ', '') for x in sorted_text}
     return cleaned_text
-
-print(import_data_from_site())
