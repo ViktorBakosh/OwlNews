@@ -12,8 +12,8 @@ namespace Parser_2022_
 {
     class Parse
     {
-        public static string Connect = "Host=localhost;User id=postgres;Password=;Database=NEWS;Port=2285;";//key
-        public static string API_Connect = "Host=localhost;User id=postgres;Password=;Database=API;Port=2285;";//key
+        public static string Connect = "Host=localhost;User id=postgres;Password=123;Database=NEWS;Port=5432;";//key
+        public static string API_Connect = "Host=localhost;User id=postgres;Password=123;Database=API;Port=5432;";//key
         public Parse(){ }
         public static void Alarm()
         {

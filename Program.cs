@@ -4,21 +4,17 @@ internal class Program
 {
     private static void Main()
     {
+        Volodia.mykolayiv2();
         //Parse.DATABASE_READ("Host=localhost;User Id=postgres;Password=228522245;Database=NEWS;Port=2285;", "SELECT * FROM mykolayiv;");
         //Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
-        
-        
-        
-        
-        
         var All = new System.Diagnostics.Stopwatch();
         All.Start();
         var watch = new System.Diagnostics.Stopwatch();
         watch.Start();
         Console.WriteLine("\nAlarm");
-        Parse.Alarm();
-        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
-        watch.Restart();
+        // Parse.Alarm();
+        // Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        // watch.Restart();
         Console.WriteLine("\nvolyn");
         Parse.volyn();
         watch.Stop();
