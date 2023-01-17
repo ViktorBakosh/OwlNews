@@ -37,7 +37,7 @@ while(True):
                 if not any(value for value in false_symbols if value in buffer[0]): #buffer[0] != ('«' or '"')
                     if not any(value for value in false_words if value in buffer_into_words):
                         if(':' not in buffer):
-                            print(buffer[0],'\t',buffer)
+                            #print(buffer[0],'\t',buffer)
                             text.append(buffer)
                             link += 'https://t.me/perepichka_news/' + str(data['messages'][i]['id'])
                             links.append(link)
@@ -88,29 +88,25 @@ useless_news = [
 ,'Рот путина песков о визите Зеленского в Херсон'
 ,'конфисковать активы России в ЕС в пользу Украины'
 ,'РОЗІГРУЄМО ТА СОНЯЧНИЙ ПОВЕРБАНК + 2200 FS  2 грудня'
-,'1xBet, BetWinner, Melbet, Fansport, PointLoto Не становитесь предателями, ваши дети вам не простят!'
-]
-for i in range(len(text)):
-    for j in range(len(useless_news)):
-        if text[i] in useless_news[j]:
-            text.pop(i)
-print(text)
+,'1xBet, BetWinner, Melbet, Fansport, PointLoto Не становитесь предателями, ваши дети вам не простят!']
+text_cleared = [x for x in text if x not in useless_news]
+print(text_cleared,'\n\n',len(text_cleared))
 
-# #translate russian news into ukrainian language
-# translate = []
-# translator = Translator()
-# try:
-#     for element in range(len(text)):
-#         translate.append((translator.translate(text[element], src='ru', dest='uk')).text)
-#         print(translate[element])
-# except Exception as e:
-#         print('\n\n',e)
+#translate russian news into ukrainian language
+translate = []
+translator = Translator()
+try:
+    for element in range(len(text)):
+        translate.append((translator.translate(text[element], src='ru', dest='uk')).text)
+        print(translate[element])
+except Exception as e:
+        print('\n\n',e)
 
-# #make dataframe and save as csv
-# dataframe = pd.DataFrame()
-# dataframe['Link'] = links
-# dataframe['Text'] = translate
-# dataframe['Label'] = 'True'
-# print(dataframe)
-# print('\n\n\n\n')
-# dataframe.to_csv('Data_set/data/csv_files/Perepichka_NEWS_verified.csv')
+#make dataframe and save as csv
+dataframe = pd.DataFrame()
+dataframe['Link'] = links
+dataframe['Text'] = translate
+dataframe['Label'] = 'True'
+print(dataframe)
+print('\n\n\n\n')
+dataframe.to_csv('Data_set/data/csv_files/Perepichka_NEWS_verified.csv')
