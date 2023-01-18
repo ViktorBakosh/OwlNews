@@ -39,10 +39,15 @@ namespace Parser_2022_
         {
 
             var url = "https://alerts.com.ua/api/states";//API(all states)
-
             var httpRequest = (HttpWebRequest)WebRequest.Create(url);//Creating a reguest
+            
+            
+            
+            
+            /**/
+            Don`t forget about key :)
 
-            httpRequest.Headers["X-API-Key"] = "f16bd9a3ce36b4eed167325de19da4df5522fb11";//key
+            httpRequest.Headers["X-API-Key"] = "";//key
             var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
             string result = "";
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
