@@ -6,136 +6,32 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text.Json.Nodes;
 using System.Collections.Generic;
+using System.Reflection.PortableExecutable;
 
-#pragma warning disable 8602, 8600, SYSLIB0014
+#pragma warning disable 8602, 8600, SYSLIB0014 
 namespace Parser_2022_
 {
+
     class Parse
     {
-        public static string Connect = "Host=localhost;User id=postgres;Password=123;Database=NEWS;Port=5432;";//key
-        public static string API_Connect = "Host=localhost;User id=postgres;Password=123;Database=API;Port=5432;";//key
         public Parse(){ }
-        public static void Alarm()
-        {
-
-            var url = "https://alerts.com.ua/api/states";
-
-            var httpRequest = (HttpWebRequest)WebRequest.Create(url);
-
-            httpRequest.Headers["X-API-Key"] = "";//key!!!!!!!!!!!! 
-            var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
-            string result = "";
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                result = streamReader.ReadToEnd();
-            }
-            dynamic my_object = JObject.Parse(result);
-
-
-            if (!CREATE_TABLE($"CREATE TABLE IF NOT EXISTS public.API\r\n(\r\n    id integer NOT NULL,\r\n    name text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    name_en text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    alert boolean NOT NULL,\r\n    changed text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.API\r\n    OWNER to postgres;",
-                        Parse.API_Connect)) { return; }
-            foreach (var region in my_object["states"])
-            {
-                DATABASE_INSERT(region.GetValue("id").ToString(), region.GetValue("name").ToString(), region.GetValue("name_en").ToString(), region.GetValue("alert").ToString(), region.GetValue("changed").ToString());
-            }
-        }
-        private static void DATABASE_INSERT(string id,string name ,string name_en,string alert , string changed)
-        {
-            try 
-            {
-                using(var conn = new NpgsqlConnection(Parse.API_Connect))
-                { 
-                    if (DATABASE_READ(Parse.API_Connect, $"SELECT COUNT(*) FROM api WHERE name_en='{name_en}';") > 0)
-                    {
-                        conn.Open();
-                        using (var cmd = new NpgsqlCommand($"UPDATE api SET alert = '{bool.Parse(alert)}' WHERE name_en='{name_en}';",conn))
-                        {
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                    else
-                    {
-                        conn.Open();
-                        using (var cmd= new NpgsqlCommand($"INSERT INTO api (id,name,name_en,alert,changed ) VALUES (@id,@name,@name_en,@alert,@changed);",conn)) 
-                        {
-                            cmd.Parameters.AddWithValue("id", Convert.ToInt32(id));
-                            cmd.Parameters.AddWithValue("name", name);
-                            cmd.Parameters.AddWithValue("name_en", name_en);
-                            cmd.Parameters.AddWithValue("alert", bool.Parse(alert));
-                            cmd.Parameters.AddWithValue("changed", changed);
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
-                    conn.Close();
-                }
-            }
-            catch(Exception exp) { Console.Write(exp.Message);return; }
-        }
-        private static bool CREATE_TABLE(string cmd, string Conn_str)
-        {
-            try
-            {
-                using (var conn = new NpgsqlConnection(Conn_str))
-                {
-                    conn.Open();
-                    using (var command = new NpgsqlCommand(cmd, conn))
-                    {
-                        command.ExecuteNonQuery();
-                    }
-                    conn.Close();
-                }
-            }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return false; }
-            return true;
-        }
+        
         public static void lviv()
         {// 5 site/link
-            var NEWS = ReadLviv("https://city-adm.lviv.ua/news", "ul[@class='tm-news uk-list uk-list-large']/li", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            var NEWS = ReadLviv("https://city-adm.lviv.ua/news", "//ul[@class='tm-news uk-list uk-list-large']/li/a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    item.Add(ReadLvivNews($"https://city-adm.lviv.ua{item[0]}", "//div[@class='tm-article uk-margin-medium-top']/p"));
-                    item[0] = "https://city-adm.lviv.ua" + item[0];
-                }
-
-            if (NEWS != null)
-                foreach (var item in NEWS)
-                {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)",item);
                 }
         }
-        private static string ReadLvivNews(string url, string node)
+       
+        private static List<Data>? ReadLviv(string url, string node,string name)
         {
-            string result = "";
-            try
-            {
-                WebClient webClient = new();
-
-                webClient.Encoding = Encoding.UTF8;
-                string html = webClient.DownloadString(url);
-
-                if (string.IsNullOrEmpty(html))
-                    throw new Exception();
-
-                HtmlDocument htmlDocument = new();
-                htmlDocument.LoadHtml(html);
-
-                if (htmlDocument == null)
-                    throw new Exception();
-
-                foreach (HtmlNode row in htmlDocument.DocumentNode.SelectNodes(node))
-                {
-                    result += row.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ");
-                }
-            }
-            catch { return " "; }
-            return result;
-        }
-        private static List<List<string>>? ReadLviv(string url, string node,string name)
-        {
-            List<List<string>> listRay = new();
+            List<Data> listRay = new();
 
             try
             {
@@ -155,66 +51,61 @@ namespace Parser_2022_
                 if (htmlDocument == null)
                     throw new Exception();
 
-                HtmlNodeCollection htmlNodeCollection = htmlDocument.DocumentNode.SelectNodes("//" + node);
+                HtmlNodeCollection htmlNodeCollection = htmlDocument.DocumentNode.SelectNodes(node);
 
-                if (htmlNodeCollection != null && htmlNodeCollection.Count > 0)
-                {
-                    for (int i = 0; i < htmlNodeCollection.Count; ++i)
+               foreach(var item in htmlNodeCollection) 
+               {
+                    Data tmp = new();
+
+                    string Link = "https://city-adm.lviv.ua" + item.GetAttributeValue("href", "nothing");
+                    HtmlDocument News = new();
+                    News.LoadHtml(item.InnerHtml);
+                    string HTML = webClient.DownloadString(Link);
+                    News.LoadHtml(HTML);
+
+                    HtmlNode ImgNode = News.DocumentNode.SelectSingleNode("//img[@itemprop='url']");
+                    HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='uk-article-title uk-margin-top uk-margin-medium-bottom']");
+                    HtmlNode DateNode = News.DocumentNode.SelectSingleNode("//span[@class='uk-text-middle tm-text-icon']");
+                    HtmlNodeCollection InfoNodes = News.DocumentNode.SelectNodes("//div[@class='tm-article uk-margin-medium-top']/p");
+                    string img = "https://city-adm.lviv.ua" + ImgNode.GetAttributeValue("src", "nothing");
+                    string title = TitleNode.InnerText.ToString();
+                    string date = DateNode.InnerText;
+                    string info = "";
+                    foreach (var inf in InfoNodes)
                     {
-                        List<string> list = new();
-                        string[] SplitBlocks = htmlNodeCollection[i].InnerHtml.Split("\"");//  1 посилання    13 фото шлях
-                        string[] SplitInnerText = htmlNodeCollection[i].InnerText.Split(" ");//42 type   56 main 
-
-                        if (SplitBlocks.Length > 0 && SplitInnerText.Length > 0)//10
-                        {
-                            string Type = "";
-                            for (int j = 11; SplitInnerText[j] != ""; ++j) { Type += SplitInnerText[j] + ' '; }
-
-                            int istart = 2;
-                            int iend = SplitBlocks[56].IndexOf("<");
-                            string main = SplitBlocks[56].Substring(istart, SplitBlocks[56].IndexOf("<") - istart);
-                            istart = url.IndexOf("news"); iend = url.IndexOf("news") + "news".Length - 1;
-                            string img = url.Remove(istart, iend - istart) + SplitBlocks[13];
-                            //list.Add(Type.Replace("і", "i"));//                 Type
-                            
-                            list.Add(SplitBlocks[1]);//      site/link
-                            list.Add(main.Replace("і", "i"));//                  title
-                            list.Add(img);//     img/link
-                            list.Add(SplitInnerText[6].Replace(",", " ")+" "+ SplitInnerText[7]);//   day
-                            //list.Add(SplitInnerText[7]);//   time
-                            if (DATABASE_CHECK(list[1], Parse.Connect, name))
-                            {
-                                return listRay;
-                            }
-                            listRay.Add(list);
-                        }
+                        info += inf.InnerText.ToString();
                     }
-                    return listRay;
-                }
-                else { throw new Exception(); }
+                    tmp.link=Link;
+                    tmp.title=title;
+                    tmp.image=img;
+                    tmp.time=date.Replace(",","");
+                    tmp.info=info;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
+                    {
+                        return listRay;
+                    }
+                    listRay.Add(tmp);
+               }
             }
             catch{ return listRay; }
+            return listRay;
         }
         public static void ternopil()
         {
             
-            var NEWS = ReadTernopil("https://ternopilcity.gov.ua/news/", "//div[@class='profile-header section-bottom-25']", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            foreach (var item in NEWS)
-            {
-                item.Add(ReadTernopilNews($"{item[0]}", "//div[@class='post-body']"));
-            }
+            var NEWS = ReadTernopil("https://ternopilcity.gov.ua/news/", "//div[@class]/h4/a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>>? ReadTernopil(string url, string node,string name)
+        private static List<Data>? ReadTernopil(string url, string node,string name)
         {
-            List<List<string>> list = new();
+            List<Data> list = new();
             try
             {
                 
@@ -231,91 +122,62 @@ namespace Parser_2022_
                 if (htmlDocument == null)
                     throw new Exception();
 
-                foreach (HtmlNode row in htmlDocument.DocumentNode.SelectNodes(node))
-                {
-                    List<string> list2 = new();
-                    string Title = row.InnerHtml.Substring(row.InnerHtml.IndexOf("html\">") + "html\">".Length, row.InnerHtml.IndexOf("</a></h4>")
-                        - (row.InnerHtml.IndexOf("html\">") + "html\">".Length)).Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ");
-                    string Link = row.InnerHtml.Substring(row.InnerHtml.IndexOf("<h4><a href=\"") + "<h4><a href=\"".Length, row.InnerHtml.IndexOf("html\">")
-                        - (row.InnerHtml.IndexOf("<h4><a href=\"") + "<h4><a href=\"".Length)).Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ") + "html";
+                HtmlNodeCollection htmlNodeCollection = htmlDocument.DocumentNode.SelectNodes(node);
 
-                    string Time = row.InnerHtml.Substring(row.InnerHtml.IndexOf("<time datetime=\"") + "<time datetime=\"".Length, row.InnerHtml.IndexOf("</time>")
-                        - (row.InnerHtml.IndexOf("<time datetime=\"") + "<time datetime=\"".Length)).Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ");
-                    string[] DayTime = Time.Split(" ");
-                    string Day = DayTime[0].Replace("-", ".");
-                    string Clock = DayTime[1].Substring(0, DayTime[1].IndexOf("\">"));
-                    int start = row.InnerHtml.IndexOf("<img src=\"") + "<img src=\"".Length, end = row.InnerHtml.IndexOf(".jpg\"") + ".jpg".Length - start; if (end < 0) { end = row.InnerHtml.IndexOf(".png\"") + ".png".Length - start; if (end < 0) { end = row.InnerHtml.IndexOf(".jpeg\"") + ".jpeg".Length - start; } }
-                    string img;
-                    if (end > start)
+                foreach (var item in htmlNodeCollection)
+                {
+                    Data tmp = new();
+
+                    string Link = "" + item.GetAttributeValue("href", "nothing");
+                    HtmlDocument News = new();
+                    News.LoadHtml(item.InnerHtml);
+                    string HTML = web.DownloadString(Link);
+                    News.LoadHtml(HTML);
+
+                    HtmlNode ImgNode = News.DocumentNode.SelectSingleNode("//img[@style='float: left;']");
+                    HtmlNode TitleNode = item;
+                    HtmlNode DateNode = News.DocumentNode.SelectSingleNode("//time[@datetime]");
+                    HtmlNodeCollection InfoNodes = News.DocumentNode.SelectNodes("//div[@class='post-body']");
+                    string img = "" + ImgNode.GetAttributeValue("src", "nothing");
+                    string title = TitleNode.InnerText.ToString();
+                    string date = DateNode.GetAttributeValue("datetime", "unknown");
+                    string info = "";
+                    foreach (var inf in InfoNodes)
                     {
-                        img = row.InnerHtml.Substring(start, end).Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ");
+                        info += inf.InnerText.ToString();
                     }
-                    else { img = "https://aesthetic-macaron-2d69dd.netlify.app/img/logo.png"; }
-                    start = row.InnerHtml.IndexOf("</a></h4>") + "</a></h4>".Length; end = row.InnerHtml.IndexOf("<div class=\"post-meta\">") - start;
-                    string Info = row.InnerHtml.Substring(start, end).Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ");
-                    /*Link*/
-                    /*Title*/
-                    /*img*/
-                    /*date*/
-                    /*info*/
-                    list2.Add(Link); //Site/link
-                    list2.Add(Title);// Title
-                    list2.Add(img);// image
-                    list2.Add(Day+" "+Clock);// Date
-                    list2.Add(Info.Replace("\n", "").Replace("\t", ""));// subtitle
-                    if (DATABASE_CHECK(list2[1], Parse.Connect, name))
+                    tmp.link=Link;
+                    tmp.title=title;
+                    tmp.image=img;
+                    tmp.time=date;
+                    tmp.info=info;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
-                    list.Add(list2);
+                    list.Add(tmp);
                 }
-                return list;
 
             }
-            catch { return null; }
+            catch { return list; }
+            return list;
         }
-        private static string ReadTernopilNews(string url, string node)
-        {
-            string result = "";
-            try
-            {
-                WebClient webClient = new();
-                webClient.Encoding = Encoding.UTF8;
-                string html = webClient.DownloadString(url);
-
-                if (string.IsNullOrEmpty(html))
-                    throw new Exception();
-
-                HtmlDocument htmlDocument = new();
-                htmlDocument.LoadHtml(html);
-
-                if (htmlDocument == null)
-                    throw new Exception();
-
-                foreach (HtmlNode row in htmlDocument.DocumentNode.SelectNodes(node))
-                {
-                    result += row.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ");
-                }
-            }
-            catch { return ""; }
-            return result;
-
-        }
+       
         public static void ivano_frankivsk()
         {
-            var NEWS = ReadIvano_Frankivsk("https://galka.if.ua/category/frankivski-novini/", "//div[@class='media archive-item']", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            var NEWS = ReadIvano_Frankivsk("https://galka.if.ua/category/frankivski-novini/", "//div[@class='media-body']", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>>? ReadIvano_Frankivsk(string url, string node,string name)
+        private static List<Data>? ReadIvano_Frankivsk(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             
             try
             {
@@ -333,40 +195,37 @@ namespace Parser_2022_
                 if (htmlDocument == null)
                     throw new Exception();
 
-                HtmlNodeCollection Title = htmlDocument.DocumentNode.SelectNodes(node + "/div[2]/a[1]");
-                HtmlNodeCollection imgRes = htmlDocument.DocumentNode.SelectNodes(node + "//div[1]//a//img");
-                HtmlNodeCollection LinkHref = htmlDocument.DocumentNode.SelectNodes(node + "//div[1]//a");
+                HtmlNodeCollection htmlNodeCollection = htmlDocument.DocumentNode.SelectNodes(node);
 
-                HtmlNodeCollection Date = htmlDocument.DocumentNode.SelectNodes(node + "//div[2]//p//span");
-
-                for (int i = 0; i < Date.Count; ++i)
-                    if (string.IsNullOrEmpty(Date[i].InnerHtml))
-                        Date.Remove(Date[i]);
-
-                for (int i = 0; i < Title.Count; ++i)
+                foreach (var item in htmlNodeCollection)
                 {
-                    Console.WriteLine(i);
-                    Console.Title = "ReadIvano_Frankivsk";
-                    List<string> tmp = new();
-                    string Link = LinkHref[i].GetAttributeValue("href", "");
-                    //Title[i].OuterHtml.Substring(Title[0].OuterHtml.IndexOf("\"") + "\"".Length, Title[0].OuterHtml.IndexOf("\">") - (Title[0].OuterHtml.IndexOf("\"") + "\"".Length));
-                    string Tit = Title[i].InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"");
-                    string DATEFinal = Date[i].InnerText.Replace("\n", "").Replace(" ", "");
-                    string Clock = DATEFinal.Substring(0, DATEFinal.IndexOf(","));//Clock
-                    string Day = DATEFinal.Substring(DATEFinal.IndexOf(",") + 1, DATEFinal.Length - DATEFinal.IndexOf(",") - 1);//Day
-                    string img = imgRes[i].GetAttributeValue("src", "nothing");//img
-                    string News = ReadIvano_FrankivskNews(Link, "//div[@class='content']//p");//main
-                    /*Link*/
-                    /*Title*/
-                    /*img*/
-                    /*date*/
-                    /*info*/
-                    tmp.Add(Link);
-                    tmp.Add(Tit);
-                    tmp.Add(img);
-                    tmp.Add(Clock+" "+Day);
-                    tmp.Add(News);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    Data tmp = new();
+                    var LinkNode = item.ChildNodes["a"];
+                    string Link = "" + LinkNode.GetAttributeValue("href", "nothing");
+                    HtmlDocument News = new();
+                    News.LoadHtml(item.InnerHtml);
+                    string HTML = web.DownloadString(Link);
+                    News.LoadHtml(HTML);
+
+                    HtmlNode ImgNode = News.DocumentNode.SelectSingleNode("//div[@class='page-thumbnail']/img[@src]");
+                    HtmlNode TitleNode = item;
+                    HtmlNode DateNode = News.DocumentNode.SelectSingleNode("//p[@class='single-date']");
+                    HtmlNodeCollection InfoNodes = News.DocumentNode.SelectNodes("//div[@class='content']");
+                    ImgNode ??= News.DocumentNode.SelectSingleNode("//picture/img[@src]");
+                    string img = "" + ImgNode.GetAttributeValue("src", "nothing");
+                    string title = TitleNode.InnerText.ToString();
+                    string date = DateNode.InnerText;
+                    string info = "";
+                    foreach (var inf in InfoNodes)
+                    {
+                        info += inf.InnerText.ToString();
+                    }
+                    tmp.link=Link;
+                    tmp.title=title;
+                    tmp.image=img;
+                    tmp.time=date;
+                    tmp.info=info;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -376,33 +235,7 @@ namespace Parser_2022_
             }
             catch { return list; }
         }
-        private static string ReadIvano_FrankivskNews(string url, string node)
-        {
-            Console.Title = "ReadIvano_FrankivskNews";
-            string result = "";
-            try
-            {
-                WebClient webClient = new();
-                webClient.Encoding = Encoding.UTF8;
-                string html = webClient.DownloadString(url);
-
-                if (string.IsNullOrEmpty(html))
-                    throw new Exception();
-
-                HtmlDocument htmlDocument = new();
-                htmlDocument.LoadHtml(html);
-
-                if (htmlDocument == null)
-                    throw new Exception();
-
-                foreach (HtmlNode row in htmlDocument.DocumentNode.SelectNodes(node))
-                {
-                    result += row.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n\n", "");
-                }
-            }
-            catch { Console.WriteLine("Error"); return ""; }
-            return result;
-        }
+        
         public static void chernivtsi()
         {
             Console.Title = "Chernivtsi";
@@ -410,14 +243,14 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>>? ReadChernivtsi(string url, string node,string name)
+        private static List<Data>? ReadChernivtsi(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -438,7 +271,7 @@ namespace Parser_2022_
                 foreach (HtmlNode node2 in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
                     HtmlDocument Doc = new(); Doc.LoadHtml(node2.OuterHtml);
                     HtmlNode href = Doc.DocumentNode.SelectSingleNode("//a[@href]");
                     HtmlNode time = Doc.DocumentNode.SelectSingleNode("//span[@class='time']");
@@ -453,22 +286,21 @@ namespace Parser_2022_
                     string info = "";
                     foreach (HtmlNode node3 in SiteInfo)
                     {
-                        info += node3.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n\n", "");
-
+                        info += node3.InnerText;
                     }
                     /*Link*/
-                    tmp.Add(href.GetAttributeValue("href", "nothing"));
+                    tmp.link=(href.GetAttributeValue("href", "nothing"));
                     /*Title*/
-                    tmp.Add(title.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("    ", ""));
+                    tmp.title=title.InnerText;
                     /*img*/
-                    tmp.Add(img[2].GetAttributeValue("src", "nothing"));
+                    tmp.image=(img[2].GetAttributeValue("src", "nothing"));
                     /*date*/
-                    tmp.Add(Date.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n\n", "")+" " + time.InnerText.Remove(0, 2));
+                    tmp.time=Date.InnerText;
                     /*time*/
                     //tmp.Add(time.InnerText.Remove(0, 2));
                     /*main*/
-                    tmp.Add(info);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=info;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -486,14 +318,14 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                      DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                      $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>>? ReadZakarpattia(string url, string node,string name)
+        private static List<Data>? ReadZakarpattia(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -513,7 +345,7 @@ namespace Parser_2022_
                 HtmlNodeCollection nodes = htmlDocument.DocumentNode.SelectNodes(node);
                 foreach (HtmlNode node2 in nodes)
                 {
-                    List<string> tmp = new();
+                    Data tmp = new();
                     HtmlDocument Doc = new(); Doc.LoadHtml(node2.InnerHtml);
                     HtmlNode Link = Doc.DocumentNode.SelectSingleNode("//a[@href]");
                     if (Link==null) { continue; }
@@ -521,26 +353,26 @@ namespace Parser_2022_
                     Doc.LoadHtml(SiteHtml);
                     HtmlNode TitleNode = Doc.DocumentNode.SelectSingleNode("//h1[@class='item-header news-header']");
                     HtmlNodeCollection ImgNode = Doc.DocumentNode.SelectNodes("//img[@src]");
-                    HtmlNode DateNode = Doc.DocumentNode.SelectSingleNode("//span[@class='date']");
+                    HtmlNode DateNode = Doc.DocumentNode.SelectSingleNode("//span[@class='date' or @class='news-date']");
                     HtmlNodeCollection NewsBodyNode = Doc.DocumentNode.SelectNodes("//div[@class='item-body news-body']//p");
                     string NewsBody = "";
                     foreach (HtmlNode node3 in NewsBodyNode)
                     {
-                        NewsBody += node3.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n\n", "");
+                        NewsBody += node3.InnerText;                    
                     }
                     /*Link*/
-                    tmp.Add("http://www.mukachevo.net" + Link.GetAttributeValue("href", "nothing"));
+                    tmp.link=("http://www.mukachevo.net" + Link.GetAttributeValue("href", "nothing"));
                     /*Title*/
-                    tmp.Add(TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n\n", ""));
+                    tmp.title=TitleNode.InnerText;
                     /*img*/
-                    tmp.Add("http://www.mukachevo.net" + ImgNode[5].GetAttributeValue("src", "nothing"));
+                    tmp.image=("http://www.mukachevo.net" + ImgNode[5].GetAttributeValue("src", "nothing"));
                     /*date*/
-                    tmp.Add(DateNode.GetAttributeValue("content", "unknown")+" "+ DateNode.InnerText.Substring(DateNode.InnerText.IndexOf("|") + 2, DateNode.InnerText.Length - DateNode.InnerText.IndexOf("|") - 2));
+                    tmp.time = DateNode.GetAttributeValue("content", "unknown");
                     /*time*/
                     //tmp.Add(DateNode.InnerText.Substring(DateNode.InnerText.IndexOf("|") + 2, DateNode.InnerText.Length - DateNode.InnerText.IndexOf("|") - 2));
                     /*main*/
-                    tmp.Add(NewsBody);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=(NewsBody);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -560,14 +392,14 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>>? ReadVolyn(string url, string node,string name)
+        private static List<Data>? ReadVolyn(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -587,7 +419,7 @@ namespace Parser_2022_
                 HtmlNodeCollection nodes = htmlDocument.DocumentNode.SelectNodes(node);
                 foreach (HtmlNode node2 in nodes)
                 {
-                    List<string> tmp = new();
+                    Data tmp = new();
 
                     string Link = node2.GetAttributeValue("href", "nothing");
                     if (Link.Contains("Telegram")) { continue; }
@@ -602,24 +434,24 @@ namespace Parser_2022_
 
                     foreach (HtmlNode node3 in NewsBodyNode)
                     {
-                        NewsBody += node3.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n\n", "");
+                        NewsBody += node3.InnerText;
                     }
 
 
 
                     /*Link*/
-                    tmp.Add("https://www.volynnews.com" + Link);
+                    tmp.link=("https://www.volynnews.com" + Link);
                     /*Title*/
-                    tmp.Add(TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n\n", ""));
+                    tmp.title=TitleNode.InnerText;
                     /*img*/
-                    tmp.Add("https://www.volynnews.com" + ImgNode.GetAttributeValue("src", "nothing"));
+                    tmp.image=("https://www.volynnews.com" + ImgNode.GetAttributeValue("src", "nothing"));
                     /*date*/
-                    tmp.Add(DateNode.InnerText.Replace("і", "i").Replace("\n", "").Replace("\t", ""));
+                    tmp.time=DateNode.InnerText;
                     /*time*/
-                    //tmp.Add(DateNode.InnerText.Substring(DateNode.InnerText.IndexOf(" "), DateNode.InnerText.Length - DateNode.InnerText.IndexOf(" ")).Replace("\n", "").Replace("\t", ""));
+                    //tmp.Add(DateNode.InnerText.Substring(DateNode.InnerText.IndexOf(" "), DateNode.InnerText.Length - DateNode.InnerText.IndexOf(" ")).("\n", "").("\t", ""));
                     /*main*/
-                    tmp.Add(NewsBody);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=(NewsBody);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -639,14 +471,14 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>>? ReadRivne(string url, string node,string name)
+        private static List<Data>? ReadRivne(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -667,7 +499,7 @@ namespace Parser_2022_
                 foreach (HtmlNode item in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
 
 
                     string Link = "https://rivnepost.rv.ua" + item.GetAttributeValue("href", "nothing");
@@ -683,7 +515,7 @@ namespace Parser_2022_
 
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@itemprop='name']");
-                    string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n\n", "");
+                    string Title = TitleNode.InnerText;
 
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//div[@class='article--pubdate']");
@@ -695,22 +527,22 @@ namespace Parser_2022_
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                        NewsInfo += Block.InnerText;
                     }
 
                     /*Link*/
-                    tmp.Add(Link);
+                    tmp.link=Link;
                     /*Title*/
-                    tmp.Add(Title);
+                    tmp.title=Title;
                     /*img*/
-                    tmp.Add(img);
+                    tmp.image=img;
                     /*date*/
-                    tmp.Add(Day+" "+Clock);
+                    tmp.time=Day+" "+Clock;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -731,14 +563,14 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>>? ReadKhmelnytskyi(string url, string node,string name)
+        private static List<Data>? ReadKhmelnytskyi(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -759,7 +591,7 @@ namespace Parser_2022_
                 foreach (HtmlNode item in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
 
 
                     string Link = "" + item.GetAttributeValue("href", "nothing");
@@ -775,7 +607,7 @@ namespace Parser_2022_
 
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//div[@class='page-long-head']//h1");
-                    string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n\n", "");
+                    string Title = TitleNode.InnerText;
 
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//span[@class='js-auto-date']");
@@ -788,22 +620,22 @@ namespace Parser_2022_
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                        NewsInfo += Block.InnerText;
                     }
 
                     /*Link*/
-                    tmp.Add(Link);
+                    tmp.link=Link;
                     /*Title*/
-                    tmp.Add(Title);
+                    tmp.title=Title;
                     /*img*/
-                    tmp.Add(img);
+                    tmp.image=img;
                     /*date*/
-                    tmp.Add(Day+" "+Clock);
+                    tmp.time = Day + " " + Clock;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -819,19 +651,19 @@ namespace Parser_2022_
         public static void zhytomyr()
         {
             Console.Title = "Zhytomyr";
-            List<List<string>> NEWS = ReadZhytomyr("https://zt-rada.gov.ua/news?newslabel=3", "//div[@class='nwslstitm']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            List<Data> NEWS = ReadZhytomyr("https://zt-rada.gov.ua/news?newslabel=3", "//div[@class='nwslstitm']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>> ReadZhytomyr(string url, string node,string name)
+        private static List<Data> ReadZhytomyr(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -852,7 +684,7 @@ namespace Parser_2022_
                 foreach (HtmlNode item in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
 
 
                     string Link = "https://zt-rada.gov.ua" + item.GetAttributeValue("href", "nothing");
@@ -878,7 +710,7 @@ namespace Parser_2022_
 
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='bb']");
-                    string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n\n", "");
+                    string Title = TitleNode.InnerText;
 
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//div[@class='f-date']");
@@ -891,22 +723,22 @@ namespace Parser_2022_
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                        NewsInfo += Block.InnerText;
                     }
 
                     /*Link*/
-                    tmp.Add(Link);
+                    tmp.link=Link;
                     /*Title*/
-                    tmp.Add(Title);
+                    tmp.title=Title;
                     /*img*/
-                    tmp.Add(img);
+                    tmp.image=img;
                     /*date*/
-                    tmp.Add(Day);
+                    tmp.time=Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -921,19 +753,19 @@ namespace Parser_2022_
         public static void chernihiv()
         {
             Console.Title = "Chernihiv";
-            List<List<string>> NEWS = ReadChernihiv("https://newch.tv/category/novyny/", "//a[@class='vmagazine-lite-archive-more']", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            List<Data> NEWS = ReadChernihiv("https://newch.tv/category/novyny/", "//a[@class='vmagazine-lite-archive-more']", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>> ReadChernihiv(string url, string node,string name)
+        private static List<Data> ReadChernihiv(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -954,7 +786,7 @@ namespace Parser_2022_
                 foreach (HtmlNode item in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
 
 
                     string Link = "" + item.GetAttributeValue("href", "nothing");
@@ -978,7 +810,7 @@ namespace Parser_2022_
                     }
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='entry-title']");
-                    string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n\n", "");
+                    string Title = TitleNode.InnerText;
 
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//span[@class='posted-on']");
@@ -991,22 +823,22 @@ namespace Parser_2022_
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                        NewsInfo += Block.InnerText;
                     }
 
                     /*Link*/
-                    tmp.Add(Link);
+                    tmp.link=Link;
                     /*Title*/
-                    tmp.Add(Title);
+                    tmp.title=Title;
                     /*img*/
-                    tmp.Add(img);
+                    tmp.image=img;
                     /*date*/
-                    tmp.Add(Day);
+                    tmp.time=Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -1020,20 +852,20 @@ namespace Parser_2022_
         }
         public static void vinnytsia()
         {
-            Console.Title = "Vinnytsia";
-            List<List<string>> NEWS = ReadVinnytsia("https://news.vn.ua", "//h2[@class='entry-title']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            
+            List<Data> NEWS = ReadVinnytsia("https://news.vn.ua", "//h2[@class='entry-title']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>> ReadVinnytsia(string url, string node,string name)
+        private static List<Data> ReadVinnytsia(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -1054,7 +886,7 @@ namespace Parser_2022_
                 foreach (HtmlNode item in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
 
 
                     string Link = "" + item.GetAttributeValue("href", "nothing");
@@ -1074,7 +906,7 @@ namespace Parser_2022_
                         img =ImgString + ImgNode.GetAttributeValue("href", "nothing");
                     }
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='entry-title']");
-                    string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n\n", "").Replace("&#8217;", "'");
+                    string Title = TitleNode.InnerText;
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//li[@class='meta-date']//a[@rel]");
                     string Day = DATE.InnerText;
@@ -1085,22 +917,22 @@ namespace Parser_2022_
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "").Replace("&#8217;","'");
+                        NewsInfo += Block.InnerText;
                     }
                     
                     /*Link*/
-                    tmp.Add(Link);
+                    tmp.link=Link;
                     /*Title*/
-                    tmp.Add(Title);
+                    tmp.title=Title;
                     /*img*/
-                    tmp.Add(img);
+                    tmp.image=img;
                     /*date*/
-                    tmp.Add(Day);
+                    tmp.time=Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -1113,20 +945,20 @@ namespace Parser_2022_
         public static void kyiv()
         {
             Console.Title = "Kyiv";
-            List<List<string>> NEWS = ReadKyiv("https://kmr.gov.ua/", "//div[@class='field-link']//span[@class='field-content']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            List<Data> NEWS = ReadKyiv("https://kmr.gov.ua/", "//div[@class='field-link']//span[@class='field-content']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
 
         }
-        private static List<List<string>> ReadKyiv(string url, string node,string name)
+        private static List<Data> ReadKyiv(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -1147,7 +979,7 @@ namespace Parser_2022_
                 foreach (HtmlNode item in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
 
 
                     string Link = "https://kmr.gov.ua" + item.GetAttributeValue("href", "nothing");
@@ -1171,11 +1003,10 @@ namespace Parser_2022_
                     }
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='title field-content']");
-                    string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("\r","");
-
+                    string Title = TitleNode.InnerText;
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//div[@class='field field-name-post-date field-type-ds field-label-hidden view-mode-full']");
-                    string Day = DATE.InnerText.Replace("\n","").Replace("   ","");
+                    string Day = DATE.InnerText;
                     //string Clock = DATE.GetAttributeValue("data-date", "nothing").Substring(DATE.GetAttributeValue("data-date", "nothing").IndexOf(" "), DATE.GetAttributeValue("data-date", "nothing").Length - DATE.GetAttributeValue("data-date", "nothing").IndexOf(" "));
 
 
@@ -1184,22 +1015,22 @@ namespace Parser_2022_
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                        NewsInfo += Block.InnerText;
                     }
 
                     /*Link*/
-                    tmp.Add(Link);
+                    tmp.link=Link;
                     /*Title*/
-                    tmp.Add(Title);
+                    tmp.title=Title;
                     /*img*/
-                    tmp.Add(img);
+                    tmp.image=img;
                     /*date*/
-                    tmp.Add(Day);
+                    tmp.time=Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -1214,19 +1045,19 @@ namespace Parser_2022_
         public static void kirovohradsk()
         {
             Console.Title = "Kirovohradsk";
-            List<List<string>> NEWS = ReadKirovohradsk("https://kr-rada.gov.ua/news/", "//div[@class='col-md-4 col-xs-12 col-sm-6 col-lg-4']//div[@class='post']//a[@href]//div[@class='post-img']", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            List<Data> NEWS = ReadKirovohradsk("https://kr-rada.gov.ua/news/", "//div[@class='col-md-4 col-xs-12 col-sm-6 col-lg-4']//div[@class='post']//a[@href]//div[@class='post-img']", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>>? ReadKirovohradsk(string url, string node,string name)
+        private static List<Data>? ReadKirovohradsk(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -1247,7 +1078,7 @@ namespace Parser_2022_
                 foreach (HtmlNode item in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
 
 
                     string Link = "https://kr-rada.gov.ua" + item.ParentNode.GetAttributeValue("href", "nothing");
@@ -1266,11 +1097,11 @@ namespace Parser_2022_
                     
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='page-title']");
-                    string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n\n", "");
+                    string Title = TitleNode.InnerText;
 
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//div[@class='news-date']");
-                    string Day = DATE.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n\n", "");
+                    string Day = DATE.InnerText;
                     
                     //string Clock = DATE.GetAttributeValue("data-date", "nothing").Substring(DATE.GetAttributeValue("data-date", "nothing").IndexOf(" "), DATE.GetAttributeValue("data-date", "nothing").Length - DATE.GetAttributeValue("data-date", "nothing").IndexOf(" "));
 
@@ -1280,22 +1111,22 @@ namespace Parser_2022_
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("   ", "").Replace("&bull;", "•");
+                        NewsInfo += Block.InnerText;                    
                     }
 
                     /*Link*/
-                    tmp.Add(Link);
+                    tmp.link=Link;
                     /*Title*/
-                    tmp.Add(Title);
+                    tmp.title=Title;
                     /*img*/
-                    tmp.Add(img);
+                    tmp.image=img;
                     /*date*/
-                    tmp.Add(Day);
+                    tmp.time=Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -1310,20 +1141,20 @@ namespace Parser_2022_
         public static void zaporizhzhia()
         {
             Console.Title = "Zaporizhzhia";
-            List<List<string>> NEWS = ReadZaporizhzhia("https://zp.gov.ua/uk/articles/category/news/1", "//div[@class='simple-list-row']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            List<Data> NEWS = ReadZaporizhzhia("https://zp.gov.ua/uk/articles/category/news/1", "//div[@class='simple-list-row']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
 
         }
-        private static List<List<string>> ReadZaporizhzhia(string url, string node,string name)
+        private static List<Data> ReadZaporizhzhia(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -1344,7 +1175,7 @@ namespace Parser_2022_
                 foreach (HtmlNode item in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
 
 
                     string Link = "https://zp.gov.ua/" + item.GetAttributeValue("href", "nothing");
@@ -1368,11 +1199,10 @@ namespace Parser_2022_
                     }
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='title']");
-                    string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("\r", "");
-
+                    string Title = TitleNode.InnerText;
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//span[@class='date']");
-                    string Day = DATE.InnerText.Replace("\n","").Replace("\t","").Replace("   ","");
+                    string Day = DATE.InnerText;
                     //string Clock = DATE.InnerText.Substring(DATE.InnerText.IndexOf(" "),DATE.InnerText.Length-DATE.InnerText.IndexOf(" "));
 
 
@@ -1381,22 +1211,22 @@ namespace Parser_2022_
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                        NewsInfo += Block.InnerText;
                     }
 
                     /*Link*/
-                    tmp.Add(Link);
+                    tmp.link=Link;
                     /*Title*/
-                    tmp.Add(Title);
+                    tmp.title=Title;
                     /*img*/
-                    tmp.Add(img);
+                    tmp.image=img;
                     /*date*/
-                    tmp.Add(Day);
+                    tmp.time=Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -1411,20 +1241,20 @@ namespace Parser_2022_
         public static void luhansk()
         {
             Console.Title = "Luhansk";
-            List<List<string>> NEWS = ReadLuhansk("https://www.ukrinform.ua/tag-lugansina", "//section//h2//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            List<Data> NEWS = ReadLuhansk("https://www.ukrinform.ua/tag-lugansina", "//section//h2//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
 
         }
-        private static List<List<string>> ReadLuhansk(string url, string node,string name)
+        private static List<Data> ReadLuhansk(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -1445,7 +1275,7 @@ namespace Parser_2022_
                 foreach (HtmlNode item in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
 
                     
                      
@@ -1471,8 +1301,7 @@ namespace Parser_2022_
                     }
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='newsTitle']");
-                    string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("\r", "");
-
+                    string Title = TitleNode.InnerText;
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//div[@class='newsDate']");
                     string Day = DATE.InnerText;
@@ -1484,22 +1313,22 @@ namespace Parser_2022_
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                        NewsInfo += Block.InnerText;
                     }
 
                     /*Link*/
-                    tmp.Add(Link);
+                    tmp.link=Link;
                     /*Title*/
-                    tmp.Add(Title);
+                    tmp.title=Title;
                     /*img*/
-                    tmp.Add(img);
+                    tmp.image=img;
                     /*date*/
-                    tmp.Add(Day);
+                    tmp.time=Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -1514,20 +1343,20 @@ namespace Parser_2022_
         public static void kharkiv()
         {
             Console.Title = "Kharkiv";
-            List<List<string>> NEWS = ReadKharkiv("https://www.city.kharkov.ua/uk/novosti/ofczjno.html", "//div[@class='list_news col-md-9 col-sm-12 col-xs-12']//ul[@class='list']//div[@class='alignleft col-md-3 col-sm-3 col-xs-12']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            List<Data> NEWS = ReadKharkiv("https://www.city.kharkov.ua/uk/novosti/ofczjno.html", "//div[@class='list_news col-md-9 col-sm-12 col-xs-12']//ul[@class='list']//div[@class='alignleft col-md-3 col-sm-3 col-xs-12']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
 
         }
-        private static List<List<string>> ReadKharkiv(string url, string node,string name)
+        private static List<Data> ReadKharkiv(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -1548,7 +1377,7 @@ namespace Parser_2022_
                 foreach (HtmlNode item in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
 
 
 
@@ -1572,13 +1401,12 @@ namespace Parser_2022_
 
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//span[@class='heading_name']");
-                    string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("\r", "");
-
+                    string Title = TitleNode.InnerText;
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//div[@class='data_post']//em");
                     HtmlNode ClockNode = News.DocumentNode.SelectSingleNode("//div[@class='data_post']//span[@class='time']");
 
-                    string Day = DATE.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                    string Day = DATE.InnerText;
                     string Clock = ClockNode.InnerText;
 
 
@@ -1587,22 +1415,22 @@ namespace Parser_2022_
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                        NewsInfo += Block.InnerText;
                     }
 
                     /*Link*/
-                    tmp.Add(Link);
+                    tmp.link=Link;
                     /*Title*/
-                    tmp.Add(Title);
+                    tmp.title=Title;
                     /*img*/
-                    tmp.Add(img);
+                    tmp.image=img;
                     /*date*/
-                    tmp.Add(Day + " " + Clock);
+                    tmp.time=Day + " " + Clock;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -1617,19 +1445,19 @@ namespace Parser_2022_
         public static void dnipropetrovsk()
         {
             Console.Title = "Dnipropetrovsk";
-            List<List<string>> NEWS = ReadDnipropetrovsk("https://oblrada.dp.gov.ua/category/news/", "//div[@class='col-xs-12 col-sm-12 col-md-12 obl-news-post fix-padding']//div//div[2]//p[@class='genpost-entry-title']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            List<Data> NEWS = ReadDnipropetrovsk("https://oblrada.dp.gov.ua/category/news/", "//div[@class='col-xs-12 col-sm-12 col-md-12 obl-news-post fix-padding']//div//div[2]//p[@class='genpost-entry-title']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>>? ReadDnipropetrovsk(string url, string node,string name)
+        private static List<Data>? ReadDnipropetrovsk(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -1650,7 +1478,7 @@ namespace Parser_2022_
                 foreach (HtmlNode item in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
 
 
 
@@ -1674,13 +1502,11 @@ namespace Parser_2022_
 
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='news-entry-title']");
-                    string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("\r", "");
-
-
+                    string Title = TitleNode.InnerText;
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//time[@class='entry-date published updated' or @class='entry-date published']");
                     //HtmlNode ClockNode = News.DocumentNode.SelectSingleNode("//");
 
-                    string Day = DATE.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                    string Day = DATE.InnerText;
                     //string Clock = ClockNode.InnerText;
 
 
@@ -1689,22 +1515,22 @@ namespace Parser_2022_
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                        NewsInfo += Block.InnerText;
                     }
 
                     /*Link*/
-                    tmp.Add(Link);
+                    tmp.link=Link;
                     /*Title*/
-                    tmp.Add(Title);
+                    tmp.title=Title;
                     /*img*/
-                    tmp.Add(img);
+                    tmp.image=img;
                     /*date*/
-                    tmp.Add(Day);
+                    tmp.time=Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -1719,19 +1545,19 @@ namespace Parser_2022_
         public static void sumy()
         {
             Console.Title = "Sumy";
-            List<List<string>> NEWS = ReadSumy("https://www.0542.ua/news", "//div[@class='col-12 col-md-8 col-lg-9']//div[@class='c-news-card__head']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            List<Data> NEWS = ReadSumy("https://www.0542.ua/news", "//div[@class='col-12 col-md-8 col-lg-9']//div[@class='c-news-card__head']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>>? ReadSumy(string url, string node,string name)
+        private static List<Data>? ReadSumy(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -1752,7 +1578,7 @@ namespace Parser_2022_
                 foreach (HtmlNode item in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
 
 
 
@@ -1776,13 +1602,13 @@ namespace Parser_2022_
 
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//div[@class='article-details__title-container']");
-                    string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("\r", "");
+                    string Title = TitleNode.InnerText;
 
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//div[@class='article-details__date']");
                     //HtmlNode ClockNode = News.DocumentNode.SelectSingleNode("//");
 
-                    string Day = DATE.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                    string Day = DATE.InnerText;
                     //string Clock = ClockNode.InnerText;
 
 
@@ -1791,22 +1617,22 @@ namespace Parser_2022_
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                        NewsInfo += Block.InnerText;
                     }
-
+                    string[] DayArray=Day.Split(",");
                     /*Link*/
-                    tmp.Add(Link);
+                    tmp.link=Link;
                     /*Title*/
-                    tmp.Add(Title);
+                    tmp.title=Title;
                     /*img*/
-                    tmp.Add(img);
+                    tmp.image=img;
                     /*date*/
-                    tmp.Add(Day);
+                    tmp.time=DayArray[1]+" "+DayArray[0];
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -1821,19 +1647,19 @@ namespace Parser_2022_
         public static void kherson()
         {
             Console.Title = "Kherson";
-            List<List<string>> NEWS = ReadKherson("https://miskrada.kherson.ua/news/", "//div[@class='w-post-elm post_image usg_post_image_1 has_ratio']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            List<Data> NEWS = ReadKherson("https://miskrada.kherson.ua/news/", "//div[@class='w-post-elm post_image usg_post_image_1 has_ratio']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>>? ReadKherson(string url, string node,string name)
+        private static List<Data>? ReadKherson(string url, string node,string name)
 {
-    Console.Title = "Wait";List<List<string>> list = new();
+    Console.Title = "Wait";List<Data> list = new();
     try
     {
         
@@ -1854,7 +1680,7 @@ namespace Parser_2022_
         foreach (HtmlNode item in nodes)
          {
 
-              List<string> tmp = new();
+              Data tmp = new();
 
 
 
@@ -1878,13 +1704,13 @@ namespace Parser_2022_
 
 
              HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='w-post-elm post_title us_custom_d6eca3b4 entry-title color_link_inherit']");
-             string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("\r", "");
+             string Title = TitleNode.InnerText;
 
 
              HtmlNode DATE = News.DocumentNode.SelectSingleNode("//time[@class='w-post-elm post_date entry-date updated']");
              //HtmlNode ClockNode = News.DocumentNode.SelectSingleNode("//");
 
-                string Day = DATE.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                string Day = DATE.InnerText;
                 //string Clock = ClockNode.InnerText;
 
 
@@ -1892,22 +1718,22 @@ namespace Parser_2022_
               string NewsInfo = "";
               foreach (var Block in NewsNode)
               {
-                 NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                 NewsInfo += Block.InnerText;
               }
 
                 /*Link*/
-                tmp.Add(Link);
+                tmp.link=Link;
                /*Title*/
-               tmp.Add(Title);
+               tmp.title=Title;
                /*img*/
-               tmp.Add(img);
+               tmp.image=img;
                /*date*/
-              tmp.Add(Day);
+              tmp.time=Day;
                /*time*/
                //tmp.Add(Clock);
                /*main*/
-                tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -1922,19 +1748,19 @@ namespace Parser_2022_
         public static void poltava()
         {
             Console.Title = "Poltava";
-            List<List<string>> NEWS = ReadPoltava("https://www.rada-poltava.gov.ua/", "//td[@class='leftcol news']//div//h1//a[@href]",System.Reflection.MethodBase.GetCurrentMethod().Name);
+            List<Data> NEWS = ReadPoltava("https://www.rada-poltava.gov.ua/", "//td[@class='leftcol news']//div//h1//a[@href]",System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>>? ReadPoltava(string url, string node,string name)
+        private static List<Data>? ReadPoltava(string url, string node,string name)
 {
-    Console.Title = "Wait";List<List<string>> list = new();
+    Console.Title = "Wait";List<Data> list = new();
     try
     {
         
@@ -1955,7 +1781,7 @@ namespace Parser_2022_
         foreach (HtmlNode item in nodes)
         {
 
-            List<string> tmp = new();
+            Data tmp = new();
 
 
 
@@ -1979,13 +1805,13 @@ namespace Parser_2022_
 
 
             HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//td[@class='leftcol news']//h1");
-            string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("\r", "");
+            string Title = TitleNode.InnerText;
 
 
             HtmlNode DATE = News.DocumentNode.SelectSingleNode("//a[@id='daterange']");
             //HtmlNode ClockNode = News.DocumentNode.SelectSingleNode("//");
 
-            string Day = DATE.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+            string Day = DATE.InnerText.Replace(",","");
             //string Clock = ClockNode.InnerText;
 
 
@@ -1993,22 +1819,22 @@ namespace Parser_2022_
             string NewsInfo = "";
             foreach (var Block in NewsNode)
             {
-                NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                NewsInfo += Block.InnerText;
             }
 
             /*Link*/
-            tmp.Add(Link);
+            tmp.link=Link;
             /*Title*/
-            tmp.Add(Title);
+            tmp.title=Title;
             /*img*/
-            tmp.Add(img);
+            tmp.image=img;
             /*date*/
-            tmp.Add(Day);
+            tmp.time=Day;
             /*time*/
             //tmp.Add(Clock);
             /*main*/
-            tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+            tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -2023,19 +1849,19 @@ namespace Parser_2022_
         public static void kryvyi_rih()//warning
         {
                                     Console.Title = "";
-                                    List<List<string>> NEWS = ReadKryvyi_Rih("https://post.kr.ua/", "//h2[@class='title']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+                                    List<Data> NEWS = ReadKryvyi_Rih("https://post.kr.ua/", "//h2[@class='title']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
                 Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>>? ReadKryvyi_Rih(string url, string node,string name)//warning
+        private static List<Data>? ReadKryvyi_Rih(string url, string node,string name)//warning
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -2056,7 +1882,7 @@ namespace Parser_2022_
                 foreach (HtmlNode item in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
 
 
 
@@ -2069,27 +1895,27 @@ namespace Parser_2022_
 
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//span[@class='post-title']");
-                    string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("\r", "");
+                    string Title = TitleNode.InnerText;
 
 
                     HtmlNodeCollection NewsNode = News.DocumentNode.SelectNodes("//div[@class='entry-content clearfix single-post-content']//p");
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                        NewsInfo += Block.InnerText;
                     }
                     string img = "https://aesthetic-macaron-2d69dd.netlify.app/img/logo.png";
                     /*Link*/
-                    tmp.Add(Link);
+                    tmp.link=Link;
                     /*Title*/
-                    tmp.Add(Title);
+                    tmp.title=Title;
                     /*Image*/
-                    tmp.Add(img);
+                    tmp.image=img;
                     /*time*/
-                    tmp.Add("Unknown");
+                    tmp.time=DateTime.Now.ToString();
                     /*info*/
-                    tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -2104,19 +1930,19 @@ namespace Parser_2022_
         public static void odesa()
         {
             Console.Title = "";
-            List<List<string>> NEWS = ReadOdesa("https://www.ukrinform.ua/tag-odesa", "//section[@class='restList']//article[@data-id]//section//h2//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            List<Data> NEWS = ReadOdesa("https://www.ukrinform.ua/tag-odesa", "//section[@class='restList']//article[@data-id]//section//h2//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>>? ReadOdesa(string url, string node,string name)
+        private static List<Data>? ReadOdesa(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -2137,7 +1963,7 @@ namespace Parser_2022_
                 foreach (HtmlNode item in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
 
 
 
@@ -2157,13 +1983,13 @@ namespace Parser_2022_
 
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='newsTitle']");
-                    string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("\r", "").Replace("&#039;","'");
+                    string Title = TitleNode.InnerText;
 
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//time[@datetime]");
                     //HtmlNode ClockNode = News.DocumentNode.SelectSingleNode("//");
 
-                    string Day = DATE.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                    string Day = DATE.InnerText;
                     //string Clock = ClockNode.InnerText;
 
 
@@ -2171,22 +1997,22 @@ namespace Parser_2022_
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "").Replace("&#039;", "'");
+                        NewsInfo += Block.InnerText;
                     }
 
                     /*Link*/
-                    tmp.Add(Link);
+                    tmp.link=Link;
                     /*Title*/
-                    tmp.Add(Title);
+                    tmp.title=Title;
                     /*img*/
-                    tmp.Add(img);
+                    tmp.image=img;
                     /*date*/
-                    tmp.Add(Day);
+                    tmp.time=Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -2201,7 +2027,7 @@ namespace Parser_2022_
         public static void mykolayiv()
         {
             Console.Title = "Mykolayiv";
-            List<List<string>> NEWS = ReadMykolayiv("https://espreso.tv/mykolayiv", "//div[@class='title']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            List<Data> NEWS = ReadMykolayiv("https://espreso.tv/mykolayiv", "//div[@class='title']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output  Mykolayiv";
 
             /*Link*/
@@ -2212,14 +2038,14 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>>? ReadMykolayiv(string url, string node,string name)
+        private static List<Data>? ReadMykolayiv(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -2240,7 +2066,7 @@ namespace Parser_2022_
                 foreach (HtmlNode item in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
 
 
 
@@ -2264,13 +2090,13 @@ namespace Parser_2022_
 
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='text-title']");
-                    string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("\r", "").Replace("&quot;","\"");
+                    string Title = TitleNode.InnerText;
 
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//div[@class='news__author_date']");
                     //HtmlNode ClockNode = News.DocumentNode.SelectSingleNode("//");
 
-                    string Day = DATE.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("&#039;", "'").Replace("&quot;", "\"");
+                    string Day = DATE.InnerText;
                     //string Clock = ClockNode.InnerText;
 
                     HtmlNodeCollection NewsNode = News.DocumentNode.SelectNodes("//section[@class='content_current_article']");
@@ -2278,22 +2104,22 @@ namespace Parser_2022_
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "").Replace("&#039;", "'");
+                        NewsInfo += Block.InnerText;
                     }
 
                     /*Link*/
-                    tmp.Add(Link);
+                    tmp.link=Link;
                     /*Title*/
-                    tmp.Add(Title);
+                    tmp.title=Title;
                     /*img*/
-                    tmp.Add(img);
+                    tmp.image=img;
                     /*date*/
-                    tmp.Add(Day);
+                    tmp.time=Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -2308,19 +2134,19 @@ namespace Parser_2022_
         public static void cherkassy()
         {
             Console.Title = "Cherkassy";
-            List<List<string>> NEWS = ReadCherkassy("https://18000.com.ua/novini/", "//article[@class='post post--horizontal post--horizontal-sm']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            List<Data> NEWS = ReadCherkassy("https://18000.com.ua/novini/", "//article[@class='post post--horizontal post--horizontal-sm']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
-                    item[1], Parse.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item[2], item[3], item[0], item[4]);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<List<string>>? ReadCherkassy(string url, string node,string name)
+        private static List<Data>? ReadCherkassy(string url, string node,string name)
         {
-            Console.Title = "Wait";List<List<string>> list = new();
+            Console.Title = "Wait";List<Data> list = new();
             try
             {
                 
@@ -2341,7 +2167,7 @@ namespace Parser_2022_
                 foreach (HtmlNode item in nodes)
                 {
 
-                    List<string> tmp = new();
+                    Data tmp = new();
 
                     string Link = "" + item.GetAttributeValue("href", "nothing");
                     HtmlDocument News = new();
@@ -2361,41 +2187,42 @@ namespace Parser_2022_
                     
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='entry-title']");
-                    string Title = TitleNode.InnerText.Replace("і", "i").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("\r", "");
+                    if (TitleNode == null) { continue; }
+                    string Title = TitleNode.InnerText;
 
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//time[@class='time published']");
                     //HtmlNode ClockNode = News.DocumentNode.SelectSingleNode("//");
 
-                    string Day = DATE.GetAttributeValue("datetime","unknown").Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                    string Day = DATE.GetAttributeValue("datetime","unknown");
                     //string Clock = ClockNode.InnerText;
 
                     HtmlNodeCollection NewsNode = News.DocumentNode.SelectNodes("//div[@class='single-body entry-content typography-copy']//p");
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText.Replace("і", "i").Replace("&mdash;", "").Replace("&quot;", "\"").Replace("&laquo;", "<<").Replace("&raquo;", ">>").Replace("&ndash;", "-").Replace("&rsquo;", "'").Replace("acute;", "").Replace("І", "I").Replace("&hellip;", "...").Replace("&middot;", "·").Replace("&nbsp;", " ").Replace("&#8221;", "\"").Replace("&#8211;", "–").Replace("&#8220;", "\"").Replace("\t", "").Replace("\n", "").Replace("   ", "");
+                        NewsInfo += Block.InnerText;
                     }
 
                     /*Link*/
-                    tmp.Add(Link);
+                    tmp.link=Link;
                     /*Title*/
-                    tmp.Add(Title);
+                    tmp.title=Title;
                     /*img*/
                     if (ImgNode != null)
                     {
-                        img = ImgString + ImgNode.GetAttributeValue("src", "nothing").Replace("і", "i").Replace("І","I");
-                        tmp.Add(img);
+                        img = ImgString + ImgNode.GetAttributeValue("src", "nothing");
+                        tmp.image=img;
 
                     }
-                    else { tmp.Add("empty");}
+                    else { tmp.image=("empty");}
                     /*date*/
-                    tmp.Add(Day);
+                    tmp.time=Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.Add(NewsInfo);
-                    if (DATABASE_CHECK(tmp[1], Parse.Connect, name))
+                    tmp.info=NewsInfo;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
@@ -2425,275 +2252,8 @@ namespace Parser_2022_
                      (_(___/                      \_\_____)_)
 
          */
-        private static bool DATABASE_INSERT(string name, string create, string title, string CONNECTION, string cmd, string img, string time, string link, string info)
-        {
-            try
-            {
-                using (var conn = new NpgsqlConnection(CONNECTION)) {
-                    conn.Open();
-                    CREATE_TABLE(create, conn);
-                    if(DATABASE_READ(conn,$"SELECT title FROM {name}", title))
-                    {
-                        conn.Open();
-                        using (var command = new NpgsqlCommand(cmd, conn))
-                        {
-                            command.Parameters.AddWithValue("id", DATABASE_READ(CONNECTION, $"SELECT COUNT(*) FROM {name};")+1);
-                            command.Parameters.AddWithValue("title", title);
-                            command.Parameters.AddWithValue("info", info);
-                            command.Parameters.AddWithValue("time", time);
-                            command.Parameters.AddWithValue("link", link);
-                            command.Parameters.AddWithValue("image", img);
-                            command.ExecuteNonQuery();
-
-                        }
-                        conn.Close();
-                    }
-                }
-            }
-            catch (Exception exp){ Console.WriteLine(exp.Message);return false; }
-            return true;
-        }
-        /*
-         
-          
-         
-               (
-                )
-               (
-        /\  .-"""-.  /\
-       //\\/  ,,,  \//\\
-       |/\| ,;;;;;, |/\|
-       //\\\;-"""-;///\\
-      //  \/   .   \/  \\
-     (| ,-_| \ | / |_-, |)
-       //`__\.-.-./__`\\
-      // /.-(() ())-.\ \\
-     (\ |)   '---'   (| /)
-      ` (|           |) `
-        \)           (/
-         
-
-
-         
-         */
-        private static int DATABASE_READ(string CONNECTION,string cmd)
-        {
-            try
-            {
-                using (var conn = new NpgsqlConnection(CONNECTION))
-                {
-                    conn.Open();
-                    
-                    using(var command = new NpgsqlCommand(cmd, conn))
-                    {
-                        var count= command.ExecuteReader();
-                        count.Read();
-                        int counter = Convert.ToInt32(count[0].ToString());
-                        conn.Close();
-                        return counter;
-                    }
-                }
-            }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return 0; }
-            
-        }
-        /*
-         
-                  .
-                 ":"
-               ___:____      |"\/"|
-              ,'        `.    \  /
-              |  O        \___/  |
-            ~^~^~^~^~^~^~^~^~^~^~^~^~
-
-        */
-        private static bool DATABASE_READ(NpgsqlConnection CONNECTION, string cmd,string title)
-        {
-            try
-            {
-
-                using (NpgsqlCommand command = new NpgsqlCommand(cmd, CONNECTION))
-                {
-                    NpgsqlDataReader reader = command.ExecuteReader();
-                    
-                    while (reader.Read())
-                    {
-                        if (title == reader[0].ToString())
-                        {
-                            Console.WriteLine("title is already there"); return false;
-                        }
-                    }
-                }
-            }
-            catch (Exception exp) { Console.WriteLine(exp.Message);return false; }
-            CONNECTION.Close();
-            return true;
-        }
-        /*
-          
-          
-         
-                         _,.-------------.._
-                      ,-'        j          `-.
-                    ,'        .-'               `.
-                   /          |                   '
-                  /         ,-'                    `
-                 .         j                         \
-                .          |                          \
-                : ._       |   _....._                 .
-                |   -.     L-''       `.               :
-                | `.  \  .'             `.             |
-               /.\  `, Y'                 :           ,|
-              /.  :  | \                  |         ,' |
-             \.    " :  `\                |      ,--   |
-              \    .'     '-..___,..      |    _/      :
-               \  `.      ___   ...._     '-../        '
-             .-'    \    /| \_/ | | |      ,'         /
-             |       `--' |    '' |'|     /         .'
-             |            |      /. |    /       _,'
-             |-.-.....__..|        `...:...--'''
-             |_|_|_L.L.T._/     |
-             \_|_|_L.T-''/      |
-              |                /
-             /             _.-'
-             :         _..'
-             \__...--''
-        
-         
-         
-         */
-        private static bool CREATE_TABLE(string cmd, NpgsqlConnection conn)
-        {
-            try {
-                using (var command = new NpgsqlCommand(cmd, conn))
-                {
-                    command.ExecuteNonQuery();
-                }
-            }
-            catch(Exception exp) { Console.WriteLine(exp.Message);return false; }
-            return true;
-        }
-        /*
-         
-                                                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣴⣶⡶⠶⠶⠶⠿⠿⠿⠿⠶⠶⣶⣦⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀                                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣾⡿⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠻⣷⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀                                            ⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⠿⠟⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⢿⣦⣄⡀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀                                            ⠀⠀⠀⢀⣤⡾⠟⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⢦⡀⠀⠀⠀⠀
-⠀                                            ⠀⠀⠀⠀⢠⣶⡿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢻⣷⡄⠀⠀⠀
-                                            ⠀⠀⠀⢀⣼⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣆⠀⠀
-                                            ⠀⠀⣠⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣦⠀
-                                            ⠀⢀⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣶⣦⡀⠀⠀⠀⠀⠀⠀⠀⠈⣿⡆
-                                            ⠀⣾⡟⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠸⣷
-                                            ⢰⣿⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⢻
-                                            ⢸⡏⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⢸
-                                            ⣾⡇⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀⢸
-                                            ⣿⡇⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⢸
-                                            ⢿⡇⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡈⠙⠛⠛⠁⠀⠀⠀⠀⠀⠀⠀⣾
-                                            ⢸⣇⠀⠀⠀⠀⠀⠀⠀⠘⢿⣿⣿⣿⠏⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠒⠶⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿
-                                            ⢸⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⣤⡾⢡⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⠏
-⠀                                            ⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠁⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⠏⠀
-⠀                                            ⠸⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣿⠏⠀⠀
-⠀⠀                                            ⠻⣷⡂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⡟⠃⠀⠀⠀
-⠀⠀                                            ⠀⠻⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⡿⠋⠀⠀⠀⠀⠀
-⠀⠀⠀                                            ⠀⠹⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣾⡿⠋⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀                                           ⠈⠻⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣾⠿⠏⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀                                          ⠉⠛⠿⢶⣦⣤⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡴⢿⣿⣥⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                                     ⠀ ⠀⠀⢉⣻⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠒⠀⠀⠀⠁⠀⠀⠉⠛⢷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                                     ⠀⢀⣤⣶⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣦⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀                                      ⠀⠀⠀⣠⣴⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠀⠀⠀⠀⠙⣷⡄⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀                                     ⠀⢀⣾⠟⠁⠀⠀⠀⢀⣀⣤⡤⠗⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡀⠀⠀⠀⠈⢿⣆⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀                                     ⠘⣿⣶⣶⠶⠿⠟⢻⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣷⣦⣀⠀⠀⠈⢻⡇⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀                              ⠀⠀        ⠀⠀⠀⢀⣾⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡏⠻⠿⢶⣶⡾⠇⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                              ⠀        ⠀⠀⢸⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                              ⠀        ⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                              ⠀⠀        ⢸⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                              ⠀        ⠘⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣶⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                              ⠀       ⠀⠸⣷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                              ⠀⠀       ⠀⠘⢿⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣄⣺⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                              ⠀⠀⠀       ⠀⠀⠉⠛⠿⢶⣶⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                ⠀⠈⠻⣶⣤⡀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                         ⠀⠀⠀⠀⠀⠀          ⠀⠀⠀⢀⣤⡿⢿⣤⡀⠀⠀⠀⣼⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                         ⠀⠀⠀⠀⠀          ⠀⠀⠀⢠⣿⡏⠀⠀⠙⠧⠀⠀⣴⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                        ⠀⠀⠀⠀⠀⠀⠀           ⠀⢻⣷⣤⡀⠀⣀⣴⡾⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                                   ⠀⠀⢰⡿⠛⢿⣷⡄⠀⠈⠙⠛⠛⠛⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                          ⠀⠀⠀         ⠀⠸⣷⣄⠀⠘⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀                        ⠀⠀⠀          ⠌⣿⣇⣰⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                         ⠀⠀⠀          ⠀⠀⠉⠛⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                        ⠀⠀⠀⠀     ⠀⠀⣰⡶⣶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀        ⠀⠀⠀⠀⠀⠀                        ⠀⠀⠀⠀     ⠀⠀⠹⣶⡾⠇
-  
-         
-         
-         
-         
-         */
-        private static bool DATABASE_CHECK(string title,string CONN,string name) 
-        {
-            try
-            {
-                using (var conn = new NpgsqlConnection(CONN))
-                {
-                    conn.Open();
-                    using (var cmd = new NpgsqlCommand($"SELECT title FROM {name} WHERE title='{title}'", conn))
-                    {
-                        NpgsqlDataReader read = cmd.ExecuteReader();
-                        read.Read();
-                        
-                        if (title == read[0].ToString())
-                        {
-                            Console.WriteLine("\n" + title);
-                            conn.Close();
-                            return true;
-                        }
-                    }
-                    conn.Close();
-                }
-            }catch{ return false; }
-            return false;
-        }
         
 
-
-
-
-
-
-
-
-
-
-        //Second parsers
-        /*
-            Lviv
-            Ternopil
-            Ivano-Frankivsk
-            Volyn
-            Rivne
-            Khmelnytskyi
-            Chernivtsi
-            Zakarpattia
-            Zhytomyr
-            Kyiv
-            Sumy
-            Chernihiv
-            Vinnytsia
-            Kirovohradsk
-            Poltava
-            Cherkassy
-            Kryvyi Rih
-            Zaporizhzhia
-            Kherson
-            Odesa
-            Mykolayiv
-            Kharkiv
-            Dnipropetrovsk
-            Luhansk 
-         */
-
-        public static void lviv2()
-        {
-            List<List<string>> NEWS = new();
-        }
     }
 }
 

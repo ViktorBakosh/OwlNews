@@ -1,20 +1,170 @@
 ﻿using Parser_2022_;
+using static System.Net.Mime.MediaTypeNames;
+using System.Text;
+using System.Text.RegularExpressions;
+using Npgsql.Internal.TypeHandlers.NumericHandlers;
 
 internal class Program
 {
     private static void Main()
     {
-        Volodia.mykolayiv2();
+
+
+        //string s = System.Net.WebUtility.HtmlDecode("&laquo;");
+        Dead_r.statistics();
         //Parse.DATABASE_READ("Host=localhost;User Id=postgres;Password=228522245;Database=NEWS;Port=2285;", "SELECT * FROM mykolayiv;");
-        //Console.WriteLine(System.Reflection.MethodBase.GetCurrentMethod().Name);
         var All = new System.Diagnostics.Stopwatch();
         All.Start();
         var watch = new System.Diagnostics.Stopwatch();
+
+
         watch.Start();
         Console.WriteLine("\nAlarm");
-        // Parse.Alarm();
-        // Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
-        // watch.Restart();
+        API.Alarm();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nvolyn");
+        Parse2.volyn2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nrivne");
+        Parse2.rivne2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nkhmelnytskyi");
+        Parse2.khmelnytskyi2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nzhytomyr");
+        Parse2.zhytomyr2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nchernihiv");
+        Parse2.chernihiv2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nvinnytsia");
+        Parse.vinnytsia();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nkyiv");
+        Parse2.kyiv2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nkirovohradsk");
+        Parse2.kirovohradsk2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nzaporizhzhia");
+        Parse2.zaporizhzhia2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nluhansk");
+        Parse2.luhansk2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nlviv");
+        Parse2.lviv2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nternopil");
+        Parse2.ternopil2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nivano_frankivsk");
+        Parse2.ivano_frankivsk2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nchernivtsi");
+        Parse2.chernivtsi2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nzakarpattia");
+        Parse2.zakarpattia2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nkharkiv");
+        Parse2.kharkiv2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\ndnipropetrovsk");
+        Parse2.dnipropetrovsk2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nsumy");
+        Parse2.symu2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nkherson");
+        Parse2.kherson2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\npoltava");
+        Parse2.poltava2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nkryvyi_rih");
+        Parse2.kryvyi_rih2();//warning
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nodesa");
+        Parse2.odesa2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\nmykolayiv");
+        Parse2.mykolayiv2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
+        Console.WriteLine("\ncherkassy");
+        Parse2.cherkassy2();
+        watch.Stop();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        ////Tested
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        watch.Start();
+        Console.WriteLine("\nAlarm");
+        API.Alarm();
+        Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+        watch.Restart();
         Console.WriteLine("\nvolyn");
         Parse.volyn();
         watch.Stop();
