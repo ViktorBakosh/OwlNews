@@ -1,8 +1,4 @@
 ﻿using Parser_2022_;
-using static System.Net.Mime.MediaTypeNames;
-using System.Text;
-using System.Text.RegularExpressions;
-using Npgsql.Internal.TypeHandlers.NumericHandlers;
 
 internal class Program
 {
@@ -49,7 +45,7 @@ internal class Program
         Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
         watch.Restart();
         Console.WriteLine("\nvinnytsia");
-        Parse.vinnytsia();
+        Parse2.vinnytsia2();/**/
         watch.Stop();
         Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
         watch.Restart();
@@ -285,6 +281,6 @@ internal class Program
         watch.Stop();
         Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
         All.Stop();
-        Console.WriteLine($"\nAll:  {All.ElapsedMilliseconds/1000}");
+        Console.WriteLine($"\nAll:  {All.ElapsedMilliseconds / 1000}");
     }
 }

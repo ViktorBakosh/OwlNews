@@ -1,7 +1,13 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\bin\\Debug",
+    "\\bin\\Debug\\net6.0",
+    "\\bin\\Release",
+    "\\bin\\Release\\net6.0",
+    "\\obj\\Debug",
+    "\\obj\\Release\\net6.0"
   ],
-  "SelectedNode": "\\D:\\OwlNews\\repos\\ViktorBakosh\\OwlNews",
+  "SelectedNode": "\\obj",
   "PreviewInSolutionExplorer": false
 }

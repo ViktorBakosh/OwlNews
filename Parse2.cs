@@ -1,13 +1,4 @@
 ﻿using HtmlAgilityPack;
-using Npgsql.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Parser_2022_
 {
@@ -64,53 +55,16 @@ namespace Parser_2022_
          */
         public static void lviv2()
         {
-            List<Data> NEWS = LvivRead("https://zaxid.net/novini_lvova_tag50956/", "//div[@class='news-list archive-list  ']//ul[@class='list']//li[@class]//a[@href]");
-        } 
-        private static List<Data> LvivRead(string url,string node)
-        {
-            List<Data>List= new();
-            try 
-            {
-
-                HtmlDocument document = new();
-                document.LoadHtml(GetHtml(url));
-                HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node); 
-                foreach(var item in Nodes)
+            List<Data> NEWS = LvivRead("https://zaxid.net/novini_lvova_tag50956/", "//div[@class='news-list archive-list  ']//ul[@class='list']//li[@class]//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
                 {
-                    Data tmp= new();
-                    string Link = item.GetAttributeValue("href","nothing");
-
-                    HtmlDocument News = new();
-                    News.LoadHtml(GetHtml(Link));
-
-                    HtmlNode ImgNode = News.DocumentNode.SelectSingleNode("//span[@class='lazyload-holder']//img[@src]");
-                    HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='title']");
-                    HtmlNode DateNode = News.DocumentNode.SelectSingleNode("//time[@datetime]");
-                    HtmlNodeCollection InfoNodes = News.DocumentNode.SelectNodes("//div[@id='newsSummary']//p");
-                    string img = ImgNode.GetAttributeValue("src","nothing");
-                    string title = TitleNode.InnerText.ToString();
-                    string date = DateNode.GetAttributeValue("datetime","nothing");
-                    string info = "";
-                    foreach(var inf in InfoNodes)
-                    {
-                        info += inf.InnerText.ToString();
-                    }
-                    tmp.link=Link;
-                    tmp.title=title;
-                    tmp.image=img;
-                    tmp.time=date;
-                    tmp.info=info;
-                    List.Add(tmp);
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
-            }
-            catch(Exception exp) { Console.WriteLine(exp.Message);return List; }
-            return List;
         }
-        public static void ternopil2()
-        {
-            List<Data> NEWS = TernopilRead("https://ternopoliany.te.ua/novunu", "//a[@class='newsblocklink']");
-        }
-        private static List<Data> TernopilRead(string url , string node)
+        private static List<Data> LvivRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -122,7 +76,58 @@ namespace Parser_2022_
                 foreach (var item in Nodes)
                 {
                     Data tmp = new();
-                    string Link = "https://ternopoliany.te.ua/"+item.GetAttributeValue("href", "nothing");
+                    string Link = item.GetAttributeValue("href", "nothing");
+
+                    HtmlDocument News = new();
+                    News.LoadHtml(GetHtml(Link));
+
+                    HtmlNode ImgNode = News.DocumentNode.SelectSingleNode("//span[@class='lazyload-holder']//img[@src]");
+                    HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='title']");
+                    HtmlNode DateNode = News.DocumentNode.SelectSingleNode("//time[@datetime]");
+                    HtmlNodeCollection InfoNodes = News.DocumentNode.SelectNodes("//div[@id='newsSummary']//p");
+                    string img = ImgNode.GetAttributeValue("src", "nothing");
+                    string title = TitleNode.InnerText.ToString();
+                    string date = DateNode.GetAttributeValue("datetime", "nothing");
+                    string info = "";
+                    foreach (var inf in InfoNodes)
+                    {
+                        info += inf.InnerText.ToString();
+                    }
+                    tmp.link = Link;
+                    tmp.title = title;
+                    tmp.image = img;
+                    tmp.time = date;
+                    tmp.info = info;
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                }
+            }
+            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            return List;
+        }
+        public static void ternopil2()
+        {
+            List<Data> NEWS = TernopilRead("https://ternopoliany.te.ua/novunu", "//a[@class='newsblocklink']", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
+        }
+        private static List<Data> TernopilRead(string url, string node, string name)
+        {
+            List<Data> List = new();
+            try
+            {
+
+                HtmlDocument document = new();
+                document.LoadHtml(GetHtml(url));
+                HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
+                foreach (var item in Nodes)
+                {
+                    Data tmp = new();
+                    string Link = "https://ternopoliany.te.ua/" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
                     News.LoadHtml(GetHtml(Link));
@@ -131,7 +136,7 @@ namespace Parser_2022_
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h2[@class='itemTitle']");
                     HtmlNode DateNode = News.DocumentNode.SelectSingleNode("//span[@class='itemDateCreated']");
                     HtmlNodeCollection InfoNodes = News.DocumentNode.SelectNodes("//div[@class='itemFullText']//p");
-                    string img = "https://ternopoliany.te.ua"+ImgNode.GetAttributeValue("href", "nothing");
+                    string img = "https://ternopoliany.te.ua" + ImgNode.GetAttributeValue("href", "nothing");
                     string title = TitleNode.InnerText.ToString();
                     string date = DateNode.InnerText.ToString();
                     string info = "";
@@ -144,7 +149,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -152,9 +157,16 @@ namespace Parser_2022_
         }
         public static void ivano_frankivsk2()
         {
-            List<Data> NEWS = ivano_frankivsk2Read("https://versii.if.ua/category/novunu/", "//a[@class='post-url post-title']");
+            List<Data> NEWS = ivano_frankivsk2Read("https://versii.if.ua/category/novunu/", "//a[@class='post-url post-title']", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> ivano_frankivsk2Read(string url, string node)
+        private static List<Data> ivano_frankivsk2Read(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -175,9 +187,9 @@ namespace Parser_2022_
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//span[@class='post-title']");
                     HtmlNode DateNode = News.DocumentNode.SelectSingleNode("//time[@datetime]");
                     HtmlNodeCollection InfoNodes = News.DocumentNode.SelectNodes("//p[@class='align-left']");
-                    InfoNodes??= News.DocumentNode.SelectNodes("//div[@dir='auto']");
-                    InfoNodes??= News.DocumentNode.SelectNodes("//div[@class='entry-content clearfix single-post-content']//div//p");
-                    InfoNodes??= News.DocumentNode.SelectNodes("//div[@class='entry-content clearfix single-post-content']//p");
+                    InfoNodes ??= News.DocumentNode.SelectNodes("//div[@dir='auto']");
+                    InfoNodes ??= News.DocumentNode.SelectNodes("//div[@class='entry-content clearfix single-post-content']//div//p");
+                    InfoNodes ??= News.DocumentNode.SelectNodes("//div[@class='entry-content clearfix single-post-content']//p");
                     string img = ImgNode.GetAttributeValue("href", "nothing");
                     string title = TitleNode.InnerText.ToString();
                     string date = DateNode.GetAttributeValue("datetime", "nothing");
@@ -191,7 +203,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -199,10 +211,16 @@ namespace Parser_2022_
         }
         public static void volyn2()
         {
-            List<Data> NEWS = volynRead("https://www.volynpost.com/", "//div[@class='latest-news-item']//a[@href]");
-
+            List<Data> NEWS = volynRead("https://www.volynpost.com/", "//div[@class='latest-news-item']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> volynRead(string url, string node)
+        private static List<Data> volynRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -238,7 +256,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -246,9 +264,16 @@ namespace Parser_2022_
         }
         public static void khmelnytskyi2()
         {
-            List<Data> NEWS = khmelnytskyiRead("https://ngp-ua.info/", "//ul[@class='line_height2']//li//a[@href]");
+            List<Data> NEWS = khmelnytskyiRead("https://ngp-ua.info/", "//ul[@class='line_height2']//li//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> khmelnytskyiRead(string url, string node)
+        private static List<Data> khmelnytskyiRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -269,7 +294,8 @@ namespace Parser_2022_
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h2[@class='entry-title']");
                     HtmlNode DateNode = News.DocumentNode.SelectSingleNode("//span[@class='updated']");
                     HtmlNodeCollection InfoNodes = News.DocumentNode.SelectNodes("//div[@class='entry entry-content fixwidth-content']//p");
-                    string img = "" + ImgNode.GetAttributeValue("src", "nothing");
+                    string img = "";
+                    if (ImgNode == null) { img = "https://ngp-ua.info/wp-content/themes/ngp-ua.info-v4.0/images/logo_white.png"; } else { img = ImgNode.GetAttributeValue("src", "nothing"); }
                     string title = TitleNode.InnerText.ToString();
                     string date = DateNode.InnerText.ToString();
                     string info = "";
@@ -282,7 +308,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -290,9 +316,16 @@ namespace Parser_2022_
         }
         public static void rivne2()
         {
-            List<Data> NEWS = rivneRead("https://www.rivnenews.com.ua/novyny/", "//div[@class='pld-post-content']//a[@href]");
+            List<Data> NEWS = rivneRead("https://www.rivnenews.com.ua/novyny/", "//div[@class='pld-post-content']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> rivneRead(string url, string node)
+        private static List<Data> rivneRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -315,7 +348,7 @@ namespace Parser_2022_
                     HtmlNodeCollection InfoNodes = News.DocumentNode.SelectNodes("//div[@class='post-inner']//p");
                     string img = "" + ImgNode.GetAttributeValue("src", "nothing");
                     string title = TitleNode.InnerText.ToString();
-                    string date = DateNode.InnerText.ToString().Replace(",","");
+                    string date = DateNode.InnerText.ToString().Replace(",", "");
                     string info = "";
                     foreach (var inf in InfoNodes)
                     {
@@ -326,17 +359,24 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
             return List;
         }
-        public static void chernivtsi2() 
+        public static void chernivtsi2()
         {
-            List<Data> NEWS = chernivtsiRead("https://acc.cv.ua/news/chernivtsi/", "//div[@class='AllNewsItemWrap']//a[@href]");
+            List<Data> NEWS = chernivtsiRead("https://acc.cv.ua/news/chernivtsi/", "//div[@class='AllNewsItemWrap']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> chernivtsiRead(string url, string node)
+        private static List<Data> chernivtsiRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -359,7 +399,7 @@ namespace Parser_2022_
                     HtmlNodeCollection InfoNodes = News.DocumentNode.SelectNodes("//div[@class='article-main-text']");
 
 
-                    string img = "https:"+ ImgNode.GetAttributeValue("src","nothing");
+                    string img = "https:" + ImgNode.GetAttributeValue("src", "nothing");
                     string title = TitleNode.InnerText.ToString();
                     string date = DateNode.InnerText.ToString();
                     string info = "";
@@ -372,7 +412,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -380,9 +420,16 @@ namespace Parser_2022_
         }
         public static void zakarpattia2()
         {
-            List<Data> NEWS = zakarpattiaRead("https://transkarpatia.net/", "//div[@class='list']/div[@class='item']/a[@class='title']");
+            List<Data> NEWS = zakarpattiaRead("https://transkarpatia.net/", "//div[@class='list']/div[@class='item']/a[@class='title']", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> zakarpattiaRead(string url, string node)
+        private static List<Data> zakarpattiaRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -418,17 +465,25 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
             return List;
+
         }
         public static void zhytomyr2()
         {
-            List<Data> NEWS = zhytomyrRead("https://www.zhitomir.info/", "//div[@class='news-title']//a[@href]");
+            List<Data> NEWS = zhytomyrRead("https://www.zhitomir.info/", "//div[@class='news-title']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> zhytomyrRead(string url, string node)
+        private static List<Data> zhytomyrRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -456,7 +511,7 @@ namespace Parser_2022_
                     {
                         img = ImgNode.GetAttributeValue("src", "nothing");
                     }
-                    else 
+                    else
                     {
                         img = "LOGO";//logo
                     }
@@ -472,17 +527,24 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
             return List;
         }
-        public static void kyiv2() 
+        public static void kyiv2()
         {
-            List<Data> NEWS = kyivRead("https://www.kyivpost.com/uk/category/ukraine-uk", "//div[@class='title']//a[@href]");
+            List<Data> NEWS = kyivRead("https://www.kyivpost.com/uk/category/ukraine-uk", "//div[@class='title']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> kyivRead(string url, string node)
+        private static List<Data> kyivRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -508,8 +570,9 @@ namespace Parser_2022_
 
                     string img = "" + ImgNode.GetAttributeValue("src", "nothing");
                     string title = TitleNode.InnerText.ToString();
-                    int start= DateNode.InnerText.ToString().IndexOf("|") + 1, end= DateNode.InnerText.ToString().Length-start;
-                    string date = DateNode.InnerText.ToString().Substring(start,end);
+                    int start = DateNode.InnerText.ToString().IndexOf("|") + 1, end = DateNode.InnerText.ToString().Length - start;
+                    string date = DateNode.InnerText.ToString().Substring(start, end);
+                    date = date.Substring(0, date.IndexOf("|"));
                     string info = "";
                     if (InfoNodes != null)
                     {
@@ -523,7 +586,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -531,9 +594,16 @@ namespace Parser_2022_
         }
         public static void symu2()
         {
-            List<Data> NEWS = symuRead("https://sumypost.com/", "//div[@class='ne-title']//a[@href]");
+            List<Data> NEWS = symuRead("https://sumypost.com/", "//div[@class='ne-title']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> symuRead(string url, string node)
+        private static List<Data> symuRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -568,7 +638,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -613,11 +683,18 @@ namespace Parser_2022_
          */
         public static void chernihiv2()//time
         {
-            List<Data> NEWS = chernihivRead("https://newch.tv/", "//div[@class='align-self-center']/a[@href]");
+            List<Data> NEWS = chernihivRead("https://newch.tv/", "//div[@class='align-self-center']/a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> chernihivRead(string url,string node) 
+        private static List<Data> chernihivRead(string url, string node, string name)
         {
-            List<Data> List=new();
+            List<Data> List = new();
             try
             {
                 HtmlDocument document = new();
@@ -633,7 +710,7 @@ namespace Parser_2022_
 
                     HtmlNode TitleNode = item;
                     HtmlNode ImgNode = News.DocumentNode.SelectSingleNode("//div[@class='entry-thumb']/img[@src]");
-                    HtmlNode DateNode = News.DocumentNode.SelectSingleNode("//i[@class='fa fa-clock-o']");
+                    HtmlNode DateNode = News.DocumentNode.SelectSingleNode("//span[@class='posted-on']");
                     HtmlNodeCollection InfoNodes = News.DocumentNode.SelectNodes("//div[@class='entry-content clearfix']/p");
 
                     string img = "" + ImgNode.GetAttributeValue("src", "nothing");
@@ -649,7 +726,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -657,9 +734,16 @@ namespace Parser_2022_
         }
         public static void vinnytsia2()//time
         {
-            List<Data> NEWS = vinnytsiaRead("https://tsn.ua/", "//a[@class='c-card__link']");
+            List<Data> NEWS = vinnytsiaRead("https://tsn.ua/", "//a[@class='c-card__link']", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> vinnytsiaRead(string url, string node)
+        private static List<Data> vinnytsiaRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -680,7 +764,7 @@ namespace Parser_2022_
                     HtmlNode DateNode = News.DocumentNode.SelectSingleNode("//time[@datetime]");
                     HtmlNodeCollection InfoNodes = News.DocumentNode.SelectNodes("//div[@data-content='']");
                     InfoNodes ??= News.DocumentNode.SelectNodes("//div[@class='c-article__lead']");
-                    string img = "" + ImgNode.GetAttributeValue("src", "nothing");
+                    string img = ""; try { img = ImgNode.GetAttributeValue("src", "nothing"); } catch { continue; }
                     string title = TitleNode.InnerText.ToString();
                     string date = DateNode.GetAttributeValue("datetime", "nothing");
                     string info = "";
@@ -693,7 +777,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -701,9 +785,16 @@ namespace Parser_2022_
         }
         public static void kirovohradsk2()//time
         {
-            List<Data> NEWS = kirovohradskRead("https://dozor.kr.ua/allnews", "//div[@class='link']/a[@href]");
+            List<Data> NEWS = kirovohradskRead("https://dozor.kr.ua/allnews", "//div[@class='link']/a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> kirovohradskRead(string url, string node)
+        private static List<Data> kirovohradskRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -737,17 +828,24 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
             return List;
         }
-        public static void poltava2() 
+        public static void poltava2()
         {
-            List<Data> NEWS = poltavaRead("https://poltava.to/", "//span[@class='row']/a[@href]");
+            List<Data> NEWS = poltavaRead("https://poltava.to/", "//span[@class='row']/a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> poltavaRead(string url, string node)
+        private static List<Data> poltavaRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -767,30 +865,37 @@ namespace Parser_2022_
                     HtmlNode ImgNode = News.DocumentNode.SelectSingleNode("//figure[@class='image']//div[@class='top-media-container']//img[@src]");
                     HtmlNode DateNode = News.DocumentNode.SelectSingleNode("//time[@datetime]");
                     HtmlNode InfoNodes = News.DocumentNode.SelectSingleNode("//div[@class='content-padding']");
-                    if (ImgNode==null&&DateNode==null&&InfoNodes==null) { continue; }
+                    if (ImgNode == null && DateNode == null && InfoNodes == null) { continue; }
                     ImgNode ??= News.DocumentNode.SelectSingleNode("//img[@src]");
                     if (ImgNode == null) { continue; }
                     string img = "https:" + ImgNode.GetAttributeValue("src", "nothing");
                     string title = TitleNode.InnerText.ToString();
-                    string date = DateNode.GetAttributeValue("datetime", "nothing");
+                    string? date = DateNode.GetAttributeValue("datetime", "nothing");
                     string info = InfoNodes.InnerText.ToString();
                     tmp.link = Link;
                     tmp.title = title;
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
             return List;
         }
-        
+
         public static void cherkassy2()
         {
-            List<Data> NEWS = cherkassyRead("https://chesno.ck.ua/category/novyny/novini-regionu/", "//h3[@class='entry-title td-module-title']//a[@href]");
+            List<Data> NEWS = cherkassyRead("https://chesno.ck.ua/category/novyny/novini-regionu/", "//h3[@class='entry-title td-module-title']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> cherkassyRead(string url, string node)
+        private static List<Data> cherkassyRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -811,7 +916,7 @@ namespace Parser_2022_
                     HtmlNode DateNode = News.DocumentNode.SelectSingleNode("//time[@datetime]");
                     HtmlNode InfoNodes = News.DocumentNode.SelectSingleNode("//div[@class='td-post-content']/p");
                     ImgNode ??= News.DocumentNode.SelectSingleNode("//figure/a[@href]");
-                    if (InfoNodes==null)
+                    if (InfoNodes == null)
                     {
                         continue;
                     }
@@ -824,7 +929,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -832,9 +937,16 @@ namespace Parser_2022_
         }
         public static void kryvyi_rih2()
         {
-            List<Data> NEWS = kryvyi_rihRead("https://www.0564.ua/news", "//a[@class='c-news-block__title']");
+            List<Data> NEWS = kryvyi_rihRead("https://www.0564.ua/news", "//a[@class='c-news-block__title']", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> kryvyi_rihRead(string url, string node)
+        private static List<Data> kryvyi_rihRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -856,14 +968,15 @@ namespace Parser_2022_
 
                     string img = "https://s.0564.ua/section/logo/upload/pers/12/logo.png";
                     string title = TitleNode.InnerText.ToString();
-                    string date = DateNode.InnerText.ToString();
+                    string[] dateArray = DateNode.InnerText.ToString().Split(",");
+                    string date = dateArray[1] + " " + dateArray[0];
                     string info = InfoNodes.InnerText.ToString();
                     tmp.link = Link;
                     tmp.title = title;
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -871,9 +984,16 @@ namespace Parser_2022_
         }
         public static void zaporizhzhia2()
         {
-            List<Data> NEWS = zaporizhzhiaRead("https://www.061.ua/news", "//a[@class='c-news-block__title']");
+            List<Data> NEWS = zaporizhzhiaRead("https://www.061.ua/news", "//a[@class='c-news-block__title']", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> zaporizhzhiaRead(string url, string node)
+        private static List<Data> zaporizhzhiaRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -896,14 +1016,15 @@ namespace Parser_2022_
 
                     string img = "https://s.061.ua/section/logo/upload/pers/3/logo.png";
                     string title = TitleNode.InnerText.ToString();
-                    string date = DateNode.InnerText.ToString();
+                    string[] dateArray = DateNode.InnerText.ToString().Split(",");
+                    string date = dateArray[1] + " " + dateArray[0];
                     string info = InfoNodes.InnerText.ToString();
                     tmp.link = Link;
                     tmp.title = title;
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -911,9 +1032,16 @@ namespace Parser_2022_
         }
         public static void kherson2()
         {
-            List<Data> NEWS = khersonRead("https://www.ukrinform.ua/tag-hersonsina", "//section//h2//a[@href]");
+            List<Data> NEWS = khersonRead("https://www.ukrinform.ua/tag-hersonsina", "//section//h2//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> khersonRead(string url, string node)
+        private static List<Data> khersonRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -934,20 +1062,20 @@ namespace Parser_2022_
                     HtmlNode DateNode = News.DocumentNode.SelectSingleNode("//time[@datetime]");
                     HtmlNodeCollection InfoNodes = News.DocumentNode.SelectNodes("//div[@class='newsText']//div");
 
-                    string img = ImgNode.GetAttributeValue("src","nothing");
+                    string img = ImgNode.GetAttributeValue("src", "nothing");
                     string title = TitleNode.InnerText.ToString();
-                    string date = DateNode.GetAttributeValue("datetime","nothing");
+                    string date = DateNode.GetAttributeValue("datetime", "nothing");
                     string info = "";
-                    foreach(var inf in InfoNodes)
+                    foreach (var inf in InfoNodes)
                     {
-                        info+= inf.InnerText.ToString();
+                        info += inf.InnerText.ToString();
                     }
                     tmp.link = Link;
                     tmp.title = title;
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -955,9 +1083,16 @@ namespace Parser_2022_
         }
         public static void odesa2()
         {
-            List<Data> NEWS = odesaRead("https://www.unn.com.ua/uk/news/tag/odesa", "//div[@class='b-news-title']/h3/a[@href]");
+            List<Data> NEWS = odesaRead("https://www.unn.com.ua/uk/news/tag/odesa", "//div[@class='b-news-title']/h3/a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> odesaRead(string url, string node)
+        private static List<Data> odesaRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -992,7 +1127,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -1001,9 +1136,16 @@ namespace Parser_2022_
 
         public static void mykolayiv2()
         {
-            List<Data> NEWS = mykolayivRead("https://lb.ua/tag/44_mikolaiv", "//div[@class='title']/a[@href]");
+            List<Data> NEWS = mykolayivRead("https://lb.ua/tag/44_mikolaiv", "//div[@class='title']/a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> mykolayivRead(string url, string node)
+        private static List<Data> mykolayivRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -1038,7 +1180,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -1046,9 +1188,16 @@ namespace Parser_2022_
         }
         public static void kharkiv2()
         {
-            List<Data> NEWS = kharkivRead("https://www.newsroom.kh.ua/ua", "//div[@class='post-title mb-10 text-limit-2-row']/a[@href]");
+            List<Data> NEWS = kharkivRead("https://www.newsroom.kh.ua/ua", "//div[@class='post-title mb-10 text-limit-2-row']/a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> kharkivRead(string url, string node)
+        private static List<Data> kharkivRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -1056,7 +1205,7 @@ namespace Parser_2022_
                 HtmlDocument document = new();
                 document.LoadHtml(GetHtml(url));
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
-                 foreach (var item in Nodes)
+                foreach (var item in Nodes)
                 {
                     Data tmp = new();
                     string Link = "" + item.GetAttributeValue("href", "nothing");
@@ -1083,7 +1232,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -1092,9 +1241,16 @@ namespace Parser_2022_
 
         public static void dnipropetrovsk2()
         {
-            List<Data> NEWS = dnipropetrovskRead("https://www.dniprotoday.com/dnipro", "//p[@class='p-b-5 right-news pl-0 pl-sm-10']/a[@href]");
+            List<Data> NEWS = dnipropetrovskRead("https://www.dniprotoday.com/dnipro", "//p[@class='p-b-5 right-news pl-0 pl-sm-10']/a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data>  dnipropetrovskRead(string url, string node)
+        private static List<Data> dnipropetrovskRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -1113,11 +1269,11 @@ namespace Parser_2022_
                     HtmlNode TitleNode = item;
                     HtmlNode DateNode = News.DocumentNode.SelectSingleNode("//time[@datetime]");
                     HtmlNodeCollection InfoNodes = News.DocumentNode.SelectNodes("//div[@class='e-content']");
-
                     string img = "https://www.dniprotoday.com/xlogo2.png,qver=1.pagespeed.ic.WoXxvJEz30.webp";
                     string title = TitleNode.InnerText.ToString();
                     string date = DateNode.GetAttributeValue("datetime", "nothing");
                     string info = "";
+                    if (InfoNodes == null) { continue; }
                     foreach (var inf in InfoNodes)
                     {
                         info += inf.InnerText.ToString();
@@ -1127,7 +1283,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -1135,9 +1291,16 @@ namespace Parser_2022_
         }
         public static void luhansk2()
         {
-            List<Data> NEWS = luhanskRead("https://censor.net/ua/news/all", "//h2/a[@href]");
+            List<Data> NEWS = luhanskRead("https://censor.net/ua/news/all", "//h2/a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            if (NEWS != null)
+                foreach (var item in NEWS)
+                {
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                }
         }
-        private static List<Data> luhanskRead(string url, string node)
+        private static List<Data> luhanskRead(string url, string node, string name)
         {
             List<Data> List = new();
             try
@@ -1157,14 +1320,19 @@ namespace Parser_2022_
                     HtmlNode TitleNode = item;
                     HtmlNode ImgNode = News.DocumentNode.SelectSingleNode("//figure[@class='news-text__main_img']/a[@href]");
                     ImgNode ??= News.DocumentNode.SelectSingleNode("//a[@class='top_img_loader']");
-                    if (ImgNode==null)
+                    if (ImgNode == null)
                     {
                         ImgNode = News.DocumentNode.SelectSingleNode("//video[@poster]");
                         wt = "poster";
                     }
                     HtmlNode DateNode = News.DocumentNode.SelectSingleNode("//time[@datetime]");
                     HtmlNodeCollection InfoNodes = News.DocumentNode.SelectNodes("//div[@class='news-text']/p");
-                    string img = ImgNode.GetAttributeValue(wt, "nothing");
+                    string img = "";
+                    try
+                    {
+                        img = ImgNode.GetAttributeValue(wt, "nothing");
+                    }
+                    catch { continue; }
                     string title = TitleNode.InnerText.ToString();
                     string date = DateNode.GetAttributeValue("datetime", "nothing");
                     string info = "";
@@ -1177,15 +1345,15 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
             return List;
         }
-      
+
     }
-    
+
 }
 
 

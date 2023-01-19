@@ -1,12 +1,6 @@
 ﻿using HtmlAgilityPack;
 using System.Net;
 using System.Text;
-using Npgsql;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Text.Json.Nodes;
-using System.Collections.Generic;
-using System.Reflection.PortableExecutable;
 
 #pragma warning disable 8602, 8600, SYSLIB0014 
 namespace Parser_2022_
@@ -14,22 +8,22 @@ namespace Parser_2022_
 
     class Parse
     {
-        public Parse(){ }
-        
+        public Parse() { }
+
         public static void lviv()
         {// 5 site/link
             var NEWS = ReadLviv("https://city-adm.lviv.ua/news", "//ul[@class='tm-news uk-list uk-list-large']/li/a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            
+
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
                     DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)",item);
+                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-       
-        private static List<Data>? ReadLviv(string url, string node,string name)
+
+        private static List<Data>? ReadLviv(string url, string node, string name)
         {
             List<Data> listRay = new();
 
@@ -53,8 +47,8 @@ namespace Parser_2022_
 
                 HtmlNodeCollection htmlNodeCollection = htmlDocument.DocumentNode.SelectNodes(node);
 
-               foreach(var item in htmlNodeCollection) 
-               {
+                foreach (var item in htmlNodeCollection)
+                {
                     Data tmp = new();
 
                     string Link = "https://city-adm.lviv.ua" + item.GetAttributeValue("href", "nothing");
@@ -75,24 +69,24 @@ namespace Parser_2022_
                     {
                         info += inf.InnerText.ToString();
                     }
-                    tmp.link=Link;
-                    tmp.title=title;
-                    tmp.image=img;
-                    tmp.time=date.Replace(",","");
-                    tmp.info=info;
+                    tmp.link = Link;
+                    tmp.title = title;
+                    tmp.image = img;
+                    tmp.time = date.Replace(",", "");
+                    tmp.info = info;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return listRay;
                     }
                     listRay.Add(tmp);
-               }
+                }
             }
-            catch{ return listRay; }
+            catch { return listRay; }
             return listRay;
         }
         public static void ternopil()
         {
-            
+
             var NEWS = ReadTernopil("https://ternopilcity.gov.ua/news/", "//div[@class]/h4/a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
             if (NEWS != null)
@@ -103,12 +97,12 @@ namespace Parser_2022_
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data>? ReadTernopil(string url, string node,string name)
+        private static List<Data>? ReadTernopil(string url, string node, string name)
         {
             List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -146,11 +140,11 @@ namespace Parser_2022_
                     {
                         info += inf.InnerText.ToString();
                     }
-                    tmp.link=Link;
-                    tmp.title=title;
-                    tmp.image=img;
-                    tmp.time=date;
-                    tmp.info=info;
+                    tmp.link = Link;
+                    tmp.title = title;
+                    tmp.image = img;
+                    tmp.time = date;
+                    tmp.info = info;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -162,7 +156,7 @@ namespace Parser_2022_
             catch { return list; }
             return list;
         }
-       
+
         public static void ivano_frankivsk()
         {
             var NEWS = ReadIvano_Frankivsk("https://galka.if.ua/category/frankivski-novini/", "//div[@class='media-body']", System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -175,13 +169,13 @@ namespace Parser_2022_
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data>? ReadIvano_Frankivsk(string url, string node,string name)
+        private static List<Data>? ReadIvano_Frankivsk(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
-            
+            Console.Title = "Wait"; List<Data> list = new();
+
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -220,11 +214,11 @@ namespace Parser_2022_
                     {
                         info += inf.InnerText.ToString();
                     }
-                    tmp.link=Link;
-                    tmp.title=title;
-                    tmp.image=img;
-                    tmp.time=date;
-                    tmp.info=info;
+                    tmp.link = Link;
+                    tmp.title = title;
+                    tmp.image = img;
+                    tmp.time = date;
+                    tmp.info = info;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -235,7 +229,7 @@ namespace Parser_2022_
             }
             catch { return list; }
         }
-        
+
         public static void chernivtsi()
         {
             Console.Title = "Chernivtsi";
@@ -248,12 +242,12 @@ namespace Parser_2022_
                      $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data>? ReadChernivtsi(string url, string node,string name)
+        private static List<Data>? ReadChernivtsi(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -289,17 +283,17 @@ namespace Parser_2022_
                         info += node3.InnerText;
                     }
                     /*Link*/
-                    tmp.link=(href.GetAttributeValue("href", "nothing"));
+                    tmp.link = (href.GetAttributeValue("href", "nothing"));
                     /*Title*/
-                    tmp.title=title.InnerText;
+                    tmp.title = title.InnerText;
                     /*img*/
-                    tmp.image=(img[2].GetAttributeValue("src", "nothing"));
+                    tmp.image = (img[2].GetAttributeValue("src", "nothing"));
                     /*date*/
-                    tmp.time=Date.InnerText;
+                    tmp.time = Date.InnerText;
                     /*time*/
                     //tmp.Add(time.InnerText.Remove(0, 2));
                     /*main*/
-                    tmp.info=info;
+                    tmp.info = info;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -323,12 +317,12 @@ namespace Parser_2022_
                       $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data>? ReadZakarpattia(string url, string node,string name)
+        private static List<Data>? ReadZakarpattia(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -348,7 +342,7 @@ namespace Parser_2022_
                     Data tmp = new();
                     HtmlDocument Doc = new(); Doc.LoadHtml(node2.InnerHtml);
                     HtmlNode Link = Doc.DocumentNode.SelectSingleNode("//a[@href]");
-                    if (Link==null) { continue; }
+                    if (Link == null) { continue; }
                     string SiteHtml = web.DownloadString("http://www.mukachevo.net/" + Link.GetAttributeValue("href", "nothing"));
                     Doc.LoadHtml(SiteHtml);
                     HtmlNode TitleNode = Doc.DocumentNode.SelectSingleNode("//h1[@class='item-header news-header']");
@@ -358,20 +352,20 @@ namespace Parser_2022_
                     string NewsBody = "";
                     foreach (HtmlNode node3 in NewsBodyNode)
                     {
-                        NewsBody += node3.InnerText;                    
+                        NewsBody += node3.InnerText;
                     }
                     /*Link*/
-                    tmp.link=("http://www.mukachevo.net" + Link.GetAttributeValue("href", "nothing"));
+                    tmp.link = ("http://www.mukachevo.net" + Link.GetAttributeValue("href", "nothing"));
                     /*Title*/
-                    tmp.title=TitleNode.InnerText;
+                    tmp.title = TitleNode.InnerText;
                     /*img*/
-                    tmp.image=("http://www.mukachevo.net" + ImgNode[5].GetAttributeValue("src", "nothing"));
+                    tmp.image = ("http://www.mukachevo.net" + ImgNode[5].GetAttributeValue("src", "nothing"));
                     /*date*/
                     tmp.time = DateNode.GetAttributeValue("content", "unknown");
                     /*time*/
                     //tmp.Add(DateNode.InnerText.Substring(DateNode.InnerText.IndexOf("|") + 2, DateNode.InnerText.Length - DateNode.InnerText.IndexOf("|") - 2));
                     /*main*/
-                    tmp.info=(NewsBody);
+                    tmp.info = (NewsBody);
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -397,12 +391,12 @@ namespace Parser_2022_
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data>? ReadVolyn(string url, string node,string name)
+        private static List<Data>? ReadVolyn(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -440,17 +434,18 @@ namespace Parser_2022_
 
 
                     /*Link*/
-                    tmp.link=("https://www.volynnews.com" + Link);
+                    tmp.link = ("https://www.volynnews.com" + Link);
                     /*Title*/
-                    tmp.title=TitleNode.InnerText;
+                    tmp.title = TitleNode.InnerText;
                     /*img*/
-                    tmp.image=("https://www.volynnews.com" + ImgNode.GetAttributeValue("src", "nothing"));
+                    tmp.image = ("https://www.volynnews.com" + ImgNode.GetAttributeValue("src", "nothing"));
                     /*date*/
-                    tmp.time=DateNode.InnerText;
+                    tmp.time = DateNode.InnerText;
+
                     /*time*/
                     //tmp.Add(DateNode.InnerText.Substring(DateNode.InnerText.IndexOf(" "), DateNode.InnerText.Length - DateNode.InnerText.IndexOf(" ")).("\n", "").("\t", ""));
                     /*main*/
-                    tmp.info=(NewsBody);
+                    tmp.info = (NewsBody);
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -476,12 +471,12 @@ namespace Parser_2022_
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data>? ReadRivne(string url, string node,string name)
+        private static List<Data>? ReadRivne(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -531,17 +526,17 @@ namespace Parser_2022_
                     }
 
                     /*Link*/
-                    tmp.link=Link;
+                    tmp.link = Link;
                     /*Title*/
-                    tmp.title=Title;
+                    tmp.title = Title;
                     /*img*/
-                    tmp.image=img;
+                    tmp.image = img;
                     /*date*/
-                    tmp.time=Day+" "+Clock;
+                    tmp.time = Day + " " + Clock;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.info=NewsInfo;
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -568,12 +563,12 @@ namespace Parser_2022_
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data>? ReadKhmelnytskyi(string url, string node,string name)
+        private static List<Data>? ReadKhmelnytskyi(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -624,17 +619,17 @@ namespace Parser_2022_
                     }
 
                     /*Link*/
-                    tmp.link=Link;
+                    tmp.link = Link;
                     /*Title*/
-                    tmp.title=Title;
+                    tmp.title = Title;
                     /*img*/
-                    tmp.image=img;
+                    tmp.image = img;
                     /*date*/
-                    tmp.time = Day + " " + Clock;
+                    tmp.time = Day+ Clock;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.info=NewsInfo;
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -661,12 +656,12 @@ namespace Parser_2022_
                      $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data> ReadZhytomyr(string url, string node,string name)
+        private static List<Data> ReadZhytomyr(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -727,17 +722,17 @@ namespace Parser_2022_
                     }
 
                     /*Link*/
-                    tmp.link=Link;
+                    tmp.link = Link;
                     /*Title*/
-                    tmp.title=Title;
+                    tmp.title = Title;
                     /*img*/
-                    tmp.image=img;
+                    tmp.image = img;
                     /*date*/
-                    tmp.time=Day;
+                    tmp.time = Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.info=NewsInfo;
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -763,12 +758,12 @@ namespace Parser_2022_
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data> ReadChernihiv(string url, string node,string name)
+        private static List<Data> ReadChernihiv(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -815,7 +810,6 @@ namespace Parser_2022_
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//span[@class='posted-on']");
                     string Day = DATE.InnerText;
-                    //string Clock = DATE.GetAttributeValue("data-date", "nothing").Substring(DATE.GetAttributeValue("data-date", "nothing").IndexOf(" "), DATE.GetAttributeValue("data-date", "nothing").Length - DATE.GetAttributeValue("data-date", "nothing").IndexOf(" "));
 
 
 
@@ -827,17 +821,17 @@ namespace Parser_2022_
                     }
 
                     /*Link*/
-                    tmp.link=Link;
+                    tmp.link = Link;
                     /*Title*/
-                    tmp.title=Title;
+                    tmp.title = Title;
                     /*img*/
-                    tmp.image=img;
+                    tmp.image = img;
                     /*date*/
-                    tmp.time=Day;
+                    tmp.time = Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.info=NewsInfo;
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -852,7 +846,7 @@ namespace Parser_2022_
         }
         public static void vinnytsia()
         {
-            
+
             List<Data> NEWS = ReadVinnytsia("https://news.vn.ua", "//h2[@class='entry-title']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output";
             if (NEWS != null)
@@ -863,12 +857,12 @@ namespace Parser_2022_
                      $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data> ReadVinnytsia(string url, string node,string name)
+        private static List<Data> ReadVinnytsia(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -900,17 +894,16 @@ namespace Parser_2022_
                     string ImgString = "";
                     string img = "";
                     HtmlNode ImgNode = News.DocumentNode.SelectSingleNode("//figure[@class='pk-lightbox-container pk-pin-it-container']//a[@href]");
-                    if (ImgNode == null) { ImgNode = News.DocumentNode.SelectSingleNode("//div[@data-video]");if (ImgNode == null) { img= "https://aesthetic-macaron-2d69dd.netlify.app/img/logo.png"; } else { img = ImgNode.GetAttributeValue("data-video", "nothing"); } }
+                    if (ImgNode == null) { ImgNode = News.DocumentNode.SelectSingleNode("//div[@data-video]"); if (ImgNode == null) { img = "https://aesthetic-macaron-2d69dd.netlify.app/img/logo.png"; } else { img = ImgNode.GetAttributeValue("data-video", "nothing"); } }
                     else
                     {
-                        img =ImgString + ImgNode.GetAttributeValue("href", "nothing");
+                        img = ImgString + ImgNode.GetAttributeValue("href", "nothing");
                     }
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='entry-title']");
                     string Title = TitleNode.InnerText;
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//li[@class='meta-date']//a[@rel]");
                     string Day = DATE.InnerText;
-                    //string Clock = DATE.InnerText.Remove(0, DATE.InnerText.IndexOf(",")+1);
 
 
                     HtmlNodeCollection NewsNode = News.DocumentNode.SelectNodes("//section[@class='entry-content']");
@@ -919,19 +912,19 @@ namespace Parser_2022_
                     {
                         NewsInfo += Block.InnerText;
                     }
-                    
+
                     /*Link*/
-                    tmp.link=Link;
+                    tmp.link = Link;
                     /*Title*/
-                    tmp.title=Title;
+                    tmp.title = Title;
                     /*img*/
-                    tmp.image=img;
+                    tmp.image = img;
                     /*date*/
-                    tmp.time=Day;
+                    tmp.time = Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.info=NewsInfo;
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -956,12 +949,12 @@ namespace Parser_2022_
                 }
 
         }
-        private static List<Data> ReadKyiv(string url, string node,string name)
+        private static List<Data> ReadKyiv(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -1006,8 +999,7 @@ namespace Parser_2022_
                     string Title = TitleNode.InnerText;
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//div[@class='field field-name-post-date field-type-ds field-label-hidden view-mode-full']");
-                    string Day = DATE.InnerText;
-                    //string Clock = DATE.GetAttributeValue("data-date", "nothing").Substring(DATE.GetAttributeValue("data-date", "nothing").IndexOf(" "), DATE.GetAttributeValue("data-date", "nothing").Length - DATE.GetAttributeValue("data-date", "nothing").IndexOf(" "));
+                    string Day = DATE.InnerText.Replace("  ", "");
 
 
 
@@ -1019,17 +1011,17 @@ namespace Parser_2022_
                     }
 
                     /*Link*/
-                    tmp.link=Link;
+                    tmp.link = Link;
                     /*Title*/
-                    tmp.title=Title;
+                    tmp.title = Title;
                     /*img*/
-                    tmp.image=img;
+                    tmp.image = img;
                     /*date*/
-                    tmp.time=Day;
+                    tmp.time = Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.info=NewsInfo;
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -1055,12 +1047,12 @@ namespace Parser_2022_
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data>? ReadKirovohradsk(string url, string node,string name)
+        private static List<Data>? ReadKirovohradsk(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -1092,9 +1084,9 @@ namespace Parser_2022_
                     string ImgString = "https:";
                     string img = "";
                     //HtmlNode ImgNode = .DocumentNode.SelectSingleNode("//img[@class='attachment-full size-full wp-post-image']");
-                   
+
                     img = ImgString + item.FirstChild.GetAttributeValue("src", "nothing");
-                    
+
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='page-title']");
                     string Title = TitleNode.InnerText;
@@ -1102,8 +1094,7 @@ namespace Parser_2022_
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//div[@class='news-date']");
                     string Day = DATE.InnerText;
-                    
-                    //string Clock = DATE.GetAttributeValue("data-date", "nothing").Substring(DATE.GetAttributeValue("data-date", "nothing").IndexOf(" "), DATE.GetAttributeValue("data-date", "nothing").Length - DATE.GetAttributeValue("data-date", "nothing").IndexOf(" "));
+
 
 
 
@@ -1111,21 +1102,21 @@ namespace Parser_2022_
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
-                        NewsInfo += Block.InnerText;                    
+                        NewsInfo += Block.InnerText;
                     }
 
                     /*Link*/
-                    tmp.link=Link;
+                    tmp.link = Link;
                     /*Title*/
-                    tmp.title=Title;
+                    tmp.title = Title;
                     /*img*/
-                    tmp.image=img;
+                    tmp.image = img;
                     /*date*/
-                    tmp.time=Day;
+                    tmp.time = Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.info=NewsInfo;
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -1152,12 +1143,12 @@ namespace Parser_2022_
                 }
 
         }
-        private static List<Data> ReadZaporizhzhia(string url, string node,string name)
+        private static List<Data> ReadZaporizhzhia(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -1203,7 +1194,6 @@ namespace Parser_2022_
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//span[@class='date']");
                     string Day = DATE.InnerText;
-                    //string Clock = DATE.InnerText.Substring(DATE.InnerText.IndexOf(" "),DATE.InnerText.Length-DATE.InnerText.IndexOf(" "));
 
 
 
@@ -1215,17 +1205,17 @@ namespace Parser_2022_
                     }
 
                     /*Link*/
-                    tmp.link=Link;
+                    tmp.link = Link;
                     /*Title*/
-                    tmp.title=Title;
+                    tmp.title = Title;
                     /*img*/
-                    tmp.image=img;
+                    tmp.image = img;
                     /*date*/
-                    tmp.time=Day;
+                    tmp.time = Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.info=NewsInfo;
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -1252,12 +1242,12 @@ namespace Parser_2022_
                 }
 
         }
-        private static List<Data> ReadLuhansk(string url, string node,string name)
+        private static List<Data> ReadLuhansk(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -1277,9 +1267,9 @@ namespace Parser_2022_
 
                     Data tmp = new();
 
-                    
-                     
-                   
+
+
+
                     string Link = "https://www.ukrinform.ua" + item.GetAttributeValue("href", "nothing");
                     HtmlDocument News = new();
                     News.LoadHtml(item.InnerHtml);
@@ -1305,7 +1295,6 @@ namespace Parser_2022_
 
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//div[@class='newsDate']");
                     string Day = DATE.InnerText;
-                    //string Clock = DATE.InnerText.Substring(DATE.InnerText.IndexOf(" "),DATE.InnerText.Length-DATE.InnerText.IndexOf(" "));
 
 
 
@@ -1317,17 +1306,17 @@ namespace Parser_2022_
                     }
 
                     /*Link*/
-                    tmp.link=Link;
+                    tmp.link = Link;
                     /*Title*/
-                    tmp.title=Title;
+                    tmp.title = Title;
                     /*img*/
-                    tmp.image=img;
+                    tmp.image = img;
                     /*date*/
-                    tmp.time=Day;
+                    tmp.time = Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.info=NewsInfo;
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -1354,12 +1343,12 @@ namespace Parser_2022_
                 }
 
         }
-        private static List<Data> ReadKharkiv(string url, string node,string name)
+        private static List<Data> ReadKharkiv(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -1397,7 +1386,7 @@ namespace Parser_2022_
                     {
                         continue;
                     }
-                     img = ImgString + ImgNode.GetAttributeValue("src", "nothing");
+                    img = ImgString + ImgNode.GetAttributeValue("src", "nothing");
 
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//span[@class='heading_name']");
@@ -1419,17 +1408,17 @@ namespace Parser_2022_
                     }
 
                     /*Link*/
-                    tmp.link=Link;
+                    tmp.link = Link;
                     /*Title*/
-                    tmp.title=Title;
+                    tmp.title = Title;
                     /*img*/
-                    tmp.image=img;
+                    tmp.image = img;
                     /*date*/
-                    tmp.time=Day + " " + Clock;
+                    tmp.time = Day + " " + Clock;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.info=NewsInfo;
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -1455,12 +1444,12 @@ namespace Parser_2022_
                      $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data>? ReadDnipropetrovsk(string url, string node,string name)
+        private static List<Data>? ReadDnipropetrovsk(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -1519,17 +1508,17 @@ namespace Parser_2022_
                     }
 
                     /*Link*/
-                    tmp.link=Link;
+                    tmp.link = Link;
                     /*Title*/
-                    tmp.title=Title;
+                    tmp.title = Title;
                     /*img*/
-                    tmp.image=img;
+                    tmp.image = img;
                     /*date*/
-                    tmp.time=Day;
+                    tmp.time = Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.info=NewsInfo;
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -1555,12 +1544,12 @@ namespace Parser_2022_
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data>? ReadSumy(string url, string node,string name)
+        private static List<Data>? ReadSumy(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -1613,25 +1602,25 @@ namespace Parser_2022_
 
 
                     HtmlNodeCollection NewsNode = News.DocumentNode.SelectNodes("//app-model-content//p");
-                    
+
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
                         NewsInfo += Block.InnerText;
                     }
-                    string[] DayArray=Day.Split(",");
+                    string[] DayArray = Day.Split(",");
                     /*Link*/
-                    tmp.link=Link;
+                    tmp.link = Link;
                     /*Title*/
-                    tmp.title=Title;
+                    tmp.title = Title;
                     /*img*/
-                    tmp.image=img;
+                    tmp.image = img;
                     /*date*/
-                    tmp.time=DayArray[1]+" "+DayArray[0];
+                    tmp.time = DayArray[1] + " " + DayArray[0];
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.info=NewsInfo;
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -1657,98 +1646,98 @@ namespace Parser_2022_
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data>? ReadKherson(string url, string node,string name)
-{
-    Console.Title = "Wait";List<Data> list = new();
-    try
-    {
-        
-        WebClient web = new();
-        web.Encoding = Encoding.UTF8;
-        string html = web.DownloadString(url);
+        private static List<Data>? ReadKherson(string url, string node, string name)
+        {
+            Console.Title = "Wait"; List<Data> list = new();
+            try
+            {
 
-        if (string.IsNullOrEmpty(html))
-            throw new Exception();
+                WebClient web = new();
+                web.Encoding = Encoding.UTF8;
+                string html = web.DownloadString(url);
 
-        HtmlDocument htmlDocument = new();
-        htmlDocument.LoadHtml(html);
+                if (string.IsNullOrEmpty(html))
+                    throw new Exception();
 
-        if (htmlDocument == null)
-            throw new Exception();
+                HtmlDocument htmlDocument = new();
+                htmlDocument.LoadHtml(html);
 
-        HtmlNodeCollection nodes = htmlDocument.DocumentNode.SelectNodes(node);
-        foreach (HtmlNode item in nodes)
-         {
+                if (htmlDocument == null)
+                    throw new Exception();
 
-              Data tmp = new();
+                HtmlNodeCollection nodes = htmlDocument.DocumentNode.SelectNodes(node);
+                foreach (HtmlNode item in nodes)
+                {
 
-
-
-
-             string Link = "" + item.GetAttributeValue("href", "nothing");
-             HtmlDocument News = new();
-             News.LoadHtml(item.InnerHtml);
-             string HTML = web.DownloadString(Link);
-             News.LoadHtml(HTML);
+                    Data tmp = new();
 
 
 
-             string ImgString = "";
-             string img = "";
-             HtmlNode ImgNode = News.DocumentNode.SelectSingleNode("//div[@class='w-post-elm post_image stretched']//img[@src]");
-             if (ImgNode == null)
-             {
-                continue;
-             }
+
+                    string Link = "" + item.GetAttributeValue("href", "nothing");
+                    HtmlDocument News = new();
+                    News.LoadHtml(item.InnerHtml);
+                    string HTML = web.DownloadString(Link);
+                    News.LoadHtml(HTML);
+
+
+
+                    string ImgString = "";
+                    string img = "";
+                    HtmlNode ImgNode = News.DocumentNode.SelectSingleNode("//div[@class='w-post-elm post_image stretched']//img[@src]");
+                    if (ImgNode == null)
+                    {
+                        continue;
+                    }
                     img = ImgString + ImgNode.GetAttributeValue("data-lazy-src", "nothing");
 
 
-             HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='w-post-elm post_title us_custom_d6eca3b4 entry-title color_link_inherit']");
-             string Title = TitleNode.InnerText;
+                    HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='w-post-elm post_title us_custom_d6eca3b4 entry-title color_link_inherit']");
+                    string Title = TitleNode.InnerText;
 
 
-             HtmlNode DATE = News.DocumentNode.SelectSingleNode("//time[@class='w-post-elm post_date entry-date updated']");
-             //HtmlNode ClockNode = News.DocumentNode.SelectSingleNode("//");
+                    HtmlNode DATE = News.DocumentNode.SelectSingleNode("//time[@class='w-post-elm post_date entry-date updated']");
+                    //HtmlNode ClockNode = News.DocumentNode.SelectSingleNode("//");
 
-                string Day = DATE.InnerText;
-                //string Clock = ClockNode.InnerText;
+                    string Day = DATE.InnerText;
+                    //string Clock = ClockNode.InnerText;
 
 
-              HtmlNodeCollection NewsNode = News.DocumentNode.SelectNodes("//div[@class='w-post-elm post_content']");
-              string NewsInfo = "";
-              foreach (var Block in NewsNode)
-              {
-                 NewsInfo += Block.InnerText;
-              }
+                    HtmlNodeCollection NewsNode = News.DocumentNode.SelectNodes("//div[@class='w-post-elm post_content']");
+                    string NewsInfo = "";
+                    foreach (var Block in NewsNode)
+                    {
+                        NewsInfo += Block.InnerText;
+                    }
 
-                /*Link*/
-                tmp.link=Link;
-               /*Title*/
-               tmp.title=Title;
-               /*img*/
-               tmp.image=img;
-               /*date*/
-              tmp.time=Day;
-               /*time*/
-               //tmp.Add(Clock);
-               /*main*/
-                tmp.info=NewsInfo;
+                    /*Link*/
+                    tmp.link = Link;
+                    /*Title*/
+                    tmp.title = Title;
+                    /*img*/
+                    tmp.image = img;
+                    /*date*/
+                    tmp.time = Day;
+                    /*time*/
+                    //tmp.Add(Clock);
+                    /*main*/
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
                     list.Add(tmp);
-         }
+                }
 
 
-         return list;
+                return list;
+            }
+            catch { return list; }
         }
-        catch { return list; }
-    }
         public static void poltava()
         {
             Console.Title = "Poltava";
-            List<Data> NEWS = ReadPoltava("https://www.rada-poltava.gov.ua/", "//td[@class='leftcol news']//div//h1//a[@href]",System.Reflection.MethodBase.GetCurrentMethod().Name);
+            List<Data> NEWS = ReadPoltava("https://www.rada-poltava.gov.ua/", "//td[@class='leftcol news']//div//h1//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
             Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
@@ -1758,99 +1747,99 @@ namespace Parser_2022_
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data>? ReadPoltava(string url, string node,string name)
-{
-    Console.Title = "Wait";List<Data> list = new();
-    try
-    {
-        
-        WebClient web = new();
-        web.Encoding = Encoding.UTF8;
-        string html = web.DownloadString(url);
-
-        if (string.IsNullOrEmpty(html))
-            throw new Exception();
-
-        HtmlDocument htmlDocument = new();
-        htmlDocument.LoadHtml(html);
-
-        if (htmlDocument == null)
-            throw new Exception();
-
-        HtmlNodeCollection nodes = htmlDocument.DocumentNode.SelectNodes(node);
-        foreach (HtmlNode item in nodes)
+        private static List<Data>? ReadPoltava(string url, string node, string name)
         {
-
-            Data tmp = new();
-
-
-
-
-            string Link = "https://www.rada-poltava.gov.ua" + item.GetAttributeValue("href", "nothing");
-            HtmlDocument News = new();
-            News.LoadHtml(item.InnerHtml);
-            string HTML = web.DownloadString(Link);
-            News.LoadHtml(HTML);
-
-
-
-            string ImgString = "https://www.rada-poltava.gov.ua";
-            string img = "";
-            HtmlNode ImgNode = News.DocumentNode.SelectSingleNode("//img[@class='gallery']");
-            if (ImgNode == null)
+            Console.Title = "Wait"; List<Data> list = new();
+            try
             {
-                continue;
-            }
-            img = ImgString + ImgNode.GetAttributeValue("src", "nothing");
+
+                WebClient web = new();
+                web.Encoding = Encoding.UTF8;
+                string html = web.DownloadString(url);
+
+                if (string.IsNullOrEmpty(html))
+                    throw new Exception();
+
+                HtmlDocument htmlDocument = new();
+                htmlDocument.LoadHtml(html);
+
+                if (htmlDocument == null)
+                    throw new Exception();
+
+                HtmlNodeCollection nodes = htmlDocument.DocumentNode.SelectNodes(node);
+                foreach (HtmlNode item in nodes)
+                {
+
+                    Data tmp = new();
 
 
-            HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//td[@class='leftcol news']//h1");
-            string Title = TitleNode.InnerText;
 
 
-            HtmlNode DATE = News.DocumentNode.SelectSingleNode("//a[@id='daterange']");
-            //HtmlNode ClockNode = News.DocumentNode.SelectSingleNode("//");
+                    string Link = "https://www.rada-poltava.gov.ua" + item.GetAttributeValue("href", "nothing");
+                    HtmlDocument News = new();
+                    News.LoadHtml(item.InnerHtml);
+                    string HTML = web.DownloadString(Link);
+                    News.LoadHtml(HTML);
 
-            string Day = DATE.InnerText.Replace(",","");
-            //string Clock = ClockNode.InnerText;
 
 
-            HtmlNodeCollection NewsNode = News.DocumentNode.SelectNodes("//td[@class='leftcol news']//p");
-            string NewsInfo = "";
-            foreach (var Block in NewsNode)
-            {
-                NewsInfo += Block.InnerText;
-            }
+                    string ImgString = "https://www.rada-poltava.gov.ua";
+                    string img = "";
+                    HtmlNode ImgNode = News.DocumentNode.SelectSingleNode("//img[@class='gallery']");
+                    if (ImgNode == null)
+                    {
+                        continue;
+                    }
+                    img = ImgString + ImgNode.GetAttributeValue("src", "nothing");
 
-            /*Link*/
-            tmp.link=Link;
-            /*Title*/
-            tmp.title=Title;
-            /*img*/
-            tmp.image=img;
-            /*date*/
-            tmp.time=Day;
-            /*time*/
-            //tmp.Add(Clock);
-            /*main*/
-            tmp.info=NewsInfo;
+
+                    HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//td[@class='leftcol news']//h1");
+                    string Title = TitleNode.InnerText;
+
+
+                    HtmlNode DATE = News.DocumentNode.SelectSingleNode("//a[@id='daterange']");
+                    //HtmlNode ClockNode = News.DocumentNode.SelectSingleNode("//");
+
+                    string Day = DATE.InnerText.Replace(",", "");
+                    //string Clock = ClockNode.InnerText;
+
+
+                    HtmlNodeCollection NewsNode = News.DocumentNode.SelectNodes("//td[@class='leftcol news']//p");
+                    string NewsInfo = "";
+                    foreach (var Block in NewsNode)
+                    {
+                        NewsInfo += Block.InnerText;
+                    }
+
+                    /*Link*/
+                    tmp.link = Link;
+                    /*Title*/
+                    tmp.title = Title;
+                    /*img*/
+                    tmp.image = img;
+                    /*date*/
+                    tmp.time = Day;
+                    /*time*/
+                    //tmp.Add(Clock);
+                    /*main*/
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
                     }
                     list.Add(tmp);
+                }
+
+
+                return list;
+            }
+            catch { return list; }
         }
-
-
-        return list;
-    }
-    catch { return list; }
-}
         public static void kryvyi_rih()//warning
         {
-                                    Console.Title = "";
-                                    List<Data> NEWS = ReadKryvyi_Rih("https://post.kr.ua/", "//h2[@class='title']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
-                Console.Title = "Output";
+            Console.Title = "";
+            List<Data> NEWS = ReadKryvyi_Rih("https://post.kr.ua/", "//h2[@class='title']//a[@href]", System.Reflection.MethodBase.GetCurrentMethod().Name);
+            Console.Title = "Output";
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
@@ -1859,12 +1848,12 @@ namespace Parser_2022_
                      $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data>? ReadKryvyi_Rih(string url, string node,string name)//warning
+        private static List<Data>? ReadKryvyi_Rih(string url, string node, string name)//warning
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -1906,15 +1895,15 @@ namespace Parser_2022_
                     }
                     string img = "https://aesthetic-macaron-2d69dd.netlify.app/img/logo.png";
                     /*Link*/
-                    tmp.link=Link;
+                    tmp.link = Link;
                     /*Title*/
-                    tmp.title=Title;
+                    tmp.title = Title;
                     /*Image*/
-                    tmp.image=img;
+                    tmp.image = img;
                     /*time*/
-                    tmp.time=DateTime.Now.ToString();
+                    tmp.time = DateTime.Now.ToString();
                     /*info*/
-                    tmp.info=NewsInfo;
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -1940,12 +1929,12 @@ namespace Parser_2022_
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data>? ReadOdesa(string url, string node,string name)
+        private static List<Data>? ReadOdesa(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -2001,17 +1990,17 @@ namespace Parser_2022_
                     }
 
                     /*Link*/
-                    tmp.link=Link;
+                    tmp.link = Link;
                     /*Title*/
-                    tmp.title=Title;
+                    tmp.title = Title;
                     /*img*/
-                    tmp.image=img;
+                    tmp.image = img;
                     /*date*/
-                    tmp.time=Day;
+                    tmp.time = Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.info=NewsInfo;
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -2043,12 +2032,12 @@ namespace Parser_2022_
                      $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data>? ReadMykolayiv(string url, string node,string name)
+        private static List<Data>? ReadMykolayiv(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -2100,7 +2089,7 @@ namespace Parser_2022_
                     //string Clock = ClockNode.InnerText;
 
                     HtmlNodeCollection NewsNode = News.DocumentNode.SelectNodes("//section[@class='content_current_article']");
-                    
+
                     string NewsInfo = "";
                     foreach (var Block in NewsNode)
                     {
@@ -2108,17 +2097,17 @@ namespace Parser_2022_
                     }
 
                     /*Link*/
-                    tmp.link=Link;
+                    tmp.link = Link;
                     /*Title*/
-                    tmp.title=Title;
+                    tmp.title = Title;
                     /*img*/
-                    tmp.image=img;
+                    tmp.image = img;
                     /*date*/
-                    tmp.time=Day;
+                    tmp.time = Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.info=NewsInfo;
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -2144,12 +2133,12 @@ namespace Parser_2022_
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
         }
-        private static List<Data>? ReadCherkassy(string url, string node,string name)
+        private static List<Data>? ReadCherkassy(string url, string node, string name)
         {
-            Console.Title = "Wait";List<Data> list = new();
+            Console.Title = "Wait"; List<Data> list = new();
             try
             {
-                
+
                 WebClient web = new();
                 web.Encoding = Encoding.UTF8;
                 string html = web.DownloadString(url);
@@ -2184,7 +2173,7 @@ namespace Parser_2022_
                     {
                         ImgNode = News.DocumentNode.SelectSingleNode("//div[@class='single-body entry-content typography-copy']//p//img[@src]");
                     }
-                    
+
 
                     HtmlNode TitleNode = News.DocumentNode.SelectSingleNode("//h1[@class='entry-title']");
                     if (TitleNode == null) { continue; }
@@ -2194,7 +2183,7 @@ namespace Parser_2022_
                     HtmlNode DATE = News.DocumentNode.SelectSingleNode("//time[@class='time published']");
                     //HtmlNode ClockNode = News.DocumentNode.SelectSingleNode("//");
 
-                    string Day = DATE.GetAttributeValue("datetime","unknown");
+                    string Day = DATE.GetAttributeValue("datetime", "unknown");
                     //string Clock = ClockNode.InnerText;
 
                     HtmlNodeCollection NewsNode = News.DocumentNode.SelectNodes("//div[@class='single-body entry-content typography-copy']//p");
@@ -2205,23 +2194,23 @@ namespace Parser_2022_
                     }
 
                     /*Link*/
-                    tmp.link=Link;
+                    tmp.link = Link;
                     /*Title*/
-                    tmp.title=Title;
+                    tmp.title = Title;
                     /*img*/
                     if (ImgNode != null)
                     {
                         img = ImgString + ImgNode.GetAttributeValue("src", "nothing");
-                        tmp.image=img;
+                        tmp.image = img;
 
                     }
-                    else { tmp.image=("empty");}
+                    else { tmp.image = ("empty"); }
                     /*date*/
-                    tmp.time=Day;
+                    tmp.time = Day;
                     /*time*/
                     //tmp.Add(Clock);
                     /*main*/
-                    tmp.info=NewsInfo;
+                    tmp.info = NewsInfo;
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name))
                     {
                         return list;
@@ -2252,7 +2241,7 @@ namespace Parser_2022_
                      (_(___/                      \_\_____)_)
 
          */
-        
+
 
     }
 }

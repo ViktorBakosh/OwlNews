@@ -18,3 +18,6 @@ F:\Telegram_data\obj\Debug\net6.0\refint\Telegram_data.dll
 F:\Telegram_data\obj\Debug\net6.0\Telegram_data.pdb
 F:\Telegram_data\obj\Debug\net6.0\Telegram_data.genruntimeconfig.cache
 F:\Telegram_data\obj\Debug\net6.0\ref\Telegram_data.dll
+D:\OwlNews\repos\ViktorBakosh\OwlNews\obj\Debug\net6.0\Telegram_data.dll
+D:\OwlNews\repos\ViktorBakosh\OwlNews\obj\Debug\net6.0\refint\Telegram_data.dll
+D:\OwlNews\repos\ViktorBakosh\OwlNews\obj\Debug\net6.0\Telegram_data.pdb

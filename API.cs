@@ -33,23 +33,17 @@ namespace Parser_2022_
 
     internal class API
     {
-        public static string API_Connect = "Host=localhost;User id=postgres;Password=228522245;Database=API;Port=2285;";//Database connection string
+        public static string API_Connect = "Host=localhost;User id=postgres;Password=;Database=API;Port=2285;";//Database connection string
 
         public static void Alarm()
         {
-
             var url = "https://alerts.com.ua/api/states";//API(all states)
+
             var httpRequest = (HttpWebRequest)WebRequest.Create(url);//Creating a reguest
-            
-            
-            
-            
-            /**/
-            Don`t forget about key :)
 
             httpRequest.Headers["X-API-Key"] = "";//key
             var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
-            string result = "";
+            string? result = "";
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
             {
                 result = streamReader.ReadToEnd();//geting data

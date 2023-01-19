@@ -1,18 +1,43 @@
 ﻿using Npgsql;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Parser_2022_
 {
- 
+
     internal class DB
     {
         public static string Connect = "Host=localhost;User id=postgres;Password=228522245;Database=NEWS;Port=2285;";
+
+
+
+
+
+
+
+
+
         //INSERT info
-        public static bool DATABASE_INSERT(string name, string create, string CONNECTION, string cmd,Data obj)
+        //public static bool DATABASE_TEST(string value)
+        //{
+        //    string cmd = $"INSERT INTO time (date) VALUES (@date)";
+
+        //    try
+        //    {
+        //        using (var conn = new NpgsqlConnection(Connect))
+        //        {
+        //            conn.Open();
+        //            using (var command = new NpgsqlCommand(cmd, conn))
+        //            {
+        //                command.Parameters.AddWithValue("date", DateTime.ParseExact(value, "dd.M.yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
+        //                command.ExecuteNonQuery();
+
+        //            }
+        //            conn.Close();
+        //        }
+        //    }
+        //    catch (Exception exp) { Console.WriteLine(exp.Message); return false; }
+        //    return true;
+        //}
+        public static bool DATABASE_INSERT(string name, string create, string CONNECTION, string cmd, Data obj)
         {
             try
             {
@@ -28,7 +53,7 @@ namespace Parser_2022_
                             command.Parameters.AddWithValue("id", DATABASE_READ(CONNECTION, $"SELECT COUNT(*) FROM {name};") + 1);
                             command.Parameters.AddWithValue("title", obj.title);
                             command.Parameters.AddWithValue("info", obj.info);
-                            command.Parameters.AddWithValue("time", obj.time);
+                            command.Parameters.AddWithValue("time", DateTime.ParseExact(obj.time, "dd.M.yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
                             command.Parameters.AddWithValue("link", obj.link);
                             command.Parameters.AddWithValue("image", obj.image);
                             command.ExecuteNonQuery();
@@ -217,7 +242,7 @@ namespace Parser_2022_
         //Check(if the title is in regions table)
         public static bool DATABASE_CHECK(string title, string CONN, string name)
         {
-            
+
             try
             {
                 using (var conn = new NpgsqlConnection(CONN))
