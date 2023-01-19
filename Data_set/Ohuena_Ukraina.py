@@ -17,7 +17,7 @@ print('\nDone Loading Ohuena_Ukraina.json\n')
 i = 0
 text = []
 links = []
-false_words = ['СБУ' , 'Фото' ,'фото' , 'видео', 'Видео', 'втрати', 'Общие'] #, 'Вот' , 'Последствия' , 'бойові вирати'
+false_words = ['СБУ' , 'Фото' ,'фото' , 'видео', 'Видео', 'Вот ', 'вот', 'по состоянию', 'Общие', 'Последствия ', 'последствия '] #, 'Вот'  , 'бойові вирати'
 false_symbols = ['«' , '"']
 while(True):
     try:
@@ -33,16 +33,18 @@ while(True):
             buffer = demoji.replace(buffer, "")
             if (len(buffer) > 200):
                 i+=1
-                continue
+                continue  #'https://t.me/c/1376264484/'
             if len(buffer) > 40:
-                buffer_into_words = buffer.split(' ')
-                if not any(value for value in false_symbols if value in buffer[0]): #buffer[0] != ('«' or '"')
-                    if not any(value for value in false_words if value in buffer_into_words):
-                        if ':' not in buffer:
-                            print(buffer)
-                            text.append(demoji.replace(buffer, ""))
-                            link += 'https://t.me/c/1376264484/' + str(data['messages'][i]['id'])
-                            links.append(link)
+                if buffer[0] not in false_symbols:
+                    false = 0
+                    for word in false_words:
+                        if word in buffer:
+                            false = 1
+                    if false == 0: 
+                        print(buffer)
+                        text.append(buffer)
+                        link += 'https://t.me/c/1376264484/' + str(data['messages'][i]['id'])
+                        links.append(link)
         i+=1
         continue  
     except: 
@@ -103,23 +105,23 @@ useless_news = [
 ,'Неймовірний кадр. Російська куля застрягла у шкірі голови нашого Воїна.'
 ]
 text_cleared = [x for x in text if x not in useless_news]
-print(len(text))
+print(len(text_cleared))
 
-#translate russian news into ukrainian language
-translate = []
-translator = Translator()
-try:
-    for element in range(len(text)):
-        translate.append((translator.translate(text[element], src='ru', dest='uk')).text)
-        print(translate[element])
-except Exception as e:
-        print('\n\n',e)
+# #translate russian news into ukrainian language
+# translate = []
+# translator = Translator()
+# try:
+#     for element in range(len(text)):
+#         translate.append((translator.translate(text[element], src='ru', dest='uk')).text)
+#         print(translate[element])
+# except Exception as e:
+#         print('\n\n',e)
 
-#make dataframe and save as csv
-dataframe = pd.DataFrame()
-dataframe['Link'] = links
-dataframe['Text'] = translate
-dataframe['Label'] = 'True'
-print(dataframe)
-print('\n\n\n\n')
-dataframe.to_csv('Data_set/data/Ohuena_Ukraina_verified.csv')
+# #make dataframe and save as csv
+# dataframe = pd.DataFrame()
+# dataframe['Link'] = links
+# dataframe['Text'] = translate
+# dataframe['Label'] = 'True'
+# print(dataframe)
+# print('\n\n\n\n')
+# dataframe.to_csv('Data_set/data/csv_files/Ohuena_Ukraina_verified.csv')

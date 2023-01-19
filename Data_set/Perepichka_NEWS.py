@@ -13,9 +13,12 @@ print('\nDone Loading Perepichka_NEWS.json\n')
 
 #make True news column
 i = 0
+array_without_false_words = []
+array_without_false_symbols = []
+buffer_into_words = []
 text = []
 links = []
-false_words = [ 'СБУ' , 'Фото' ,'фото' , 'видео', 'Видео', 'Последствия', 'Вот' ]
+false_words = [ 'СБУ' , 'Фото' ,'фото' , 'видео', 'Видео', 'Последствия', 'Вот ', 'вот ' ,':' ]
 false_symbols = ['«' , '"']
 while(True):
     try:
@@ -33,19 +36,22 @@ while(True):
                 i+=1
                 continue
             if(len(buffer) > 40):
-                buffer_into_words = buffer.split(' ')
-                if not any(value for value in false_symbols if value in buffer[0]): #buffer[0] != ('«' or '"')
-                    if not any(value for value in false_words if value in buffer_into_words):
-                        if(':' not in buffer):
-                            #print(buffer[0],'\t',buffer)
-                            text.append(buffer)
-                            link += 'https://t.me/perepichka_news/' + str(data['messages'][i]['id'])
-                            links.append(link)
+                if buffer[0] not in false_symbols:
+                    false = 0
+                    for word in false_words:
+                        if word in buffer:
+                            false = 1
+                    if false == 0: 
+                        print(buffer)
+                        text.append(buffer)
+                        link += 'https://t.me/perepichka_news/' + str(data['messages'][i]['id'])
+                        links.append(link)
         i+=1
         continue  
     except: 
         print('\n\nend of JSON file\n\n')
         break
+print(len(text))
 
 #handing found useless news to delete  
 useless_news = [
@@ -90,23 +96,23 @@ useless_news = [
 ,'РОЗІГРУЄМО ТА СОНЯЧНИЙ ПОВЕРБАНК + 2200 FS  2 грудня'
 ,'1xBet, BetWinner, Melbet, Fansport, PointLoto Не становитесь предателями, ваши дети вам не простят!']
 text_cleared = [x for x in text if x not in useless_news]
-print(text_cleared,'\n\n',len(text_cleared))
+print('\n\n',len(text_cleared))
 
-#translate russian news into ukrainian language
-translate = []
-translator = Translator()
-try:
-    for element in range(len(text)):
-        translate.append((translator.translate(text[element], src='ru', dest='uk')).text)
-        print(translate[element])
-except Exception as e:
-        print('\n\n',e)
+# #translate russian news into ukrainian language
+# translate = []
+# translator = Translator()
+# try:
+#     for element in range(len(text)):
+#         translate.append((translator.translate(text[element], src='ru', dest='uk')).text)
+#         print(translate[element])
+# except Exception as e:
+#         print('\n\n',e)
 
-#make dataframe and save as csv
-dataframe = pd.DataFrame()
-dataframe['Link'] = links
-dataframe['Text'] = translate
-dataframe['Label'] = 'True'
-print(dataframe)
-print('\n\n\n\n')
-dataframe.to_csv('Data_set/data/csv_files/Perepichka_NEWS_verified.csv')
+# #make dataframe and save as csv
+# dataframe = pd.DataFrame()
+# dataframe['Link'] = links
+# dataframe['Text'] = translate
+# dataframe['Label'] = 'True'
+# print(dataframe)
+# print('\n\n\n\n')
+# dataframe.to_csv('Data_set/data/csv_files/Perepichka_NEWS_verified.csv')
