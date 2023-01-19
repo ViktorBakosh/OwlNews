@@ -48,7 +48,9 @@ while(True):
                     buffer_into_words = buffer.split(' ')
                     if not any(value for value in false_words if value in buffer_into_words):
                         if ':' not in buffer:
-                            text.append(demoji.replace(buffer, ""))
+                            buffer = demoji.replace(buffer, "")
+                            print(buffer)
+                            text.append(buffer)
                             link += 'https://t.me/nrpublic/' + str(NR['messages'][i]['id'])
                             links.append(link)
         i+=1
@@ -56,20 +58,29 @@ while(True):
     except: 
         print('\n\nend of JSON file\n\n')
         break
-translate = []
-translator = Translator()
-try:
-    for element in range(len(text)):
-        translate.append((translator.translate(text[element], src='ru', dest='uk')).text)
-except Exception as e:
-        print('\n\n',e)
 
-#make dataframe and save as csv
-dataframe = pd.DataFrame()
-dataframe['Link'] = links
-dataframe['Text'] = translate
-dataframe['Text']
-dataframe['Label'] = 'True'
-print(dataframe)
-print('\n\n\n\n')
-#dataframe.to_csv('Data_set/data/NR_verified.csv')
+#handing found useless news to delete      
+useless_news = [
+
+]
+
+text_cleared = [x for x in text if x not in useless_news]
+print(len(text_cleared))
+
+# translate = []
+# translator = Translator()
+# try:
+#     for element in range(len(text)):
+#         translate.append((translator.translate(text[element], src='ru', dest='uk')).text)
+# except Exception as e:
+#         print('\n\n',e)
+
+# #make dataframe and save as csv
+# dataframe = pd.DataFrame()
+# dataframe['Link'] = links
+# dataframe['Text'] = translate
+# dataframe['Text']
+# dataframe['Label'] = 'True'
+# print(dataframe)
+# print('\n\n\n\n')
+# #dataframe.to_csv('Data_set/data/NR_verified.csv')
