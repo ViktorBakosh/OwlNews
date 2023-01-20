@@ -33,7 +33,7 @@ namespace Parser_2022_
 
     internal class API
     {
-        public static string API_Connect = "Host=localhost;User id=postgres;Password=;Database=API;Port=2285;";//Database connection string
+        public static string API_Connect = "Host=localhost;User id=postgres;Password=228522245;Database=API;Port=2285;";//Database connection string
 
         public static void Alarm()
         {

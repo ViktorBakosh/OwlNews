@@ -59,10 +59,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> LvivRead(string url, string node, string name)
         {
@@ -98,7 +99,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -110,10 +111,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> TernopilRead(string url, string node, string name)
         {
@@ -149,7 +151,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -161,10 +163,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> ivano_frankivsk2Read(string url, string node, string name)
         {
@@ -203,7 +206,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -215,10 +218,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> volynRead(string url, string node, string name)
         {
@@ -256,7 +260,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -268,10 +272,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> khmelnytskyiRead(string url, string node, string name)
         {
@@ -308,7 +313,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -320,10 +325,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> rivneRead(string url, string node, string name)
         {
@@ -359,7 +365,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -371,10 +377,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> chernivtsiRead(string url, string node, string name)
         {
@@ -412,7 +419,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -424,10 +431,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> zakarpattiaRead(string url, string node, string name)
         {
@@ -465,7 +473,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -478,10 +486,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> zhytomyrRead(string url, string node, string name)
         {
@@ -527,7 +536,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -539,10 +548,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> kyivRead(string url, string node, string name)
         {
@@ -586,7 +596,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -598,10 +608,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> symuRead(string url, string node, string name)
         {
@@ -638,7 +649,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -687,10 +698,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> chernihivRead(string url, string node, string name)
         {
@@ -726,7 +738,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -738,10 +750,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> vinnytsiaRead(string url, string node, string name)
         {
@@ -777,7 +790,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -789,10 +802,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> kirovohradskRead(string url, string node, string name)
         {
@@ -828,7 +842,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -840,10 +854,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> poltavaRead(string url, string node, string name)
         {
@@ -877,7 +892,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -890,10 +905,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> cherkassyRead(string url, string node, string name)
         {
@@ -929,7 +945,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -941,10 +957,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> kryvyi_rihRead(string url, string node, string name)
         {
@@ -976,7 +993,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -988,10 +1005,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> zaporizhzhiaRead(string url, string node, string name)
         {
@@ -1024,7 +1042,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -1036,10 +1054,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> khersonRead(string url, string node, string name)
         {
@@ -1075,7 +1094,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -1087,10 +1106,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> odesaRead(string url, string node, string name)
         {
@@ -1127,7 +1147,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -1140,10 +1160,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> mykolayivRead(string url, string node, string name)
         {
@@ -1180,7 +1201,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -1192,10 +1213,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> kharkivRead(string url, string node, string name)
         {
@@ -1232,7 +1254,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -1245,10 +1267,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> dnipropetrovskRead(string url, string node, string name)
         {
@@ -1283,7 +1306,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
@@ -1295,10 +1318,11 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n(\r\n    id integer NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT \"{System.Reflection.MethodBase.GetCurrentMethod().Name}_pkey\" PRIMARY KEY (id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{System.Reflection.MethodBase.GetCurrentMethod().Name}\"\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
+            DB.DATABASE_SORT(System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
         private static List<Data> luhanskRead(string url, string node, string name)
         {
@@ -1345,7 +1369,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)) List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
             catch (Exception exp) { Console.WriteLine(exp.Message); return List; }

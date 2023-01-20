@@ -89,6 +89,26 @@ namespace Parser_2022_
 
          
          */
+
+        public static void DATABASE_SORT(string name)
+        {
+            
+            var cmd = $"SELECT * FROM {name} ORDER BY time DESC;\r\n";
+            using(var conn = new NpgsqlConnection(Connect)) 
+            {
+                conn.Open();
+                using(var command = new NpgsqlCommand(cmd, conn))
+                {
+                    command.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
+            Console.WriteLine($"\nSorted {name}");
+        }
+        public static void DATABASE_UPDATE() 
+        {
+            
+        }
         //count
         public static int DATABASE_READ(string CONNECTION, string cmd)
         {

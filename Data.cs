@@ -13,11 +13,11 @@ namespace Parser_2022_
             Info = "";
         }
 
-        public string title { get { return Title; } set { Title = System.Net.WebUtility.HtmlDecode(value).Replace("\r", "").Replace("\n\n", "").Replace("\t", "").Replace("  ", ""); } }
+        public string title { get { return Title; } set { Title = System.Net.WebUtility.HtmlDecode(value).Replace("\r", "").Replace("\n\n", "").Replace("\t", ""); } }
         public string image { get { return Image; } set { Image = value.Replace("\r", "").Replace("\n", "").Replace("\t", ""); } }
         public string link { get { return Link; } set { Link = value.Replace("\r", "").Replace("\n", "").Replace("\t", ""); ; } }
-        public string time { get { return Time; } set { Time = Hour(DateFormat(value.Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("  ", ""))); Console.WriteLine(Time); } }
-        public string info { get { return Info; } set { Info = System.Net.WebUtility.HtmlDecode(value).Replace("\r", "").Replace("\n\n", "").Replace("\t", "").Replace("  ",""); } }
+        public string time { get { return Time; } set { Time = Hour(DateFormat(System.Net.WebUtility.HtmlDecode(value).Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("  ", ""))); Console.WriteLine(Time); } }
+        public string info { get { return Info; } set { Info = System.Net.WebUtility.HtmlDecode(value).Replace("\r", "").Replace("\n\n", "").Replace("\t", ""); } }
 
         private string Title;
         private string Image;

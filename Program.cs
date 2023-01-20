@@ -4,8 +4,7 @@ internal class Program
 {
     private static void Main()
     {
-
-
+        
         //string s = System.Net.WebUtility.HtmlDecode("&laquo;");
         Dead_r.statistics();
         //Parse.DATABASE_READ("Host=localhost;User Id=postgres;Password=228522245;Database=NEWS;Port=2285;", "SELECT * FROM mykolayiv;");
