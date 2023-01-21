@@ -34,17 +34,17 @@ namespace Parser_2022_
         //            conn.Close();
         //        }
         //    }
-        //    catch (Exception exp) { Console.WriteLine(exp.Message); return false; }
+        //    catch (Exception exp) {  return false; }
         //    return true;
         //}
-        public static bool DATABASE_INSERT(string name, string create, string CONNECTION, string cmd, Data obj)
+        public static bool DATABASE_INSERT(string name, string CONNECTION, string cmd, Data obj)
         {
             try
             {
                 using (var conn = new NpgsqlConnection(CONNECTION))
                 {
                     conn.Open();
-                    CREATE_TABLE(create, conn);
+                    CREATE_TABLE(name, conn);
                     if (DATABASE_READ(conn, $"SELECT title FROM {name}", obj.title))
                     {
                         conn.Open();
@@ -63,7 +63,7 @@ namespace Parser_2022_
                     }
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return false; }
+            catch { return false; }
             return true;
         }
         /*
@@ -92,22 +92,53 @@ namespace Parser_2022_
 
         public static void DATABASE_SORT(string name)
         {
-            
-            var cmd = $"SELECT * FROM {name} ORDER BY time DESC;\r\n";
-            using(var conn = new NpgsqlConnection(Connect)) 
+            try
             {
-                conn.Open();
-                using(var command = new NpgsqlCommand(cmd, conn))
+                var cmd = $"SELECT time FROM {name} ORDER BY time DESC;";
+                using (var conn = new NpgsqlConnection(Connect))
                 {
-                    command.ExecuteNonQuery();
+                    conn.Open();
+                    using (var command = new NpgsqlCommand(cmd, conn))
+                    {
+                        Console.WriteLine(command.CommandText);
+                        command.ExecuteNonQuery();
+                        // DATABASE_UPDATE(values, name, conn);
+                    }
+                    conn.Close();
                 }
-                conn.Close();
             }
-            Console.WriteLine($"\nSorted {name}");
+            catch (Exception exp) { Console.Write(exp.Message); }
+
         }
-        public static void DATABASE_UPDATE() 
+        public static void DATABASE_UPDATE(NpgsqlDataReader values, string name, NpgsqlConnection conn)
         {
-            
+            try
+            {
+                int counter = 1;
+                while (values.Read())
+                {
+                    using (var connection = new NpgsqlConnection(Connect))
+                    {
+                        string cmd = $"UPDATE {name} SET time=@time,link=@link,image=@image,info=@info,title=@title WHERE id=@id;";
+                        connection.Open();
+                        //var a = 
+                        using (var command = new NpgsqlCommand(cmd, connection))
+                        {
+                            //var a = DateTime.Parse((DateTime.Parse(values["time"].ToString()).ToString("yyyy-MM-dd HH:mm:ss")));
+                            command.Parameters.AddWithValue("id", counter++);
+                            command.Parameters.AddWithValue("title", values["title"]);
+                            command.Parameters.AddWithValue("info", values["info"]);
+                            command.Parameters.AddWithValue("time", values["time"]);
+                            command.Parameters.AddWithValue("link", values["link"]);
+                            command.Parameters.AddWithValue("image", values["image"]);
+
+                            command.ExecuteNonQuery();
+                        }
+                        connection.Close();
+                    }
+                }
+            }
+            catch { return; }
         }
         //count
         public static int DATABASE_READ(string CONNECTION, string cmd)
@@ -128,7 +159,7 @@ namespace Parser_2022_
                     }
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return 0; }
+            catch (Exception exp) { return 0; }
 
         }
         /*
@@ -160,7 +191,7 @@ namespace Parser_2022_
                     }
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return false; }
+            catch (Exception exp) { return false; }
             CONNECTION.Close();
             return true;
         }
@@ -193,8 +224,9 @@ namespace Parser_2022_
              \__...--''
 
          */
-        public static bool CREATE_TABLE(string cmd, NpgsqlConnection conn)
+        public static bool CREATE_TABLE(string name, NpgsqlConnection conn)
         {
+            string cmd = $"CREATE TABLE IF NOT EXISTS public.{name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{name}\r\n    OWNER to postgres;";
             try
             {
                 using (var command = new NpgsqlCommand(cmd, conn))
@@ -202,7 +234,7 @@ namespace Parser_2022_
                     command.ExecuteNonQuery();
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return false; }
+            catch (Exception exp) { return false; }
             return true;
         }
         /*
@@ -275,7 +307,6 @@ namespace Parser_2022_
 
                         if (title == read[0].ToString())
                         {
-                            Console.WriteLine("\n" + title);
                             conn.Close();
                             return true;
                         }

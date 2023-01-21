@@ -59,7 +59,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, 
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -102,7 +102,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch { return List; }
             return List;
         }
         public static void ternopil2()
@@ -111,7 +111,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -154,7 +154,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
         public static void ivano_frankivsk2()
@@ -163,7 +163,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, 
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -209,7 +209,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch { return List; }
             return List;
         }
         public static void volyn2()
@@ -218,7 +218,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -263,7 +263,7 @@ namespace Parser_2022_
                     if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
         public static void khmelnytskyi2()
@@ -272,7 +272,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -316,7 +316,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
         public static void rivne2()
@@ -325,7 +325,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -368,7 +368,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
         public static void chernivtsi2()
@@ -377,7 +377,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -422,7 +422,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
         public static void zakarpattia2()
@@ -431,7 +431,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -476,7 +476,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
 
         }
@@ -486,7 +486,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -539,7 +539,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
         public static void kyiv2()
@@ -548,7 +548,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -599,7 +599,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
         public static void symu2()
@@ -608,7 +608,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -652,7 +652,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
         /*
@@ -698,7 +698,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -741,7 +741,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
         public static void vinnytsia2()//time
@@ -750,7 +750,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -793,7 +793,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch (Exception exp) {  return List; }
             return List;
         }
         public static void kirovohradsk2()//time
@@ -802,7 +802,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -845,7 +845,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
         public static void poltava2()
@@ -854,7 +854,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -895,7 +895,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
 
@@ -905,7 +905,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -948,7 +948,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
         public static void kryvyi_rih2()
@@ -957,7 +957,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, 
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -996,7 +996,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
         public static void zaporizhzhia2()
@@ -1005,7 +1005,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -1045,7 +1045,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
         public static void kherson2()
@@ -1054,7 +1054,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -1097,7 +1097,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
         public static void odesa2()
@@ -1106,7 +1106,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -1150,7 +1150,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
 
@@ -1160,7 +1160,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -1204,7 +1204,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
         public static void kharkiv2()
@@ -1213,7 +1213,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -1257,7 +1257,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
 
@@ -1267,7 +1267,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -1309,7 +1309,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
         public static void luhansk2()
@@ -1318,7 +1318,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name, $"CREATE TABLE IF NOT EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{System.Reflection.MethodBase.GetCurrentMethod().Name}\r\n    OWNER to postgres;",
+                    DB.DATABASE_INSERT(System.Reflection.MethodBase.GetCurrentMethod().Name,
                     DB.Connect, $"INSERT INTO {System.Reflection.MethodBase.GetCurrentMethod().Name}" +
                     $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
                 }
@@ -1372,7 +1372,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return List; }
+            catch {  return List; }
             return List;
         }
 

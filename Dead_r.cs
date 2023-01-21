@@ -24,7 +24,7 @@ namespace Parser_2022_
                     res += item.InnerText;
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return res; }
+            catch{ return res; }
             return res;
         }
     }

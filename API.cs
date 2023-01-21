@@ -41,7 +41,7 @@ namespace Parser_2022_
 
             var httpRequest = (HttpWebRequest)WebRequest.Create(url);//Creating a reguest
 
-            httpRequest.Headers["X-API-Key"] = "";//key
+            httpRequest.Headers["X-API-Key"] = "f16bd9a3ce36b4eed167325de19da4df5522fb11";//key
             var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
             string? result = "";
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
@@ -92,7 +92,7 @@ namespace Parser_2022_
                     conn.Close();
                 }
             }
-            catch (Exception exp) { Console.Write(exp.Message); return; }
+            catch {  return; }
         }
         private static bool CREATE_TABLE(string cmd, string Conn_str)
         {
@@ -108,7 +108,7 @@ namespace Parser_2022_
                     conn.Close();
                 }
             }
-            catch (Exception exp) { Console.WriteLine(exp.Message); return false; }
+            catch { return false; }
             return true;
         }
     }

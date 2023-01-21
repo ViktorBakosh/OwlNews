@@ -16,7 +16,7 @@ namespace Parser_2022_
         public string title { get { return Title; } set { Title = System.Net.WebUtility.HtmlDecode(value).Replace("\r", "").Replace("\n\n", "").Replace("\t", ""); } }
         public string image { get { return Image; } set { Image = value.Replace("\r", "").Replace("\n", "").Replace("\t", ""); } }
         public string link { get { return Link; } set { Link = value.Replace("\r", "").Replace("\n", "").Replace("\t", ""); ; } }
-        public string time { get { return Time; } set { Time = Hour(DateFormat(System.Net.WebUtility.HtmlDecode(value).Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("  ", ""))); Console.WriteLine(Time); } }
+        public string time { get { return Time; } set { Time = Hour(DateFormat(System.Net.WebUtility.HtmlDecode(value).Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("  ", ""))); } }
         public string info { get { return Info; } set { Info = System.Net.WebUtility.HtmlDecode(value).Replace("\r", "").Replace("\n\n", "").Replace("\t", ""); } }
 
         private string Title;
@@ -24,7 +24,7 @@ namespace Parser_2022_
         private string Link;
         private string Time;
         private string Info;
-
+        
         public override string ToString()
         {
             return $"{link}\n{title}\n{image}\n{time}\n{info}";
