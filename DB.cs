@@ -90,19 +90,18 @@ namespace Parser_2022_
          
          */
 
-        public static void DATABASE_SORT(string name)
+        public async static void DATABASE_SORT(string name)
         {
             try
             {
-                var cmd = $"SELECT time FROM {name} ORDER BY time DESC;";
+                var cmd = $"SELECT * FROM {name} ORDER BY time DESC;";
                 using (var conn = new NpgsqlConnection(Connect))
                 {
                     conn.Open();
-                    using (var command = new NpgsqlCommand(cmd, conn))
+                    await using (var command = new NpgsqlCommand(cmd, conn))
                     {
-                        Console.WriteLine(command.CommandText);
                         command.ExecuteNonQuery();
-                        // DATABASE_UPDATE(values, name, conn);
+                        //DATABASE_UPDATE(values, name, conn);
                     }
                     conn.Close();
                 }
@@ -110,33 +109,36 @@ namespace Parser_2022_
             catch (Exception exp) { Console.Write(exp.Message); }
 
         }
-        public static void DATABASE_UPDATE(NpgsqlDataReader values, string name, NpgsqlConnection conn)
+        public async static void DATABASE_UPDATE(NpgsqlDataReader values, string name, NpgsqlConnection conn)
         {
             try
             {
-                int counter = 1;
-                while (values.Read())
+                using (var connection = new NpgsqlConnection(Connect))
                 {
-                    using (var connection = new NpgsqlConnection(Connect))
+                    string cmd = $"UPDATE {name} SET time=@time,link=@link,image=@image,info=@info,title=@title,id=@id WHERE id=@id;";
+                    connection.Open();
+                    int counter = 0;
+
+                    while (values.Read())
                     {
-                        string cmd = $"UPDATE {name} SET time=@time,link=@link,image=@image,info=@info,title=@title WHERE id=@id;";
-                        connection.Open();
-                        //var a = 
-                        using (var command = new NpgsqlCommand(cmd, connection))
+                        //Console.WriteLine(values["id"] + "   " + values["time"]);
+                        await using (var command = new NpgsqlCommand(cmd, connection))
                         {
                             //var a = DateTime.Parse((DateTime.Parse(values["time"].ToString()).ToString("yyyy-MM-dd HH:mm:ss")));
-                            command.Parameters.AddWithValue("id", counter++);
+                            command.Parameters.AddWithValue("id", ++counter);
                             command.Parameters.AddWithValue("title", values["title"]);
                             command.Parameters.AddWithValue("info", values["info"]);
                             command.Parameters.AddWithValue("time", values["time"]);
                             command.Parameters.AddWithValue("link", values["link"]);
                             command.Parameters.AddWithValue("image", values["image"]);
 
-                            command.ExecuteNonQuery();
+
+                            await command.ExecuteNonQueryAsync();
                         }
-                        connection.Close();
                     }
+                    connection.Close();
                 }
+
             }
             catch { return; }
         }
@@ -159,7 +161,7 @@ namespace Parser_2022_
                     }
                 }
             }
-            catch (Exception exp) { return 0; }
+            catch { return 0; }
 
         }
         /*
@@ -191,7 +193,7 @@ namespace Parser_2022_
                     }
                 }
             }
-            catch (Exception exp) { return false; }
+            catch { return false; }
             CONNECTION.Close();
             return true;
         }
@@ -232,9 +234,10 @@ namespace Parser_2022_
                 using (var command = new NpgsqlCommand(cmd, conn))
                 {
                     command.ExecuteNonQuery();
+                    
                 }
             }
-            catch (Exception exp) { return false; }
+            catch { return false; }
             return true;
         }
         /*

@@ -41,7 +41,7 @@ namespace Parser_2022_
 
             var httpRequest = (HttpWebRequest)WebRequest.Create(url);//Creating a reguest
 
-            httpRequest.Headers["X-API-Key"] = "f16bd9a3ce36b4eed167325de19da4df5522fb11";//key
+            httpRequest.Headers["X-API-Key"] = "";//key
             var httpResponse = (HttpWebResponse)httpRequest.GetResponse();
             string? result = "";
             using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))

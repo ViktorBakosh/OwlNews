@@ -14,8 +14,7 @@ internal class Program
 
         Parse.ternopil();
         watch.Start();
-        Console.WriteLine("\nAlarm");
-        API.Alarm();
+
         //Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
         //watch.Restart();
         //Console.WriteLine("\nvolyn");
@@ -156,9 +155,7 @@ internal class Program
 
 
         //watch.Start();
-        //Console.WriteLine("\nAlarm");
-        //API.Alarm();
-        //Console.WriteLine($"\nTime:{watch.ElapsedMilliseconds}");
+       
         //watch.Restart();
         //Console.WriteLine("\nvolyn");
         //Parse.volyn();

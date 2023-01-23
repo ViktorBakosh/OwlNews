@@ -119,11 +119,10 @@ namespace Parser_2022_
                     throw new Exception();
 
                 HtmlNodeCollection htmlNodeCollection = htmlDocument.DocumentNode.SelectNodes(node);
-                uint counter = 0;
+
                 foreach (var item in htmlNodeCollection)
                 {
                     Data tmp = new();
-                    Console.WriteLine(++counter);
                     string Link = "" + item.GetAttributeValue("href", "nothing");
                     HtmlDocument News = new();
                     News.LoadHtml(item.InnerHtml);

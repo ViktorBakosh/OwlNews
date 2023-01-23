@@ -793,7 +793,7 @@ namespace Parser_2022_
                       if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
                 }
             }
-            catch (Exception exp) {  return List; }
+            catch{  return List; }
             return List;
         }
         public static void kirovohradsk2()//time
