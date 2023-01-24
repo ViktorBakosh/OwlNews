@@ -1,0 +1,110 @@
+C:\OwlNews\OwlNews\obj\Debug\net6.0\OwlNews.csproj.AssemblyReference.cache
+C:\OwlNews\OwlNews\obj\Debug\net6.0\OwlNews.GeneratedMSBuildEditorConfig.editorconfig
+C:\OwlNews\OwlNews\obj\Debug\net6.0\OwlNews.AssemblyInfoInputs.cache
+C:\OwlNews\OwlNews\obj\Debug\net6.0\OwlNews.AssemblyInfo.cs
+C:\OwlNews\OwlNews\obj\Debug\net6.0\OwlNews.csproj.CoreCompileInputs.cache
+C:\OwlNews\OwlNews\obj\Debug\net6.0\OwlNews.MvcApplicationPartsAssemblyInfo.cache
+C:\OwlNews\OwlNews\obj\Debug\net6.0\OwlNews.RazorAssemblyInfo.cache
+C:\OwlNews\OwlNews\obj\Debug\net6.0\OwlNews.RazorAssemblyInfo.cs
+C:\OwlNews\OwlNews\bin\Debug\net6.0\appsettings.Development.json
+C:\OwlNews\OwlNews\bin\Debug\net6.0\appsettings.json
+C:\OwlNews\OwlNews\bin\Debug\net6.0\OwlNews.staticwebassets.runtime.json
+C:\OwlNews\OwlNews\bin\Debug\net6.0\OwlNews.exe
+C:\OwlNews\OwlNews\bin\Debug\net6.0\OwlNews.deps.json
+C:\OwlNews\OwlNews\bin\Debug\net6.0\OwlNews.runtimeconfig.json
+C:\OwlNews\OwlNews\bin\Debug\net6.0\OwlNews.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\OwlNews.pdb
+C:\OwlNews\OwlNews\bin\Debug\net6.0\HtmlAgilityPack.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Humanizer.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.Caching.Abstractions.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.Logging.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Mono.TextTemplating.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Npgsql.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\System.CodeDom.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\System.Text.Json.dll
+C:\OwlNews\OwlNews\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+C:\OwlNews\OwlNews\obj\Debug\net6.0\staticwebassets\msbuild.OwlNews.Microsoft.AspNetCore.StaticWebAssets.props
+C:\OwlNews\OwlNews\obj\Debug\net6.0\staticwebassets\msbuild.build.OwlNews.props
+C:\OwlNews\OwlNews\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.OwlNews.props
+C:\OwlNews\OwlNews\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.OwlNews.props
+C:\OwlNews\OwlNews\obj\Debug\net6.0\staticwebassets.pack.json
+C:\OwlNews\OwlNews\obj\Debug\net6.0\staticwebassets.build.json
+C:\OwlNews\OwlNews\obj\Debug\net6.0\staticwebassets.development.json
+C:\OwlNews\OwlNews\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\OwlNews\OwlNews\obj\Debug\net6.0\scopedcss\bundle\OwlNews.styles.css
+C:\OwlNews\OwlNews\obj\Debug\net6.0\scopedcss\projectbundle\OwlNews.bundle.scp.css
+C:\OwlNews\OwlNews\obj\Debug\net6.0\OwlNews.csproj.CopyComplete
+C:\OwlNews\OwlNews\obj\Debug\net6.0\OwlNews.dll
+C:\OwlNews\OwlNews\obj\Debug\net6.0\refint\OwlNews.dll
+C:\OwlNews\OwlNews\obj\Debug\net6.0\OwlNews.pdb
+C:\OwlNews\OwlNews\obj\Debug\net6.0\OwlNews.genruntimeconfig.cache
+C:\OwlNews\OwlNews\obj\Debug\net6.0\ref\OwlNews.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\appsettings.json
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\OwlNews.staticwebassets.runtime.json
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\OwlNews.exe
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\OwlNews.deps.json
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\OwlNews.runtimeconfig.json
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\OwlNews.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\OwlNews.pdb
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\HtmlAgilityPack.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Humanizer.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.Logging.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Mono.TextTemplating.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Npgsql.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\System.CodeDom.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\System.Text.Json.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\OwlNews.csproj.AssemblyReference.cache
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\OwlNews.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\OwlNews.AssemblyInfoInputs.cache
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\OwlNews.AssemblyInfo.cs
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\OwlNews.csproj.CoreCompileInputs.cache
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\OwlNews.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\OwlNews.RazorAssemblyInfo.cache
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\OwlNews.RazorAssemblyInfo.cs
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\staticwebassets\msbuild.OwlNews.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\staticwebassets\msbuild.build.OwlNews.props
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.OwlNews.props
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.OwlNews.props
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\staticwebassets.pack.json
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\scopedcss\bundle\OwlNews.styles.css
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\scopedcss\projectbundle\OwlNews.bundle.scp.css
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\OwlNews.csproj.CopyComplete
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\OwlNews.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\refint\OwlNews.dll
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\OwlNews.pdb
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\OwlNews.genruntimeconfig.cache
+C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\obj\Debug\net6.0\ref\OwlNews.dll

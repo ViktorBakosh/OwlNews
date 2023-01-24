@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="vievport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="/main/main.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Test.styles.css" asp-append-version="true" />
+    <script src="https://use.fontawesome.com/aa00dd93b3.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Orbitron|Russo+One|Roboto" rel="stylesheet">
+
+</head>
+
+<body id="container" class="scrollBoxTwo body">
+    <a href="#" id="toTopBtn" class="a cd-top text-replace js-cd-top cd-top--is-visible cd-top--fade-out" data-abc="true"></a>
+    <div class="main-class">
+        <header class="main-header">
+            <div class="header-wrapper">
+                <a asp-controller="Home" asp-action="Index" class="a logo">
+                    <img src="/img/finished_logo.png" width="130">
+                </a>
+                <a asp-controller="Home" asp-action="Index" class="a nav-link">Owl News</a>
+                <div class="search-block me-3">
+                    <div class="search-container">
+                        <table class="elementsContainer">
+                            <div class="search-container">
+                                <input placeholder="Type to search..." required="" class="input" name="text" type="text">
+                                <div class="icon">
+                                    <svg viewBox="0 0 512 512" class="ionicon" xmlns="http://www.w3.org/2000/svg">
+                                        <title>Search</title>
+                                        <path stroke-width="32" stroke-miterlimit="10" stroke="currentColor" fill="none" d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z"></path>
+                                        <path d="M338.29 338.29L448 448" stroke-width="32" stroke-miterlimit="10" stroke-linecap="round" stroke="currentColor" fill="none"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="main-wrapper">
+            <div class="img-wrapper">
+                <marquee class="news-string">
+                    <img src="https://deepstatemap.live/images/custom/enemy.png" width="35px">
+                    Особового складу – близько 113 390
+                    <img src="https://deepstatemap.live/images/custom/eblorussia.png" width="35px">
+                    Танків – 3 094
+                    <img src="https://deepstatemap.live/images/custom/iblorussia.png" width="35px">
+                    Бойових броньованих машин (ББМ) – 6 159
+                    артилерійських систем – 2 082 (+4);реактивних систем залпового вогню (РСЗВ) – 437 (+0);засобів протиповітряної оборони – 218 (+1);літаків – 285 (+0);гелікоптерів – 276 (+1);безпілотників оперативно-тактичного рівня – 1 865 (+3);крилатих ракет – 723 (+0);катерів/кораблів – 17 (+0);автомобільної техніки і цистерн з паливом – 4 826 (+0);спеціальної техніки – 184 (+0).
+                </marquee>
+            </div>
+        </div>
+        <main class="main">
+            <div class="in-main">
+                <div class="d-flex justify-content-center">
+                    <!-- <div class="fantom"></div>  -->
+                    <!-- Just space -->
+                    @RenderBody()
+                </div>
+                <div class="block-map">
+                    <a asp-controller="Home" asp-action="Index">
+                        <h1 style="color: white;">Map Map Map Map Map Map Map Map Map Map Map Map</h1>
+                    </a>
+                        <div class="energy-block">
+                            <h1 class="energy-text">Розклад відключення світла</h1>
+                            <div class="energy-arrow">
+                                <ion-icon class="arrow" name="caret-down-outline"></ion-icon>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="/app.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,108 @@
+﻿@model IEnumerable<OwlNews.Models.News>
+@{
+    Layout = "~/Views/Shared/_NewsLayout.cshtml";
+}
+
+@*<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+*@
+<div class="circles-block">
+    <div class="sites-logo">
+        <a class="a logo-link" href="#">
+            <div class="circle-logo">
+                <h1 class="circle-text">
+                    Logo text
+                </h1>
+            </div>
+        </a>
+        <a class="a logo-link" href="#">
+            <div class="circle-logo">
+                <h1 class="circle-text">
+                    Logo text
+                </h1>
+            </div>
+        </a>
+        <a class="a logo-link" href="#">
+            <div class="circle-logo">
+                <h1 class="circle-text">
+                    Logo text
+                </h1>
+            </div>
+        </a>
+        <a class="a logo-link" href="#">
+            <div class="circle-logo">
+                <h1 class="circle-text">
+                    Logo text
+                </h1>
+            </div>
+        </a>
+    </div>
+</div>
+<div class="block-news">
+
+    @foreach (var dbItem in Model)
+    {
+        <div class="news">
+        <li class="info-list">
+        <a class="a" href="#">
+        <img class="news-photo" src=@dbItem.image>
+        </a>
+        </li>
+        <li class="info-list">
+        <div>
+        <a class="a" href=@dbItem.link>
+        <h1 class="news-title">@dbItem.title</h1>
+        </a>
+        <div class="title-line"></div>
+
+        <a class="a" href="#">
+        <div class="news-time">@dbItem.time</div>
+        </a>
+        <a class="a" href="#">
+        <div class="news-text">@dbItem.info</div>
+        </a>
+                    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered ms-5 me-5 ">
+                            <div class="modal-content rounded-0 bg-white-custom">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit officia atque ab aspernatur, natus, saepe ipsum quaerat et facere nisi exercitationem reiciendis voluptate molestiae sed aperiam minus provident? Voluptates, impedit.</h1>
+
+                                    <span class="">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </span>
+                                </div>
+                                <div class="modal-body">
+
+                                    <img class="news-photo" src="https://images.pexels.com/photos/14305567/pexels-photo-14305567.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+
+                                    <p>
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia incidunt in eligendi animi, officia cumque quibusdam, officiis quidem totam nisi dolor at porro numquam voluptates ullam quo culpa voluptatibus nostrum nihil aspernatur sunt, illum quaerat molestiae. Voluptate quas eligendi odio excepturi eveniet, aut quasi asperiores similique. Quibusdam molestias dolorum ad corporis dolore similique tenetur ullam, repellendus doloremque nulla voluptate. Atque quae ratione soluta adipisci voluptatem laborum veniam? Neque velit eos fuga facilis, ipsum laudantium natus corporis eaque esse, ipsam accusantium excepturi minima. Iusto sed asperiores, eveniet eum unde optio minima necessitatibus dolorum possimus quibusdam libero itaque fugiat cumque corporis odit in iste, cum ducimus, doloremque est aliquam? Nisi cum assumenda, nobis, tenetur natus id iusto commodi illo, quis dolorem quae et. Error culpa nemo itaque adipisci, dolorem veritatis ipsam quam voluptate eos, eum, odit cupiditate optio vitae exercitationem totam. Officiis, atque, inventore reprehenderit eligendi pariatur ea culpa, asperiores laborum nemo maiores explicabo illo ad odit iste veniam alias a deleniti? Quae iure, adipisci perspiciatis quia quam corrupti nam neque excepturi assumenda. Voluptate vitae ex expedita, incidunt, quis quia autem iusto delectus fugiat ab numquam et impedit pariatur corporis dolores nisi atque repellendus accusamus beatae placeat nam odit hic cum. Sapiente ut perferendis, ipsam provident aperiam nobis consequatur! Illo quod quia vel expedita inventore sed nemo est, consectetur exercitationem magnam facere? Quasi placeat dignissimos debitis quos, animi voluptates vitae ab assumenda pariatur atque hic et officia illo ducimus, expedita voluptatem quae fugiat praesentium consequuntur explicabo, ratione nihil? Reiciendis aspernatur quidem ab nostrum impedit quae vitae totam itaque non iure ullam magni delectus dolores, quibusdam cupiditate, nam inventore, quos eos quis perspiciatis quia. Iure sint veritatis adipisci nulla deleniti eum modi, repellendus, mollitia quae explicabo obcaecati! Nam sunt, cumque voluptatibus reprehenderit dignissimos modi officiis optio nisi non repudiandae deserunt eum illum ad.
+                                    </p>
+
+
+
+
+
+                                    <!-- <ul class="list-group list-group-horizontal ">
+                                        <li class="list-group-item bg-white-custom">
+                                            <img src="https://images.pexels.com/photos/14305567/pexels-photo-14305567.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+                                        </li>
+                                        <li class="list-group-item">
+                                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia incidunt in eligendi animi, officia cumque quibusdam, officiis quidem totam nisi dolor at porro numquam voluptates ullam quo culpa voluptatibus nostrum nihil aspernatur sunt, illum quaerat molestiae. Voluptate quas eligendi odio excepturi eveniet, aut quasi asperiores similique. Quibusdam molestias dolorum ad corporis dolore similique tenetur ullam, repellendus doloremque nulla voluptate. Atque quae ratione soluta adipisci voluptatem laborum veniam? Neque velit eos fuga facilis, ipsum laudantium natus corporis eaque esse, ipsam accusantium excepturi minima. Iusto sed asperiores, eveniet eum unde optio minima necessitatibus dolorum possimus quibusdam libero itaque fugiat cumque corporis odit in iste, cum ducimus, doloremque est aliquam? Nisi cum assumenda, nobis, tenetur natus id iusto commodi illo, quis dolorem quae et. Error culpa nemo itaque adipisci, dolorem veritatis ipsam quam voluptate eos, eum, odit cupiditate optio vitae exercitationem totam. Officiis, atque, inventore reprehenderit eligendi pariatur ea culpa, asperiores laborum nemo maiores explicabo illo ad odit iste veniam alias a deleniti? Quae iure, adipisci perspiciatis quia quam corrupti nam neque excepturi assumenda. Voluptate vitae ex expedita, incidunt, quis quia autem iusto delectus fugiat ab numquam et impedit pariatur corporis dolores nisi atque repellendus accusamus beatae placeat nam odit hic cum. Sapiente ut perferendis, ipsam provident aperiam nobis consequatur! Illo quod quia vel expedita inventore sed nemo est, consectetur exercitationem magnam facere? Quasi placeat dignissimos debitis quos, animi voluptates vitae ab assumenda pariatur atque hic et officia illo ducimus, expedita voluptatem quae fugiat praesentium consequuntur explicabo, ratione nihil? Reiciendis aspernatur quidem ab nostrum impedit quae vitae totam itaque non iure ullam magni delectus dolores, quibusdam cupiditate, nam inventore, quos eos quis perspiciatis quia. Iure sint veritatis adipisci nulla deleniti eum modi, repellendus, mollitia quae explicabo obcaecati! Nam sunt, cumque voluptatibus reprehenderit dignissimos modi officiis optio nisi non repudiandae deserunt eum illum ad.
+                                            </p>
+                                        </li>
+                                    </ul> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a class="btn btn-orange-custom  float-end rounded-0 me-5" data-bs-toggle="modal" href="#exampleModalToggle" role="button">More</a>
+
+        </div>
+        </li>
+        </div>
+    }
+</div>
