@@ -58,7 +58,7 @@ while(True):
                             if word in buffer:
                                 fake = 1
                         if fake == 0:  
-                            # print(buffer)
+                            print(buffer)
                             text.append(buffer)
                             link += 'https://t.me/nrpublic/' + str(NR['messages'][i]['id'])
                             links.append(link)
@@ -72,25 +72,41 @@ while(True):
         print('\n\nend of JSON file\n\n')
         break
 
-print(Fake_news,'\n\n\n\n\n')
-print(text,'\n\n\n\n\n')
-print(len(Fake_news))
-print(len(text))
+# print(Fake_news,'\n\n\n\n\n')
+# print(text,'\n\n\n\n\n')
+print(len(Fake_news) , len(fake_links))
+print(len(text) , len(links))
 
-# translate = []
-# translator = Translator()
-# try:
-#     for element in range(len(text)):
-#         translate.append((translator.translate(text[element], src='ru', dest='uk')).text)
-# except Exception as e:
-#         print('\n\n',e)
+translate_True = []
+translate_Fake = []
+translator = Translator()
+try:
+    for element in range(len(text)):
+        translate_True.append((translator.translate(text[element], src='ru', dest='uk')).text)
+except Exception as e:
+        print('\n\n',e)
 
-# #make dataframe and save as csv
-# dataframe = pd.DataFrame()
-# dataframe['Link'] = links
-# dataframe['Text'] = translate
-# dataframe['Text']
-# dataframe['Label'] = 'True'
-# print(dataframe)
-# print('\n\n\n\n')
-# #dataframe.to_csv('Data_set/data/NR_verified.csv')
+try:
+    for element in range(len(Fake_news)):
+        translate_Fake.append((translator.translate(Fake_news[element], src='ru', dest='uk')).text)
+except Exception as e:
+        print('\n\n',e)
+
+
+#make dataframe and save as csv
+dataframe_true = pd.DataFrame()
+dataframe_true['Link'] = links
+dataframe_true['Text'] = translate_True
+dataframe_true['Label'] = 'True'
+print(dataframe_true)
+print('\n\n\n\n')
+dataframe_true.to_csv('Data_set/data/verified_datasets/NR_True_verified.csv')
+
+#make dataframe and save as csv
+dataframe_fake = pd.DataFrame()
+dataframe_fake['Link'] = fake_links
+dataframe_fake['Text'] = translate_Fake
+dataframe_fake['Label'] = 'False'
+print(dataframe_fake)
+print('\n\n\n\n')
+dataframe_fake.to_csv('Data_set/data/verified_datasets/NR_Fake_verified.csv')

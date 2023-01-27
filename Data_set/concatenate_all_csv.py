@@ -4,16 +4,17 @@ import glob
 
 # Environment settings: 
 pd.set_option('display.max_rows', None)
-pd.set_option('display.max_colwidth', 140)
+pd.set_option('display.max_colwidth', 250)
+pd.set_option('display.max_colwidth', 250)
 
 glued_data = pd.DataFrame()
-for file_name in glob.glob('Data_set/data/csv_files/*'):
+for file_name in glob.glob('Data_set/data/verified_datasets/*'):
     x = pd.read_csv(file_name, low_memory=False)
     glued_data = pd.concat([glued_data,x],axis=0)
 # print(glued_data)
 glued_data.info()
-columns_train = ['Text','Label']
-dataset_2 = glued_data[columns_train]
+columns_train = ['Link','Text','Label']
+dataset_4 = glued_data[columns_train]
 
-print(dataset_2)
-dataset_2.to_csv('Data_set/data/data_set_2.csv')
+print(dataset_4)
+dataset_4.to_csv('Data_set/data/data_set_4.csv')

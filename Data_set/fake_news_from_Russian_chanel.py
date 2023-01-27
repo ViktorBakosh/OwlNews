@@ -7,7 +7,7 @@ import codecs
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_colwidth', 140)
    
-def import_data_from_site():  
+def import_data_from_site() -> list:  
     file = codecs.open("Data_set/data/fake_news_from_site.html", "r", "utf-8")
     html = file.read()
     soup = BeautifulSoup(html, features="html.parser")
