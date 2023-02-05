@@ -86,8 +86,8 @@ const getTransitionDurationFromElement = element => {
     transitionDuration,
     transitionDelay
   } = window.getComputedStyle(element);
-  const floatTransitionDuration = Number.parseFloat(transitionDuration);
-  const floatTransitionDelay = Number.parseFloat(transitionDelay); // Return 0 if element or transition duration is not found
+  const floatTransitionDuration = Number.ParseFloat(transitionDuration);
+  const floatTransitionDelay = Number.ParseFloat(transitionDelay); // Return 0 if element or transition duration is not found
 
   if (!floatTransitionDuration && !floatTransitionDelay) {
     return 0;
@@ -96,7 +96,7 @@ const getTransitionDurationFromElement = element => {
 
   transitionDuration = transitionDuration.split(',')[0];
   transitionDelay = transitionDelay.split(',')[0];
-  return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
+  return (Number.ParseFloat(transitionDuration) + Number.ParseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
 };
 
 const triggerTransitionEnd = element => {
@@ -1381,7 +1381,7 @@ class Carousel extends BaseComponent {
       const indicators = SelectorEngine.find(SELECTOR_INDICATOR, this._indicatorsElement);
 
       for (let i = 0; i < indicators.length; i++) {
-        if (Number.parseInt(indicators[i].getAttribute('data-bs-slide-to'), 10) === this._getItemIndex(element)) {
+        if (Number.ParseInt(indicators[i].getAttribute('data-bs-slide-to'), 10) === this._getItemIndex(element)) {
           indicators[i].classList.add(CLASS_NAME_ACTIVE$2);
           indicators[i].setAttribute('aria-current', 'true');
           break;
@@ -1397,7 +1397,7 @@ class Carousel extends BaseComponent {
       return;
     }
 
-    const elementInterval = Number.parseInt(element.getAttribute('data-bs-interval'), 10);
+    const elementInterval = Number.ParseInt(element.getAttribute('data-bs-interval'), 10);
 
     if (elementInterval) {
       this._config.defaultInterval = this._config.defaultInterval || this._config.interval;
@@ -2189,7 +2189,7 @@ class Dropdown extends BaseComponent {
     } = this._config;
 
     if (typeof offset === 'string') {
-      return offset.split(',').map(val => Number.parseInt(val, 10));
+      return offset.split(',').map(val => Number.ParseInt(val, 10));
     }
 
     if (typeof offset === 'function') {
@@ -2431,7 +2431,7 @@ class ScrollBarHelper {
       this._saveInitialAttribute(element, styleProp);
 
       const calculatedValue = window.getComputedStyle(element)[styleProp];
-      element.style[styleProp] = `${callback(Number.parseFloat(calculatedValue))}px`;
+      element.style[styleProp] = `${callback(Number.ParseFloat(calculatedValue))}px`;
     };
 
     this._applyManipulationCallback(selector, manipulationCallBack);
@@ -3476,7 +3476,7 @@ function sanitizeHtml(unsafeHtml, allowList, sanitizeFn) {
   }
 
   const domParser = new window.DOMParser();
-  const createdDocument = domParser.parseFromString(unsafeHtml, 'text/html');
+  const createdDocument = domParser.ParseFromString(unsafeHtml, 'text/html');
   const allowlistKeys = Object.keys(allowList);
   const elements = [].concat(...createdDocument.body.querySelectorAll('*'));
 
@@ -3919,7 +3919,7 @@ class Tooltip extends BaseComponent {
     } = this._config;
 
     if (typeof offset === 'string') {
-      return offset.split(',').map(val => Number.parseInt(val, 10));
+      return offset.split(',').map(val => Number.ParseInt(val, 10));
     }
 
     if (typeof offset === 'function') {

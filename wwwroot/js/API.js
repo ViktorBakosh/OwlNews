@@ -3,7 +3,7 @@ var url = "https://alerts.com.ua/api/states";
 var xhr = new XMLHttpRequest();
 xhr.open("GET", url);
 var text = new String;
-xhr.setRequestHeader("X-API-Key", "");
+xhr.setRequestHeader("X-API-Key", "f16bd9a3ce36b4eed167325de19da4df5522fb11");
 let array = new Array();  
 xhr.onreadystatechange = function () {
    if (xhr.readyState === 4) {
@@ -14,7 +14,7 @@ xhr.onreadystatechange = function () {
 xhr.send();
 
 function Read(text){
-   const Arr = JSON.parse(text);
+   const Arr = JSON.Parse(text);
    for(const element in Arr["states"])
    {
       console.log(Arr["states"][element]);

@@ -660,7 +660,7 @@ var i,
 
 	rnative = /^[^{]+\{\s*\[native \w/,
 
-	// Easily-parseable/retrievable ID or TAG or CLASS selectors
+	// Easily-Parseable/retrievable ID or TAG or CLASS selectors
 	rquickExpr = /^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,
 
 	rsibling = /[+~]/,
@@ -2310,13 +2310,13 @@ function setFilters() {}
 setFilters.prototype = Expr.filters = Expr.pseudos;
 Expr.setFilters = new setFilters();
 
-tokenize = Sizzle.tokenize = function( selector, parseOnly ) {
+tokenize = Sizzle.tokenize = function( selector, ParseOnly ) {
 	var matched, match, tokens, type,
 		soFar, groups, preFilters,
 		cached = tokenCache[ selector + " " ];
 
 	if ( cached ) {
-		return parseOnly ? 0 : cached.slice( 0 );
+		return ParseOnly ? 0 : cached.slice( 0 );
 	}
 
 	soFar = selector;
@@ -2371,7 +2371,7 @@ tokenize = Sizzle.tokenize = function( selector, parseOnly ) {
 	// Return the length of the invalid excess
 	// if we're just parsing
 	// Otherwise, throw an error or return tokens
-	return parseOnly ?
+	return ParseOnly ?
 		soFar.length :
 		soFar ?
 			Sizzle.error( selector ) :
@@ -3163,8 +3163,8 @@ var rootjQuery,
 					context = context instanceof jQuery ? context[ 0 ] : context;
 
 					// Option to run scripts is true for back-compat
-					// Intentionally let the error be thrown if parseHTML is not present
-					jQuery.merge( this, jQuery.parseHTML(
+					// Intentionally let the error be thrown if ParseHTML is not present
+					jQuery.merge( this, jQuery.ParseHTML(
 						match[ 1 ],
 						context && context.nodeType ? context.ownerDocument || context : document,
 						true
@@ -4417,7 +4417,7 @@ function getData( data ) {
 	}
 
 	if ( rbrace.test( data ) ) {
-		return JSON.parse( data );
+		return JSON.Parse( data );
 	}
 
 	return data;
@@ -4938,8 +4938,8 @@ var rscriptType = ( /^$|^module$|\/(?:java|ecma)script/i );
 // We have to close these tags to support XHTML (#13200)
 var wrapMap = {
 
-	// XHTML parsers do not magically insert elements in the
-	// same way that tag soup parsers do. So we cannot shorten
+	// XHTML Parsers do not magically insert elements in the
+	// same way that tag soup Parsers do. So we cannot shorten
 	// this by omitting <tbody> or other required elements.
 	thead: [ 1, "<table>", "</table>" ],
 	col: [ 2, "<table><colgroup>", "</colgroup></table>" ],
@@ -6495,7 +6495,7 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 	}
 
 	function roundPixelMeasures( measure ) {
-		return Math.round( parseFloat( measure ) );
+		return Math.round( ParseFloat( measure ) );
 	}
 
 	var pixelPositionVal, boxSizingReliableVal, scrollboxSizeVal, pixelBoxStylesVal,
@@ -6558,7 +6558,7 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 					.appendChild( trChild );
 
 				trStyle = window.getComputedStyle( tr );
-				reliableTrDimensionsVal = parseInt( trStyle.height ) > 3;
+				reliableTrDimensionsVal = ParseInt( trStyle.height ) > 3;
 
 				documentElement.removeChild( table );
 			}
@@ -6809,7 +6809,7 @@ function getWidthOrHeight( elem, dimension, extra ) {
 
 		// Support: Android <=4.1 - 4.3 only
 		// Also use offsetWidth/offsetHeight for misreported inline dimensions (gh-3602)
-		!parseFloat( val ) && jQuery.css( elem, "display", false, styles ) === "inline" ) &&
+		!ParseFloat( val ) && jQuery.css( elem, "display", false, styles ) === "inline" ) &&
 
 		// Make sure the element is visible & connected
 		elem.getClientRects().length ) {
@@ -6826,7 +6826,7 @@ function getWidthOrHeight( elem, dimension, extra ) {
 	}
 
 	// Normalize "" and auto
-	val = parseFloat( val ) || 0;
+	val = ParseFloat( val ) || 0;
 
 	// Adjust for the element's box model
 	return ( val +
@@ -6998,7 +6998,7 @@ jQuery.extend( {
 
 		// Make numeric if forced or a qualifier was provided and val looks numeric
 		if ( extra === "" || extra ) {
-			num = parseFloat( val );
+			num = ParseFloat( val );
 			return extra === true || isFinite( num ) ? num || 0 : val;
 		}
 
@@ -7057,7 +7057,7 @@ jQuery.each( [ "height", "width" ], function( _i, dimension ) {
 			if ( isBorderBox && scrollboxSizeBuggy ) {
 				subtract -= Math.ceil(
 					elem[ "offset" + dimension[ 0 ].toUpperCase() + dimension.slice( 1 ) ] -
-					parseFloat( styles[ dimension ] ) -
+					ParseFloat( styles[ dimension ] ) -
 					boxModelAdjustment( elem, dimension, "border", false, styles ) -
 					0.5
 				);
@@ -7079,7 +7079,7 @@ jQuery.each( [ "height", "width" ], function( _i, dimension ) {
 jQuery.cssHooks.marginLeft = addGetHookIf( support.reliableMarginLeft,
 	function( elem, computed ) {
 		if ( computed ) {
-			return ( parseFloat( curCSS( elem, "marginLeft" ) ) ||
+			return ( ParseFloat( curCSS( elem, "marginLeft" ) ) ||
 				elem.getBoundingClientRect().left -
 					swap( elem, { marginLeft: 0 }, function() {
 						return elem.getBoundingClientRect().left;
@@ -7207,8 +7207,8 @@ Tween.propHooks = {
 			}
 
 			// Passing an empty string as a 3rd parameter to .css will automatically
-			// attempt a parseFloat and fallback to a string if the parse fails.
-			// Simple values such as "10px" are parsed to Float;
+			// attempt a ParseFloat and fallback to a string if the Parse fails.
+			// Simple values such as "10px" are Parsed to Float;
 			// complex values such as "rotate(1rad)" are returned as-is.
 			result = jQuery.css( tween.elem, tween.prop, "" );
 
@@ -8167,7 +8167,7 @@ jQuery.extend( {
 				var tabindex = jQuery.find.attr( elem, "tabindex" );
 
 				if ( tabindex ) {
-					return parseInt( tabindex, 10 );
+					return ParseInt( tabindex, 10 );
 				}
 
 				if (
@@ -8855,21 +8855,21 @@ var rquery = ( /\?/ );
 
 
 // Cross-browser xml parsing
-jQuery.parseXML = function( data ) {
+jQuery.ParseXML = function( data ) {
 	var xml;
 	if ( !data || typeof data !== "string" ) {
 		return null;
 	}
 
 	// Support: IE 9 - 11 only
-	// IE throws on parseFromString with invalid input.
+	// IE throws on ParseFromString with invalid input.
 	try {
-		xml = ( new window.DOMParser() ).parseFromString( data, "text/xml" );
+		xml = ( new window.DOMParser() ).ParseFromString( data, "text/xml" );
 	} catch ( e ) {
 		xml = undefined;
 	}
 
-	if ( !xml || xml.getElementsByTagName( "parsererror" ).length ) {
+	if ( !xml || xml.getElementsByTagName( "Parsererror" ).length ) {
 		jQuery.error( "Invalid XML: " + data );
 	}
 	return xml;
@@ -9260,7 +9260,7 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 							response = conv( response );
 						} catch ( e ) {
 							return {
-								state: "parsererror",
+								state: "Parsererror",
 								error: conv ? e : "No conversion from " + prev + " to " + current
 							};
 						}
@@ -9334,10 +9334,10 @@ jQuery.extend( {
 			"text html": true,
 
 			// Evaluate text as a json expression
-			"text json": JSON.parse,
+			"text json": JSON.Parse,
 
 			// Parse text as xml
-			"text xml": jQuery.parseXML
+			"text xml": jQuery.ParseXML
 		},
 
 		// For options that shouldn't be deep extended:
@@ -10297,7 +10297,7 @@ support.createHTMLDocument = ( function() {
 // context (optional): If specified, the fragment will be created in this context,
 // defaults to document
 // keepScripts (optional): If true, will include scripts passed in the html string
-jQuery.parseHTML = function( data, context, keepScripts ) {
+jQuery.ParseHTML = function( data, context, keepScripts ) {
 	if ( typeof data !== "string" ) {
 		return [];
 	}
@@ -10306,7 +10306,7 @@ jQuery.parseHTML = function( data, context, keepScripts ) {
 		context = false;
 	}
 
-	var base, parsed, scripts;
+	var base, Parsed, scripts;
 
 	if ( !context ) {
 
@@ -10316,7 +10316,7 @@ jQuery.parseHTML = function( data, context, keepScripts ) {
 			context = document.implementation.createHTMLDocument( "" );
 
 			// Set the base href for the created document
-			// so any parsed elements with URLs
+			// so any Parsed elements with URLs
 			// are based on the document's URL (gh-2965)
 			base = context.createElement( "base" );
 			base.href = document.location.href;
@@ -10326,21 +10326,21 @@ jQuery.parseHTML = function( data, context, keepScripts ) {
 		}
 	}
 
-	parsed = rsingleTag.exec( data );
+	Parsed = rsingleTag.exec( data );
 	scripts = !keepScripts && [];
 
 	// Single tag
-	if ( parsed ) {
-		return [ context.createElement( parsed[ 1 ] ) ];
+	if ( Parsed ) {
+		return [ context.createElement( Parsed[ 1 ] ) ];
 	}
 
-	parsed = buildFragment( [ data ], context, scripts );
+	Parsed = buildFragment( [ data ], context, scripts );
 
 	if ( scripts && scripts.length ) {
 		jQuery( scripts ).remove();
 	}
 
-	return jQuery.merge( [], parsed.childNodes );
+	return jQuery.merge( [], Parsed.childNodes );
 };
 
 
@@ -10389,7 +10389,7 @@ jQuery.fn.load = function( url, params, callback ) {
 
 				// If a selector was specified, locate the right elements in a dummy div
 				// Exclude scripts to avoid IE 'Permission Denied' errors
-				jQuery( "<div>" ).append( jQuery.parseHTML( responseText ) ).find( selector ) :
+				jQuery( "<div>" ).append( jQuery.ParseHTML( responseText ) ).find( selector ) :
 
 				// Otherwise use the full result
 				responseText );
@@ -10445,8 +10445,8 @@ jQuery.offset = {
 			curLeft = curPosition.left;
 
 		} else {
-			curTop = parseFloat( curCSSTop ) || 0;
-			curLeft = parseFloat( curCSSLeft ) || 0;
+			curTop = ParseFloat( curCSSTop ) || 0;
+			curLeft = ParseFloat( curCSSLeft ) || 0;
 		}
 
 		if ( isFunction( options ) ) {
@@ -10674,7 +10674,7 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 
 				return value === undefined ?
 
-					// Get width or height on the element, requesting but not forcing parseFloat
+					// Get width or height on the element, requesting but not forcing ParseFloat
 					jQuery.css( elem, type, extra ) :
 
 					// Set width or height on the element
@@ -10785,7 +10785,7 @@ jQuery.holdReady = function( hold ) {
 	}
 };
 jQuery.isArray = Array.isArray;
-jQuery.parseJSON = JSON.parse;
+jQuery.ParseJSON = JSON.Parse;
 jQuery.nodeName = nodeName;
 jQuery.isFunction = isFunction;
 jQuery.isWindow = isWindow;
@@ -10802,10 +10802,10 @@ jQuery.isNumeric = function( obj ) {
 	var type = jQuery.type( obj );
 	return ( type === "number" || type === "string" ) &&
 
-		// parseFloat NaNs numeric-cast false positives ("")
+		// ParseFloat NaNs numeric-cast false positives ("")
 		// ...but misinterprets leading-number strings, particularly hex literals ("0x...")
 		// subtraction forces infinities to NaN
-		!isNaN( obj - parseFloat( obj ) );
+		!isNaN( obj - ParseFloat( obj ) );
 };
 
 jQuery.trim = function( text ) {
