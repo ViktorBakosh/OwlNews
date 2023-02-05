@@ -52,7 +52,7 @@
     function onError(error, inputElement) {  // 'this' is the form element
         var container = $(this).find("[data-valmsg-for='" + escapeAttributeValue(inputElement[0].name) + "']"),
             replaceAttrValue = container.attr("data-valmsg-replace"),
-            replace = replaceAttrValue ? $.parseJSON(replaceAttrValue) !== false : null;
+            replace = replaceAttrValue ? $.ParseJSON(replaceAttrValue) !== false : null;
 
         container.removeClass("field-validation-valid").addClass("field-validation-error");
         error.data("unobtrusiveContainer", container);
@@ -85,7 +85,7 @@
 
         if (container) {
             var replaceAttrValue = container.attr("data-valmsg-replace"),
-                replace = replaceAttrValue ? $.parseJSON(replaceAttrValue) : null;
+                replace = replaceAttrValue ? $.ParseJSON(replaceAttrValue) : null;
 
             container.addClass("field-validation-valid").removeClass("field-validation-error");
             error.removeData("unobtrusiveContainer");
@@ -171,11 +171,11 @@
     $jQval.unobtrusive = {
         adapters: [],
 
-        parseElement: function (element, skipAttach) {
+        ParseElement: function (element, skipAttach) {
             /// <summary>
             /// Parses a single HTML element for unobtrusive validation attributes.
             /// </summary>
-            /// <param name="element" domElement="true">The HTML element to be parsed.</param>
+            /// <param name="element" domElement="true">The HTML element to be Parsed.</param>
             /// <param name="skipAttach" type="Boolean">[Optional] true to skip attaching the
             /// validation to the form. If parsing just this single element, you should specify true.
             /// If parsing several elements, you should specify false, and manually attach the validation
@@ -222,7 +222,7 @@
             }
         },
 
-        parse: function (selector) {
+        Parse: function (selector) {
             /// <summary>
             /// Parses all the HTML elements in the specified selector. It looks for input elements decorated
             /// with the [data-val=true] attribute value and enables validation according to the data-val-*
@@ -240,7 +240,7 @@
                     .has("[data-val=true]");
 
             $selector.find("[data-val=true]").each(function () {
-                $jQval.unobtrusive.parseElement(this, true);
+                $jQval.unobtrusive.ParseElement(this, true);
             });
 
             $forms.each(function () {
@@ -425,7 +425,7 @@
     });
 
     $(function () {
-        $jQval.unobtrusive.parse(document);
+        $jQval.unobtrusive.Parse(document);
     });
 
     return $jQval.unobtrusive;

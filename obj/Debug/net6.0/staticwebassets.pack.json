@@ -1,16 +1,12 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\OwlNews.bundle.scp.css",
-      "PackagePath": "staticwebassets\\OwlNews.bundle.scp.css"
+      "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\css\\main.css",
+      "PackagePath": "staticwebassets\\css\\main.css"
     },
     {
-      "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\app.js",
-      "PackagePath": "staticwebassets\\app.js"
-    },
-    {
-      "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\css\\site.css",
-      "PackagePath": "staticwebassets\\css\\site.css"
+      "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\css\\map.css",
+      "PackagePath": "staticwebassets\\css\\map.css"
     },
     {
       "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\favicon.ico",
@@ -41,8 +37,12 @@
       "PackagePath": "staticwebassets\\img\\trace.svg"
     },
     {
-      "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\js\\site.js",
-      "PackagePath": "staticwebassets\\js\\site.js"
+      "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\js\\API.js",
+      "PackagePath": "staticwebassets\\js\\API.js"
+    },
+    {
+      "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\js\\app.js",
+      "PackagePath": "staticwebassets\\js\\app.js"
     },
     {
       "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\lib\\bootstrap\\LICENSE",
@@ -271,10 +271,6 @@
     {
       "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
-    },
-    {
-      "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\main\\main.css",
-      "PackagePath": "staticwebassets\\main\\main.css"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.OwlNews.Microsoft.AspNetCore.StaticWebAssets.props",

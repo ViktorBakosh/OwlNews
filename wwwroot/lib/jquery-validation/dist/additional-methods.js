@@ -219,7 +219,7 @@ $.validator.addMethod( "cifES", function( value, element ) {
 	}
 
 	for ( i = 0; i < number.length; i++ ) {
-		n = parseInt( number[ i ], 10 );
+		n = ParseInt( number[ i ], 10 );
 
 		// Odd positions
 		if ( isOdd( i ) ) {
@@ -239,7 +239,7 @@ $.validator.addMethod( "cifES", function( value, element ) {
 
 	all_sum = even_sum + odd_sum;
 	control_digit = ( 10 - ( all_sum ).toString().substr( -1 ) ).toString();
-	control_digit = parseInt( control_digit, 10 ) > 9 ? "0" : control_digit;
+	control_digit = ParseInt( control_digit, 10 ) > 9 ? "0" : control_digit;
 	control_letter = "JABCDEFGHI".substr( control_digit, 1 ).toString();
 
 	// Control must be a digit
@@ -273,8 +273,8 @@ $.validator.addMethod( "cpfBR", function( value ) {
 	var sum = 0,
 		firstCN, secondCN, checkResult, i;
 
-	firstCN = parseInt( value.substring( 9, 10 ), 10 );
-	secondCN = parseInt( value.substring( 10, 11 ), 10 );
+	firstCN = ParseInt( value.substring( 9, 10 ), 10 );
+	secondCN = ParseInt( value.substring( 10, 11 ), 10 );
 
 	checkResult = function( sum, cn ) {
 		var result = ( sum * 10 ) % 11;
@@ -302,14 +302,14 @@ $.validator.addMethod( "cpfBR", function( value ) {
 
 	// Step 1 - using first Check Number:
 	for ( i = 1; i <= 9; i++ ) {
-		sum = sum + parseInt( value.substring( i - 1, i ), 10 ) * ( 11 - i );
+		sum = sum + ParseInt( value.substring( i - 1, i ), 10 ) * ( 11 - i );
 	}
 
 	// If first Check Number (CN) is valid, move to Step 2 - using second Check Number:
 	if ( checkResult( sum, firstCN ) ) {
 		sum = 0;
 		for ( i = 1; i <= 10; i++ ) {
-			sum = sum + parseInt( value.substring( i - 1, i ), 10 ) * ( 12 - i );
+			sum = sum + ParseInt( value.substring( i - 1, i ), 10 ) * ( 12 - i );
 		}
 		return checkResult( sum, secondCN );
 	}
@@ -344,7 +344,7 @@ $.validator.addMethod( "creditcard", function( value, element ) {
 
 	for ( n = value.length - 1; n >= 0; n-- ) {
 		cDigit = value.charAt( n );
-		nDigit = parseInt( cDigit, 10 );
+		nDigit = ParseInt( cDigit, 10 );
 		if ( bEven ) {
 			if ( ( nDigit *= 2 ) > 9 ) {
 				nDigit -= 9;
@@ -499,9 +499,9 @@ $.validator.addMethod( "dateITA", function( value, element ) {
 		adata, gg, mm, aaaa, xdata;
 	if ( re.test( value ) ) {
 		adata = value.split( "/" );
-		gg = parseInt( adata[ 0 ], 10 );
-		mm = parseInt( adata[ 1 ], 10 );
-		aaaa = parseInt( adata[ 2 ], 10 );
+		gg = ParseInt( adata[ 0 ], 10 );
+		mm = ParseInt( adata[ 1 ], 10 );
+		aaaa = ParseInt( adata[ 2 ], 10 );
 		xdata = new Date( Date.UTC( aaaa, mm - 1, gg, 12, 0, 0, 0 ) );
 		if ( ( xdata.getUTCFullYear() === aaaa ) && ( xdata.getUTCMonth() === mm - 1 ) && ( xdata.getUTCDate() === gg ) ) {
 			check = true;
@@ -746,7 +746,7 @@ $.validator.addMethod( "nieES", function( value, element ) {
 
 	number = value.length === 9 ? value.substr( 0, 8 ) : value.substr( 0, 9 );
 
-	return validChars.charAt( parseInt( number, 10 ) % 23 ) === letter;
+	return validChars.charAt( ParseInt( number, 10 ) % 23 ) === letter;
 
 }, "Please specify a valid NIE number." );
 
@@ -801,7 +801,7 @@ $.validator.addMethod( "nipPL", function( value ) {
 	var int2 = intSum % 11;
 	var intControlNr = ( int2 === 10 ) ? 0 : int2;
 
-	return ( intControlNr === parseInt( value[ 9 ], 10 ) );
+	return ( intControlNr === ParseInt( value[ 9 ], 10 ) );
 }, "Please specify a valid NIP number." );
 
 $.validator.addMethod( "notEqualTo", function( value, element, param ) {

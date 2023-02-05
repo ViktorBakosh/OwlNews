@@ -1,0 +1,13 @@
+﻿<div class="block-map">
+    <a asp-controller="Home" asp-action="Index">
+        @{
+            await Html.RenderPartialAsync("_UkraineMap");
+        }
+    </a>
+        <div class="energy-block">
+            <h1 class="energy-text">Розклад відключення світла</h1>
+            <div class="energy-arrow">
+                <ion-icon class="arrow" name="caret-down-outline"></ion-icon>
+            </div>
+        </div>
+</div>
