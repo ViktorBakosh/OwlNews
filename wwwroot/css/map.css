@@ -1,31 +1,39 @@
-﻿.map polygon {
-    fill: #83b4a4;
+﻿.region polygon {
+    /* fill:#83b4a4;  */
     stroke: #1f2f2a;
-    stroke-width: 0.5px;
+    stroke-width: 0.5;
     fill-rule: nonzero;
 }
 
-
-/* .map svg{ background-color:#3c405b; } */
-
-.region polygon:hover {
-    fill: #b1b2b2;
-    transition: 0.3s linear;
-}
+    .region polygon:hover {
+        fill: #b1b2b2;
+        transition: 0.3s linear;
+    }
 
 .map polyline {
-    fill: none;
+    /* fill:none; */
     stroke: white;
     stroke-width: 6;
     background-color: #3c405b;
 }
 
 .map {
-    /* position: relative;  */
-    float: right;
+    /* position: absolute; */
+    /*float:center;*/
     /* position: absolute; */
     width: 100%; /* длина-ширина области, внутренности остаются неизменными */
-    height: auto; /* не работает ИСПРАВИТЬ*/
 
-    background: #3c405b;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    background: white;
+}
+
+.donetsk-paths-b:hover donetsk {
+    fill: #b1b2b2;
+}
+
+#crimea {
+    fill: rgba(230,25,25,1);
+    opacity: 0.5;
 }

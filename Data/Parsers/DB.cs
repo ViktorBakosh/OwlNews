@@ -5,7 +5,7 @@ namespace Parser_2022_
 
 	internal class DB
 	{
-		public static string Connect = "Server=localhost;Database={name_of_database};Port=5432;User Id={your ID};Password={your_password};";
+		public static string Connect = "Server=owlnews.postgres.database.azure.com;Database=owlnews;Port=5432;User Id=vBakosh;Password=OwlDBNews!;Ssl Mode=VerifyFull;";
         //INSERT info
         //public static bool DATABASE_TEST(string value)
         //{

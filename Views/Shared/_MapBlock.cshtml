@@ -1,4 +1,5 @@
-﻿<div class="block-map">
+﻿<link rel="stylesheet" href="/css/map.css"/>
+<div class="block-map">
     <a asp-controller="Home" asp-action="Index">
         @{
             await Html.RenderPartialAsync("_UkraineMap");
@@ -11,3 +12,4 @@
             </div>
         </div>
 </div>
+<script src="~/js/API.js"></script>
