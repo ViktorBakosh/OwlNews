@@ -9,137 +9,137 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = OwlNews
 build_property.RootNamespace = OwlNews
-build_property.ProjectDir = c:\Users\schoo\OneDrive\Робочий стіл\OwlNews1\
+build_property.ProjectDir = C:\Users\schoo\OneDrive\Робочий стіл\OwlNews\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = c:\Users\schoo\OneDrive\Робочий стіл\OwlNews1
+build_property.MSBuildProjectDirectory = C:\Users\schoo\OneDrive\Робочий стіл\OwlNews
 build_property._RazorSourceGeneratorDebug = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/Home/Index.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/Home/Privacy.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Cherkassy.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Cherkassy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xDaGVya2Fzc3kuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Chernihiv.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Chernihiv.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xDaGVybmloaXYuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Chernivtsi.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Chernivtsi.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xDaGVybml2dHNpLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Dnipro.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Dnipro.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xEbmlwcm8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Ivano_Frankivsk.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Ivano_Frankivsk.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xJdmFub19GcmFua2l2c2suY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Kharkiv.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Kharkiv.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xLaGFya2l2LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Kherson.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Kherson.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xLaGVyc29uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Khmelnytskyi.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Khmelnytskyi.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xLaG1lbG55dHNreWkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Kirovohrad.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Kirovohrad.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xLaXJvdm9ocmFkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Kryvyi_Rih.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Kryvyi_Rih.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xLcnl2eWlfUmloLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Kyiv.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Kyiv.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xLeWl2LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Luhansk.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Luhansk.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xMdWhhbnNrLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Lviv.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Lviv.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xMdml2LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Mykolayiv.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Mykolayiv.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xNeWtvbGF5aXYuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Odesa.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Odesa.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xPZGVzYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Poltava.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Poltava.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xQb2x0YXZhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Rivne.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Rivne.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xSaXZuZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Sumy.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Sumy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xTdW15LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Ternopil.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Ternopil.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xUZXJub3BpbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Vinnytsia.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Vinnytsia.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xWaW5ueXRzaWEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Volyn.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Volyn.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xWb2x5bi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Zakarpattia.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Zakarpattia.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xaYWthcnBhdHRpYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Zaporizhzhia.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Zaporizhzhia.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xaYXBvcml6aHpoaWEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/News/Zhytomyr.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/News/Zhytomyr.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTmV3c1xaaHl0b215ci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/Shared/Error.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/Shared/_NewsLayout.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/Shared/_NewsLayout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9OZXdzTGF5b3V0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/_ViewImports.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/_ViewStart.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[c:/Users/schoo/OneDrive/Робочий стіл/OwlNews1/Views/Shared/_Layout.cshtml]
+[C:/Users/schoo/OneDrive/Робочий стіл/OwlNews/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-0w7qq7z8xc
