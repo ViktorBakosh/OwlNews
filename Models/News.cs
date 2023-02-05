@@ -5,11 +5,11 @@ namespace OwlNews.Models
 {
     public class News
     {
-		public string title { get; set; }
+		public string? title { get; set; }
 		public DateTime time { get; set; }
-		public string info { get; set; }
-		public string link { get; set; }
-		public string image { get; set; }
+		public string? info { get; set; }
+		public string? link { get; set; }
+		public string? image { get; set; }
     }
 	public class Lviv : News
 	{
