@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
-
-namespace OwlNews.Models
+﻿namespace OwlNews.Models
 {
     public class News
     {

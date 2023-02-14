@@ -44,7 +44,8 @@ namespace Parser_2022_
                     }
                     else
                     {
-                        return DateTime.Now.ToString("d.MM.yyy T");
+                        string test = DateTime.Now.ToString("d.MM.yyy HH:mm");
+                        return DateTime.Now.ToString("d.MM.yyy HH:mm");
                     }
                 }
                 else if (value.Contains("Вч") || value.Contains("вч"))
@@ -90,196 +91,230 @@ namespace Parser_2022_
             {
                 case var tmp when date.Contains("Січ") || date.Contains("січ"):
                     month = "01";
-                    date = Regex.Replace(date, "[^0-9.]", "");
-
-                    day = date.Substring(0, 2);
-                    year = DT.Year.ToString();
-                    if (date.Length > 6)
                     {
-                        hour = date.Substring(6, 2);
-                        minute = date.Substring(8, date.Length - 8);
-                    }
-                    else
-                    {
-                        hour = DT.Hour.ToString();
-                        minute = DT.Minute.ToString();
+                        date = Regex.Replace(date, "[^0-9.:]", "");
+                        List<string> DateArray = date.Split(".").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                        day = DateArray[0];
+                        year = DateArray[1];
+                        if (DateArray.Count() > 2)
+                        {
+                            hour = DateArray[2].Substring(0, DateArray[2].IndexOf(":"));
+                            minute = DateArray[2].Substring(DateArray[2].IndexOf(":") + 1, DateArray[2].Length - DateArray[2].IndexOf(":") - 1);
+                        }
+                        else
+                        {
+                            hour = DT.Hour.ToString();
+                            minute = DT.Minute.ToString();
+                        }
                     }
                     break;
-                case var tmp when date.Contains("ютий") || date.Contains("ютого"):
+                case var tmp when date.Contains("Лют") || date.Contains("лют"):
                     month = "02";
-                    date = Regex.Replace(date, "[^0-9.]", "");
-                    date = Regex.Replace(date, "[^0-9.]", "");
-                    day = date.Substring(0, 2);
-                    year = date.Substring(2, 4);
-                    if (date.Length > 6)
                     {
-                        hour = date.Substring(6, 2);
-                        minute = date.Substring(8, date.Length - 8);
-                    }
-                    else
-                    {
-                        hour = DT.Hour.ToString();
-                        minute = DT.Minute.ToString();
-                    }
-                    break;
-                case var tmp when date.Contains("ерезень") || date.Contains("ерезня"):
-                    month = "03"; date = Regex.Replace(date, "[^0-9.]", "");
-                    date = Regex.Replace(date, "[^0-9.]", "");
-                    day = date.Substring(0, 2);
-                    year = date.Substring(2, 4);
-                    if (date.Length > 6)
-                    {
-                        hour = date.Substring(6, 2);
-                        minute = date.Substring(8, date.Length - 8);
-                    }
-                    else
-                    {
-                        hour = DT.Hour.ToString();
-                        minute = DT.Minute.ToString();
+                        date = Regex.Replace(date, "[^0-9.:]", "");
+                        List<string> DateArray = date.Split(".").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                        day = DateArray[0];
+                        year = DateArray[1];
+                        if (DateArray.Count() > 2)
+                        {
+                            hour = DateArray[2].Substring(0, DateArray[2].IndexOf(":"));
+                            minute = DateArray[2].Substring(DateArray[2].IndexOf(":") + 1, DateArray[2].Length - DateArray[2].IndexOf(":") - 1);
+                        }
+                        else
+                        {
+                            hour = DT.Hour.ToString();
+                            minute = DT.Minute.ToString();
+                        }
                     }
                     break;
-                case var tmp when date.Contains("ітень") || date.Contains("ітня"):
-                    month = "04"; date = Regex.Replace(date, "[^0-9.]", "");
-                    date = Regex.Replace(date, "[^0-9.]", "");
-                    day = date.Substring(0, 2);
-                    year = date.Substring(2, 4);
-                    if (date.Length > 6)
+                case var tmp when date.Contains("Бер") || date.Contains("бер"):
+                    month = "03";
                     {
-                        hour = date.Substring(6, 2);
-                        minute = date.Substring(8, date.Length - 8);
-                    }
-                    else
-                    {
-                        hour = DT.Hour.ToString();
-                        minute = DT.Minute.ToString();
-                    }
-                    break;
-                case var tmp when date.Contains("равень") || date.Contains("равня"):
-                    month = "05"; date = Regex.Replace(date, "[^0-9.]", "");
-                    date = Regex.Replace(date, "[^0-9.]", "");
-                    day = date.Substring(0, 2);
-                    year = date.Substring(2, 4);
-                    if (date.Length > 6)
-                    {
-                        hour = date.Substring(6, 2);
-                        minute = date.Substring(8, date.Length - 8);
-                    }
-                    else
-                    {
-                        hour = DT.Hour.ToString();
-                        minute = DT.Minute.ToString();
+                        date = Regex.Replace(date, "[^0-9.:]", "");
+                        List<string> DateArray = date.Split(".").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                        day = DateArray[0];
+                        year = DateArray[1];
+                        if (DateArray.Count() > 2)
+                        {
+                            hour = DateArray[2].Substring(0, DateArray[2].IndexOf(":"));
+                            minute = DateArray[2].Substring(DateArray[2].IndexOf(":") + 1, DateArray[2].Length - DateArray[2].IndexOf(":") - 1);
+                        }
+                        else
+                        {
+                            hour = DT.Hour.ToString();
+                            minute = DT.Minute.ToString();
+                        }
                     }
                     break;
-                case var tmp when date.Contains("ервень") || date.Contains("ервня"):
-                    month = "06"; date = Regex.Replace(date, "[^0-9.]", "");
-                    date = Regex.Replace(date, "[^0-9.]", "");
-                    day = date.Substring(0, 2);
-                    year = date.Substring(2, 4);
-                    if (date.Length > 6)
+                case var tmp when date.Contains("Кві") || date.Contains("кві"):
+                    month = "04";
                     {
-                        hour = date.Substring(6, 2);
-                        minute = date.Substring(8, date.Length - 8);
-                    }
-                    else
-                    {
-                        hour = DT.Hour.ToString();
-                        minute = DT.Minute.ToString();
-                    }
-                    break;
-                case var tmp when date.Contains("ипень") || date.Contains("ипня"):
-                    month = "07"; date = Regex.Replace(date, "[^0-9.]", "");
-                    date = Regex.Replace(date, "[^0-9.]", "");
-                    day = date.Substring(0, 2);
-                    year = date.Substring(2, 4);
-                    if (date.Length > 6)
-                    {
-                        hour = date.Substring(6, 2);
-                        minute = date.Substring(8, date.Length - 8);
-                    }
-                    else
-                    {
-                        hour = DT.Hour.ToString();
-                        minute = DT.Minute.ToString();
+                        date = Regex.Replace(date, "[^0-9.:]", "");
+                        List<string> DateArray = date.Split(".").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                        day = DateArray[0];
+                        year = DateArray[1];
+                        if (DateArray.Count() > 2)
+                        {
+                            hour = DateArray[2].Substring(0, DateArray[2].IndexOf(":"));
+                            minute = DateArray[2].Substring(DateArray[2].IndexOf(":") + 1, DateArray[2].Length - DateArray[2].IndexOf(":") - 1);
+                        }
+                        else
+                        {
+                            hour = DT.Hour.ToString();
+                            minute = DT.Minute.ToString();
+                        }
                     }
                     break;
-                case var tmp when date.Contains("ерпень") || date.Contains("ерпня"):
-                    month = "08"; date = Regex.Replace(date, "[^0-9.]", "");
-                    date = Regex.Replace(date, "[^0-9.]", "");
-                    day = date.Substring(0, 2);
-                    year = date.Substring(2, 4);
-                    if (date.Length > 6)
+                case var tmp when date.Contains("Тра") || date.Contains("тра"):
+                    month = "05";
                     {
-                        hour = date.Substring(6, 2);
-                        minute = date.Substring(8, date.Length - 8);
-                    }
-                    else
-                    {
-                        hour = DT.Hour.ToString();
-                        minute = DT.Minute.ToString();
-                    }
-                    break;
-                case var tmp when date.Contains("ересень") || date.Contains("ересня"):
-                    month = "09"; date = Regex.Replace(date, "[^0-9.]", "");
-                    date = Regex.Replace(date, "[^0-9.]", "");
-                    day = date.Substring(0, 2);
-                    year = date.Substring(2, 4);
-                    if (date.Length > 6)
-                    {
-                        hour = date.Substring(6, 2);
-                        minute = date.Substring(8, date.Length - 8);
-                    }
-                    else
-                    {
-                        hour = DT.Hour.ToString();
-                        minute = DT.Minute.ToString();
+                        date = Regex.Replace(date, "[^0-9.:]", "");
+                        List<string> DateArray = date.Split(".").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                        day = DateArray[0];
+                        year = DateArray[1];
+                        if (DateArray.Count() > 2)
+                        {
+                            hour = DateArray[2].Substring(0, DateArray[2].IndexOf(":"));
+                            minute = DateArray[2].Substring(DateArray[2].IndexOf(":") + 1, DateArray[2].Length - DateArray[2].IndexOf(":") - 1);
+                        }
+                        else
+                        {
+                            hour = DT.Hour.ToString();
+                            minute = DT.Minute.ToString();
+                        }
                     }
                     break;
-                case var tmp when date.Contains("овтень") || date.Contains("овтня"):
-                    month = "10"; date = Regex.Replace(date, "[^0-9.]", "");
-                    date = Regex.Replace(date, "[^0-9.]", "");
-                    day = date.Substring(0, 2);
-                    year = date.Substring(2, 4);
-                    if (date.Length > 6)
+                case var tmp when date.Contains("Чер") || date.Contains("чер"):
+                    month = "06";
                     {
-                        hour = date.Substring(6, 2);
-                        minute = date.Substring(8, date.Length - 8);
-                    }
-                    else
-                    {
-                        hour = DT.Hour.ToString();
-                        minute = DT.Minute.ToString();
-                    }
-                    break;
-                case var tmp when date.Contains("истопад") || date.Contains("истопада"):
-                    month = "11"; date = Regex.Replace(date, "[^0-9.]", "");
-                    date = Regex.Replace(date, "[^0-9.]", "");
-                    day = date.Substring(0, 2);
-                    year = date.Substring(2, 4);
-                    if (date.Length > 6)
-                    {
-                        hour = date.Substring(6, 2);
-                        minute = date.Substring(8, date.Length - 8);
-                    }
-                    else
-                    {
-                        hour = DT.Hour.ToString();
-                        minute = DT.Minute.ToString();
+                        date = Regex.Replace(date, "[^0-9.:]", "");
+                        List<string> DateArray = date.Split(".").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                        day = DateArray[0];
+                        year = DateArray[1];
+                        if (DateArray.Count() > 2)
+                        {
+                            hour = DateArray[2].Substring(0, DateArray[2].IndexOf(":"));
+                            minute = DateArray[2].Substring(DateArray[2].IndexOf(":") + 1, DateArray[2].Length - DateArray[2].IndexOf(":") - 1);
+                        }
+                        else
+                        {
+                            hour = DT.Hour.ToString();
+                            minute = DT.Minute.ToString();
+                        }
                     }
                     break;
-                case var tmp when date.Contains("рудень") || date.Contains("удня"):
-                    month = "12"; date = Regex.Replace(date, "[^0-9.]", "");
-                    date = Regex.Replace(date, "[^0-9.]", "");
-                    day = date.Substring(0, 2);
-                    year = date.Substring(2, 4);
-                    if (date.Length > 6)
+                case var tmp when date.Contains("Лип") || date.Contains("лип"):
+                    month = "07";
                     {
-                        hour = date.Substring(6, 2);
-                        minute = date.Substring(8, date.Length - 8);
+                        date = Regex.Replace(date, "[^0-9.:]", "");
+                        List<string> DateArray = date.Split(".").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                        day = DateArray[0];
+                        year = DateArray[1];
+                        if (DateArray.Count() > 2)
+                        {
+                            hour = DateArray[2].Substring(0, DateArray[2].IndexOf(":"));
+                            minute = DateArray[2].Substring(DateArray[2].IndexOf(":") + 1, DateArray[2].Length - DateArray[2].IndexOf(":") - 1);
+                        }
+                        else
+                        {
+                            hour = DT.Hour.ToString();
+                            minute = DT.Minute.ToString();
+                        }
                     }
-                    else
+                    break;
+                case var tmp when date.Contains("Сер") || date.Contains("сер"):
+                    month = "08";
                     {
-                        hour = DT.Hour.ToString();
-                        minute = DT.Minute.ToString();
+                        date = Regex.Replace(date, "[^0-9.:]", "");
+                        List<string> DateArray = date.Split(".").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                        day = DateArray[0];
+                        year = DateArray[1];
+                        if (DateArray.Count() > 2)
+                        {
+                            hour = DateArray[2].Substring(0, DateArray[2].IndexOf(":"));
+                            minute = DateArray[2].Substring(DateArray[2].IndexOf(":") + 1, DateArray[2].Length - DateArray[2].IndexOf(":") - 1);
+                        }
+                        else
+                        {
+                            hour = DT.Hour.ToString();
+                            minute = DT.Minute.ToString();
+                        }
+                    }
+                    break;
+                case var tmp when date.Contains("Вер") || date.Contains("вер"):
+                    month = "09";
+                    {
+                        date = Regex.Replace(date, "[^0-9.:]", "");
+                        List<string> DateArray = date.Split(".").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                        day = DateArray[0];
+                        year = DateArray[1];
+                        if (DateArray.Count() > 2)
+                        {
+                            hour = DateArray[2].Substring(0, DateArray[2].IndexOf(":"));
+                            minute = DateArray[2].Substring(DateArray[2].IndexOf(":") + 1, DateArray[2].Length - DateArray[2].IndexOf(":") - 1);
+                        }
+                        else
+                        {
+                            hour = DT.Hour.ToString();
+                            minute = DT.Minute.ToString();
+                        }
+                    }
+                    break;
+                case var tmp when date.Contains("Жов") || date.Contains("жов"):
+                    month = "10";
+                    {
+                        date = Regex.Replace(date, "[^0-9.:]", "");
+                        List<string> DateArray = date.Split(".").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                        day = DateArray[0];
+                        year = DateArray[1];
+                        if (DateArray.Count() > 2)
+                        {
+                            hour = DateArray[2].Substring(0, DateArray[2].IndexOf(":"));
+                            minute = DateArray[2].Substring(DateArray[2].IndexOf(":") + 1, DateArray[2].Length - DateArray[2].IndexOf(":") - 1);
+                        }
+                        else
+                        {
+                            hour = DT.Hour.ToString();
+                            minute = DT.Minute.ToString();
+                        }
+                    }
+                    break;
+                case var tmp when date.Contains("Лис") || date.Contains("лис"):
+                    month = "11";
+                    {
+                        date = Regex.Replace(date, "[^0-9.:]", "");
+                        List<string> DateArray = date.Split(".").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                        day = DateArray[0];
+                        year = DateArray[1];
+                        if (DateArray.Count() > 2)
+                        {
+                            hour = DateArray[2].Substring(0, DateArray[2].IndexOf(":"));
+                            minute = DateArray[2].Substring(DateArray[2].IndexOf(":") + 1, DateArray[2].Length - DateArray[2].IndexOf(":") - 1);
+                        }
+                        else
+                        {
+                            hour = DT.Hour.ToString();
+                            minute = DT.Minute.ToString();
+                        }
+                    }
+                    break;
+                case var tmp when date.Contains("Гру") || date.Contains("гру"):
+                    month = "12";
+                    {
+                        date = Regex.Replace(date, "[^0-9.:]", "");
+                        List<string> DateArray = date.Split(".").Where(x => !string.IsNullOrEmpty(x)).ToList();
+                        day = DateArray[0];
+                        year = DateArray[1];
+                        if (DateArray.Count() > 2)
+                        {
+                            hour = DateArray[2].Substring(0, DateArray[2].IndexOf(":"));
+                            minute = DateArray[2].Substring(DateArray[2].IndexOf(":") + 1, DateArray[2].Length - DateArray[2].IndexOf(":") - 1);
+                        }
+                        else
+                        {
+                            hour = DT.Hour.ToString();
+                            minute = DT.Minute.ToString();
+                        }
                     }
                     break;
 
