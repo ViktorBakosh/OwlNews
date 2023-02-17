@@ -47,7 +47,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("cherkassy1");
+                    b.ToTable("cherkassy1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Chernihiv", b =>
@@ -75,7 +75,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("chernihiv1");
+                    b.ToTable("chernihiv1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Chernvivtsi", b =>
@@ -103,7 +103,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("chernivtsi1");
+                    b.ToTable("chernivtsi1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Dnipro", b =>
@@ -131,7 +131,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("dnipropetrovsk1");
+                    b.ToTable("dnipropetrovsk1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Ivano_Frankivsk", b =>
@@ -159,7 +159,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("ivano_frankivsk1");
+                    b.ToTable("ivano_frankivsk1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Kharkiv", b =>
@@ -187,7 +187,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("kharkiv1");
+                    b.ToTable("kharkiv1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Kherson", b =>
@@ -215,7 +215,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("kherson1");
+                    b.ToTable("kherson1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Khmelnytskyi", b =>
@@ -243,7 +243,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("khmelnytskyi1");
+                    b.ToTable("khmelnytskyi1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Kirovohrad", b =>
@@ -271,7 +271,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("kirovohradsk1");
+                    b.ToTable("kirovohradsk1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Kryvyi_Rih", b =>
@@ -299,7 +299,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("kryvyi_rih1");
+                    b.ToTable("kryvyi_rih1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Kyiv", b =>
@@ -327,7 +327,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("kyiv1");
+                    b.ToTable("kyiv1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Luhansk", b =>
@@ -355,7 +355,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("luhansk1");
+                    b.ToTable("luhansk1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Lviv", b =>
@@ -383,7 +383,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("lviv1");
+                    b.ToTable("lviv1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Mykolayiv", b =>
@@ -411,7 +411,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("mykolayiv1");
+                    b.ToTable("mykolayiv1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Odesa", b =>
@@ -439,7 +439,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("odesa1");
+                    b.ToTable("odesa1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Poltava", b =>
@@ -467,7 +467,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("poltava1");
+                    b.ToTable("poltava1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Rivne", b =>
@@ -495,7 +495,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("rivne1");
+                    b.ToTable("rivne1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Sumy", b =>
@@ -523,7 +523,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("sumy1");
+                    b.ToTable("sumy1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Ternopil", b =>
@@ -551,7 +551,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("ternopil1");
+                    b.ToTable("ternopil1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Vinnytsia", b =>
@@ -579,7 +579,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("vinnytsia1");
+                    b.ToTable("vinnytsia1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Volyn", b =>
@@ -607,7 +607,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("volyn1");
+                    b.ToTable("volyn1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Zakarapattia", b =>
@@ -635,7 +635,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("zakarpattia1");
+                    b.ToTable("zakarpattia1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Zaporizhzhia", b =>
@@ -663,7 +663,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("zaporizhzhia1");
+                    b.ToTable("zaporizhzhia1", (string)null);
                 });
 
             modelBuilder.Entity("OwlNews.Models.Zhytomyr", b =>
@@ -691,7 +691,7 @@ namespace OwlNews.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("zhytomyr1");
+                    b.ToTable("zhytomyr1", (string)null);
                 });
 #pragma warning restore 612, 618
         }

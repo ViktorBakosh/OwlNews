@@ -1,3 +1,4 @@
+using BackgroundParsers;
 using Microsoft.EntityFrameworkCore;
 using OwlNews.Data;
 

@@ -45,6 +45,10 @@
       "PackagePath": "staticwebassets\\js\\app.js"
     },
     {
+      "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\js\\backgroundParsers.js",
+      "PackagePath": "staticwebassets\\js\\backgroundParsers.js"
+    },
+    {
       "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\lib\\bootstrap\\LICENSE",
       "PackagePath": "staticwebassets\\lib\\bootstrap"
     },
