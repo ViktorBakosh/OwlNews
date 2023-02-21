@@ -1,235 +1,21 @@
 ﻿using Npgsql;
-using System.Text.RegularExpressions;
 
-//namespace Parser_2022_
-//{
-//	internal class DB
-//	{
-//		public static string Connect = "Server=owlnews.postgres.database.azure.com;Database=owlnews;Port=5432;User Id=vBakosh;Password=OwlDBNews!;Ssl Mode=VerifyFull;";
-//        //INSERT info
-//        //public static bool DATABASE_TEST(string value)
-//        //{
-//        //    string cmd = $"INSERT INTO time (date) VALUES (@date)";
-
-//        //    try
-//        //    {
-//        //        using (var conn = new NpgsqlConnection(Connect))
-//        //        {
-//        //            conn.Open();
-//        //            using (var command = new NpgsqlCommand(cmd, conn))
-//        //            {
-//        //                command.Parameters.AddWithValue("date", DateTime.ParseExact(value, "dd.M.yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
-//        //                command.ExecuteNonQuery();
-
-//        //            }
-//        //            conn.Close();
-//        //        }
-//        //    }
-//        //    catch (Exception exp) { Console.WriteLine(exp.Message); return false; }
-//        //    return true;
-//        //}
-//        public static bool DATABASE_INSERT(string name, string CONNECTION, string cmd, Data obj)
-//        {
-//            try
-//            {
-//                using (var conn = new NpgsqlConnection(CONNECTION))
-//                {
-//                    conn.Open();
-//                    CREATE_TABLE(name, conn);
-//                    if (DATABASE_READ(conn, $"SELECT title FROM {name}", obj.title))
-//                    {
-//                        conn.Open();
-//                        using (var command = new NpgsqlCommand(cmd, conn))
-//                        {
-//                            command.Parameters.AddWithValue("id", DATABASE_READ(CONNECTION, $"SELECT COUNT(*) FROM {name};") + 1);
-//                            command.Parameters.AddWithValue("title", obj.title);
-//                            command.Parameters.AddWithValue("info", obj.info);
-//                            command.Parameters.AddWithValue("time", DateTime.ParseExact(obj.time, "dd.M.yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
-//                            command.Parameters.AddWithValue("link", obj.link);
-//                            command.Parameters.AddWithValue("image", obj.image);
-//                            command.ExecuteNonQuery();
-
-//                        }
-//                        conn.Close();
-//                    }
-//                }
-//            }
-//            catch { return false; }
-//            return true;
-//        }
-//        public async static void DATABASE_SORT(string name)
-//        {
-//            try
-//            {
-//                var cmd = $"SELECT * FROM {name} ORDER BY time DESC;";
-//                using (var conn = new NpgsqlConnection(Connect))
-//                {
-//                    conn.Open();
-//                    await using (var command = new NpgsqlCommand(cmd, conn))
-//                    {
-//                        command.ExecuteNonQuery();
-//                        //DATABASE_UPDATE(values, name, conn);
-//                    }
-//                    conn.Close();
-//                }
-//            }
-//            catch (Exception exp) { Console.Write(exp.Message); }
-
-//        }
-//        public async static void DATABASE_UPDATE(NpgsqlDataReader values, string name, NpgsqlConnection conn)
-//        {
-//            try
-//            {
-//                using (var connection = new NpgsqlConnection(Connect))
-//                {
-//                    string cmd = $"UPDATE {name} SET time=@time,link=@link,image=@image,info=@info,title=@title,id=@id WHERE id=@id;";
-//                    connection.Open();
-//                    int counter = 0;
-
-//                    while (values.Read())
-//                    {
-//                        //Console.WriteLine(values["id"] + "   " + values["time"]);
-//                        await using (var command = new NpgsqlCommand(cmd, connection))
-//                        {
-//                            //var a = DateTime.Parse((DateTime.Parse(values["time"].ToString()).ToString("yyyy-MM-dd HH:mm:ss")));
-//                            command.Parameters.AddWithValue("id", ++counter);
-//                            command.Parameters.AddWithValue("title", values["title"]);
-//                            command.Parameters.AddWithValue("info", values["info"]);
-//                            command.Parameters.AddWithValue("time", values["time"]);
-//                            command.Parameters.AddWithValue("link", values["link"]);
-//                            command.Parameters.AddWithValue("image", values["image"]);
-
-
-//                            await command.ExecuteNonQueryAsync();
-//                        }
-//                    }
-//                    connection.Close();
-//                }
-
-//            }
-//            catch { return; }
-//        }
-//        //count
-//        public static int DATABASE_READ(string CONNECTION, string cmd)
-//        {
-//            try
-//            {
-//                using (var conn = new NpgsqlConnection(CONNECTION))
-//                {
-//                    conn.Open();
-
-//                    using (var command = new NpgsqlCommand(cmd, conn))
-//                    {
-//                        var count = command.ExecuteReader();
-//                        count.Read();
-//                        int counter = Convert.ToInt32(count[0].ToString());
-//                        conn.Close();
-//                        return counter;
-//                    }
-//                }
-//            }
-//            catch { return 0; }
-
-//        }
-//        //Check(if the title is in regions table)
-//        public static bool DATABASE_READ(NpgsqlConnection CONNECTION, string cmd, string title)
-//        {
-//            try
-//            {
-
-//                using (NpgsqlCommand command = new NpgsqlCommand(cmd, CONNECTION))
-//                {
-//                    NpgsqlDataReader reader = command.ExecuteReader();
-
-//                    while (reader.Read())
-//                    {
-//                        if (title == reader[0].ToString())
-//                        {
-//                            return false;
-//                        }
-//                    }
-//                }
-//            }
-//            catch { return false; }
-//            CONNECTION.Close();
-//            return true;
-//        }
-//        public static bool CREATE_TABLE(string name, NpgsqlConnection conn)
-//        {
-//            string cmd = $"CREATE TABLE IF NOT EXISTS public.{name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{name}\r\n    OWNER to postgres;";
-//            try
-//            {
-//                using (var command = new NpgsqlCommand(cmd, conn))
-//                {
-//                    command.ExecuteNonQuery();
-
-//                }
-//            }
-//            catch { return false; }
-//            return true;
-//        }
-//        //Check(if the title is in regions table)
-//        public static bool DATABASE_CHECK(string title, string CONN, string name)
-//        {
-
-//            try
-//            {
-//                using (var conn = new NpgsqlConnection(CONN))
-//                {
-//                    conn.Open();
-//                    using (var cmd = new NpgsqlCommand($"SELECT title FROM {name} WHERE title='{title}'", conn))
-//                    {
-//                        NpgsqlDataReader read = cmd.ExecuteReader();
-//                        read.Read();
-
-//                        if (title == read[0].ToString())
-//                        {
-//                            conn.Close();
-//                            return true;
-//                        }
-//                    }
-//                    conn.Close();
-//                }
-//            }
-//            catch { return false; }
-//            return false;
-//        }
-
-//    }
-//}
-//$"SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{name}'";
 namespace Parser_2022_
 {
+
     internal class DB
     {
-        public static string Connect = "Server=owlnews.postgres.database.azure.com;Database=owlnews;Port=5432;User Id=vBakosh;Password=OwlDBNews!;Ssl Mode=VerifyFull;";
+        public static string Connect = "Host=localhost;User id=postgres;Password=228522245;Database=NEWS;Port=2285;";
+        public static string name_all = "all_news";
+        public static string name_sources = "sources";
+        public static string name_regions = "regions";
 
-
-        //INSERT info
-        //public static bool DATABASE_TEST(string value)
-        //{
-        //    string cmd = $"INSERT INTO time (date) VALUES (@date)";
-
-        //    try
-        //    {
-        //        using (var conn = new NpgsqlConnection(Connect))
-        //        {
-        //            conn.Open();
-        //            using (var command = new NpgsqlCommand(cmd, conn))
-        //            {
-        //                command.Parameters.AddWithValue("date", DateTime.ParseExact(value, "dd.M.yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
-        //                command.ExecuteNonQuery();
-
-        //            }
-        //            conn.Close();
-        //        }
-        //    }
-        //    catch (Exception exp) {  return false; }
-        //    return true;
-        //}
-        public async static
-            Task DATABASE_INSERT(string name, string CONNECTION, string cmd, Data obj)
+        public async static Task DATABASE_INSERT(Data obj)
         {
+
+            string cmd = $"INSERT INTO {name_all} (title,info,time,link,image,id,region_id,source_id )" +
+                $" VALUES (@title,@info,@time,@link,@image,@id,@region_id,@source_id)";
+            /*
             //try 
             //{
             //    string connnnnnn = "Server=owlnews.postgres.database.azure.com;Database=vovatest;Port=5432;User Id=vBakosh;Password=OwlDBNews!;Ssl Mode=VerifyFull;";
@@ -251,68 +37,89 @@ namespace Parser_2022_
             //    }
             //}
             //catch(Exception exp) { Console.WriteLine(exp.Message); }
+            */
             try
             {
-                if (DATABASE_CHECK(obj.title, CONNECTION, name)) { return; };
-                using (var conn = new NpgsqlConnection(CONNECTION))
+                if (DATABASE_CHECK(obj)) { return; }
+                using (var conn = new NpgsqlConnection(Connect))
                 {
                     conn.Open();
-                    CREATE_TABLE(Regex.Replace(name, @"[\d-]", string.Empty), conn);
-                    if (DATABASE_READ(conn, $"SELECT title FROM {Regex.Replace(name, @"[\d-]", string.Empty)}", obj.title))
-                    {
-                        conn.Open();
-                        await using (var command = new NpgsqlCommand(cmd, conn))
-                        {
-                            command.Parameters.AddWithValue("id", DATABASE_READ(CONNECTION, $"SELECT COUNT(*) FROM {Regex.Replace(name, @"[\d-]", string.Empty)};") + 1);
-                            command.Parameters.AddWithValue("title", obj.title);
-                            command.Parameters.AddWithValue("info", obj.info);
-                            command.Parameters.AddWithValue("time", DateTime.ParseExact(obj.time, "dd.M.yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
-                            command.Parameters.AddWithValue("link", obj.link);
-                            command.Parameters.AddWithValue("image", obj.image);
-                            await command.ExecuteNonQueryAsync();
+                    CREATE_TABLE(conn, obj);
+                    //if (DATABASE_READ(conn, $"SELECT title FROM {name_all}", obj.title))
+                    //{
+                    DATABASE_INSERT_SOURCE(obj);
 
-                        }
-                        conn.Close();
+                    conn.Open();
+                    await using (var command = new NpgsqlCommand(cmd, conn))
+                    {
+
+                        command.Parameters.AddWithValue("id", DATABASE_READ(Connect, $"SELECT COUNT(*) FROM all;") + 1);
+                        command.Parameters.AddWithValue("title", obj.title);
+                        command.Parameters.AddWithValue("info", obj.info);
+                        command.Parameters.AddWithValue("time", DateTime.ParseExact(obj.time, "dd.M.yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
+                        command.Parameters.AddWithValue("link", obj.link);
+                        command.Parameters.AddWithValue("image", obj.image);
+                        command.Parameters.AddWithValue("region_id", obj.region);
+                        command.Parameters.AddWithValue("source_id", obj.source_id);
+
+                        await command.ExecuteNonQueryAsync();
                     }
+                    conn.Close();
+                    //}
                 }
 
             }
             catch { }
-
-            try
-            {
-                if (DATABASE_CHECK(obj.title, CONNECTION, name)) { return; };
-                using (var conn = new NpgsqlConnection(CONNECTION))
-                {
-                    conn.Open();
-                    CREATE_TABLE(name, conn);
-                    if (DATABASE_READ(conn, $"SELECT title FROM {name}", obj.title))
-                    {
-                        conn.Open();
-                        await using (var command = new NpgsqlCommand(cmd, conn))
-                        {
-                            command.Parameters.AddWithValue("id", DATABASE_READ(CONNECTION, $"SELECT COUNT(*) FROM {name};") + 1);
-                            command.Parameters.AddWithValue("title", obj.title);
-                            command.Parameters.AddWithValue("info", obj.info);
-                            command.Parameters.AddWithValue("time", DateTime.ParseExact(obj.time, "dd.M.yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
-                            command.Parameters.AddWithValue("link", obj.link);
-                            command.Parameters.AddWithValue("image", obj.image);
-                            await command.ExecuteNonQueryAsync();
-
-                        }
-                        conn.Close();
-                    }
-                }
-
-            }
-            catch { return; }
             return;
         }
-        public static int DATABASE_READ(string CONNECTION, string cmd)
+
+        private static void DATABASE_INSERT_SOURCE(Data obj)
+        {
+            string cmd = $"INSERT INTO {name_sources} (source_id,source_logo) VALUES (@source_id,@source_logo);";
+            using (var conn = new NpgsqlConnection(Connect))
+            {
+                if (DATABASE_READ(Connect, $"SELECT COUNT(*) FROM {name_sources} WHERE source_id='{obj.source_id}';") > 0) { return; }
+                conn.Open();
+                using (var command = new NpgsqlCommand(cmd, conn))
+                {
+                    command.Parameters.AddWithValue("source_logo", obj.source_logo);
+                    command.Parameters.AddWithValue("source_id", obj.source_id);
+                    command.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
+        }
+        /*
+         
+          
+         
+               (
+                )
+               (
+        /\  .-"""-.  /\
+       //\\/  ,,,  \//\\
+       |/\| ,;;;;;, |/\|
+       //\\\;-"""-;///\\
+      //  \/   .   \/  \\
+     (| ,-_| \ | / |_-, |)
+       //`__\.-.-./__`\\
+      // /.-(() ())-.\ \\
+     (\ |)   '---'   (| /)
+      ` (|           |) `
+        \)           (/
+         
+
+
+         
+         */
+
+
+        //count
+        public static int DATABASE_READ(string Connect, string cmd)
         {
             try
             {
-                using (var conn = new NpgsqlConnection(CONNECTION))
+                using (var conn = new NpgsqlConnection(Connect))
                 {
                     conn.Open();
 
@@ -329,13 +136,22 @@ namespace Parser_2022_
             catch { return 0; }
 
         }
+        /*
+         
+                  .
+                 ":"
+               ___:____      |"\/"|
+              ,'        `.    \  /
+              |  O        \___/  |
+            ~^~^~^~^~^~^~^~^~^~^~^~^~
+
+        */
         //Check(if the title is in regions table)
-        public static bool DATABASE_READ(NpgsqlConnection CONNECTION, string cmd, string title)
+        public static bool DATABASE_READ(NpgsqlConnection Connect, string cmd, string title)
         {
             try
             {
-
-                using (NpgsqlCommand command = new NpgsqlCommand(cmd, CONNECTION))
+                using (NpgsqlCommand command = new NpgsqlCommand(cmd, Connect))
                 {
                     NpgsqlDataReader reader = command.ExecuteReader();
 
@@ -349,38 +165,172 @@ namespace Parser_2022_
                 }
             }
             catch { return false; }
-            CONNECTION.Close();
+            Connect.Close();
             return true;
         }
-        public static bool CREATE_TABLE(string name, NpgsqlConnection conn)
+        /*
+
+                         _,.-------------.._
+                      ,-'        j          `-.
+                    ,'        .-'               `.
+                   /          |                   '
+                  /         ,-'                    `
+                 .         j                         \
+                .          |                          \
+                : ._       |   _....._                 .
+                |   -.     L-''       `.               :
+                | `.  \  .'             `.             |
+               /.\  `, Y'                 :           ,|
+              /.  :  | \                  |         ,' |
+             \.    " :  `\                |      ,--   |
+              \    .'     '-..___,..      |    _/      :
+               \  `.      ___   ...._     '-../        '
+             .-'    \    /| \_/ | | |      ,'         /
+             |       `--' |    '' |'|     /         .'
+             |            |      /. |    /       _,'
+             |-.-.....__..|        `...:...--'''
+             |_|_|_L.L.T._/     |
+             \_|_|_L.T-''/      |
+              |                /
+             /             _.-'
+             :         _..'
+             \__...--''
+
+         */
+        public static bool CREATE_TABLE(NpgsqlConnection conn, Data obj)
         {
-            string cmd = $"CREATE TABLE IF NOT EXISTS public.{name}\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{name}\r\n    OWNER to postgres;";
-            try
+            List<string> cmd = new()
             {
-                using (var command = new NpgsqlCommand(cmd, conn))
+                 $"CREATE TABLE IF NOT EXISTS public.{name_regions}\r\n(\r\n    region_id integer NOT NULL,\r\n    region_name text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT regions_pkey PRIMARY KEY (region_id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{name_regions}\r\n    OWNER to postgres;"
+                ,$"CREATE TABLE IF NOT EXISTS public.{name_sources}\r\n(\r\n    source_id integer NOT NULL,\r\n    source_logo text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT sources_pkey PRIMARY KEY (source_id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{name_sources}\r\n    OWNER to postgres;"
+                ,$"CREATE TABLE IF NOT EXISTS public.\"{name_all}\"\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    region_id integer,\r\n    source_id integer,\r\n    CONSTRAINT all_region_id_fkey FOREIGN KEY (region_id)\r\n        REFERENCES public.regions (region_id) MATCH SIMPLE\r\n        ON UPDATE NO ACTION\r\n        ON DELETE NO ACTION,\r\n    CONSTRAINT all_source_id_fkey FOREIGN KEY (source_id)\r\n        REFERENCES public.sources (source_id) MATCH SIMPLE\r\n        ON UPDATE NO ACTION\r\n        ON DELETE NO ACTION\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{name_all}\"\r\n    OWNER to postgres;" };
+            foreach (var item in cmd)
+            {
+                try
                 {
-                    command.ExecuteNonQuery();
-
+                    using (var command = new NpgsqlCommand(item, conn))
+                    {
+                        command.ExecuteNonQuery();
+                    }
                 }
+                catch { conn.Close(); return false; }
             }
-            catch { return false; }
+            conn.Close();
+            DATABASE_INSERT_REGIONS();
             return true;
         }
-        //Check(if the title is in regions table)
-        public static bool DATABASE_CHECK(string title, string CONN, string name)
+        public static void DATABASE_INSERT_REGIONS()
         {
-
-            try
+            if (DATABASE_READ(Connect, "SELECT COUNT(*) FROM regions;") == 24) { return; }
+            List<string> list = new()
             {
-                using (var conn = new NpgsqlConnection(CONN))
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(1,'Вінницька область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(2,'Волинська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(3,'Дніпропетровська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(4,'Донецька область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(5,'Житомирська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(6,'Закарпатська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(7,'Запорізька область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(8,'Івано-Франківська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(9,'Київська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(10,'Кіровоградська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(11,'Луганська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(12,'Львівська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(13,'Миколаївська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(14,'Одеська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(15,'Полтавська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(16,'Рівненська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(17,'Сумська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(18,'Тернопільська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(19,'Харківська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(20,'Херсонська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(21,'Хмельницька область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(22,'Черкаська область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(23,'Чернівецька область');",
+                $"INSERT INTO {name_regions} (region_id,region_name) VALUES(24,'Чернігівська область');"
+            };
+            foreach (var cmd in list)
+            {
+                using (var conn = new NpgsqlConnection(Connect))
                 {
                     conn.Open();
-                    using (var cmd = new NpgsqlCommand($"SELECT title FROM {name} WHERE title='{title}'", conn))
+                    using (var command = new NpgsqlCommand(cmd, conn))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                    conn.Close();
+                }
+            }
+        }
+        /*
+         
+                                                     ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣴⣶⡶⠶⠶⠶⠿⠿⠿⠿⠶⠶⣶⣦⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀                                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣾⡿⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠻⣷⣦⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀                                            ⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⠿⠟⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⢿⣦⣄⡀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀                                            ⠀⠀⠀⢀⣤⡾⠟⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⢦⡀⠀⠀⠀⠀
+⠀                                            ⠀⠀⠀⠀⢠⣶⡿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢻⣷⡄⠀⠀⠀
+                                            ⠀⠀⠀⢀⣼⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣆⠀⠀
+                                            ⠀⠀⣠⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣦⠀
+                                            ⠀⢀⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣶⣦⡀⠀⠀⠀⠀⠀⠀⠀⠈⣿⡆
+                                            ⠀⣾⡟⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠸⣷
+                                            ⢰⣿⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⢻
+                                            ⢸⡏⠀⠀⠀⠀⠀⠀⠀⣸⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⢸
+                                            ⣾⡇⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀⢸
+                                            ⣿⡇⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⢸
+                                            ⢿⡇⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡈⠙⠛⠛⠁⠀⠀⠀⠀⠀⠀⠀⣾
+                                            ⢸⣇⠀⠀⠀⠀⠀⠀⠀⠘⢿⣿⣿⣿⠏⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠒⠶⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿
+                                            ⢸⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⣤⡾⢡⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⠏
+⠀                                            ⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠁⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⠏⠀
+⠀                                            ⠸⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣿⠏⠀⠀
+⠀⠀                                            ⠻⣷⡂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⡟⠃⠀⠀⠀
+⠀⠀                                            ⠀⠻⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣴⡿⠋⠀⠀⠀⠀⠀
+⠀⠀⠀                                            ⠀⠹⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣾⡿⠋⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀                                           ⠈⠻⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣾⠿⠏⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀                                          ⠉⠛⠿⢶⣦⣤⣤⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡴⢿⣿⣥⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                                     ⠀ ⠀⠀⢉⣻⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠒⠀⠀⠀⠁⠀⠀⠉⠛⢷⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                                     ⠀⢀⣤⣶⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣦⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀                                      ⠀⠀⠀⣠⣴⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠀⠀⠀⠀⠙⣷⡄⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀                                     ⠀⢀⣾⠟⠁⠀⠀⠀⢀⣀⣤⡤⠗⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡀⠀⠀⠀⠈⢿⣆⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀                                     ⠘⣿⣶⣶⠶⠿⠟⢻⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣷⣦⣀⠀⠀⠈⢻⡇⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀                              ⠀⠀        ⠀⠀⠀⢀⣾⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⡏⠻⠿⢶⣶⡾⠇⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                              ⠀        ⠀⠀⢸⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                              ⠀        ⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                              ⠀⠀        ⢸⣧⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣴⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                              ⠀        ⠘⣿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣶⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                              ⠀       ⠀⠸⣷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                              ⠀⠀       ⠀⠘⢿⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣄⣺⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                              ⠀⠀⠀       ⠀⠀⠉⠛⠿⢶⣶⣶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                ⠀⠈⠻⣶⣤⡀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                         ⠀⠀⠀⠀⠀⠀          ⠀⠀⠀⢀⣤⡿⢿⣤⡀⠀⠀⠀⣼⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                         ⠀⠀⠀⠀⠀          ⠀⠀⠀⢠⣿⡏⠀⠀⠙⠧⠀⠀⣴⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                        ⠀⠀⠀⠀⠀⠀⠀           ⠀⢻⣷⣤⡀⠀⣀⣴⡾⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                                   ⠀⠀⢰⡿⠛⢿⣷⡄⠀⠈⠙⠛⠛⠛⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                          ⠀⠀⠀         ⠀⠸⣷⣄⠀⠘⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠀                        ⠀⠀⠀          ⠌⣿⣇⣰⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                         ⠀⠀⠀          ⠀⠀⠉⠛⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                        ⠀⠀⠀⠀     ⠀⠀⣰⡶⣶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀        ⠀⠀⠀⠀⠀⠀                        ⠀⠀⠀⠀     ⠀⠀⠹⣶⡾⠇
+  
+         
+         
+         
+         
+         */
+        //Check(if the title is in regions table)
+        public static bool DATABASE_CHECK(Data obj)
+        {
+
+            try
+            {
+                using (var conn = new NpgsqlConnection(Connect))
+                {
+                    conn.Open();
+                    using (var cmd = new NpgsqlCommand($"SELECT title FROM {name_all} WHERE title='{obj.title}' AND region_id={obj.region} AND source_id={obj.source_id};", conn))
                     {
                         NpgsqlDataReader read = cmd.ExecuteReader();
                         read.Read();
 
-                        if (title == read[0].ToString())
+                        if (obj.title == read[0].ToString())
                         {
                             conn.Close();
                             return true;

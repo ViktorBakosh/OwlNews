@@ -1,6 +1,4 @@
 ﻿using HtmlAgilityPack;
-using System.Diagnostics;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Parser_2022_
 {
@@ -62,9 +60,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name, 
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -79,7 +75,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(58,12, "https://upload.wikimedia.org/wikipedia/commons/8/8f/24_Group_Ukraine_03.png");
                     string Link = item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -102,7 +98,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch { return List; }
@@ -115,9 +111,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -132,7 +126,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(59,18, "https://ternopoliany.te.ua/templates/ternopol2019/img/logo.png");
                     string Link = "https://ternopoliany.te.ua/" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -145,6 +139,7 @@ namespace Parser_2022_
                     string img = "https://ternopoliany.te.ua" + ImgNode.GetAttributeValue("href", "nothing");
                     string title = TitleNode.InnerText.ToString();
                     string date = DateNode.InnerText.ToString();
+                    date = date.Substring(date.IndexOf(",") + 2, date.Length - date.IndexOf(",") - 2).Replace(" ",".");
                     string info = "";
                     foreach (var inf in InfoNodes)
                     {
@@ -155,7 +150,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -168,9 +163,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name, 
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -185,7 +178,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(60,8, "https://versii.if.ua/wp-content/uploads/2022/04/new-logo-800x264.jpg");
                     string Link = item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -211,7 +204,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch { return List; }
@@ -224,9 +217,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -241,7 +232,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(61,2, "https://www.volynpost.com/img/layouts/logo/city-1.jpg");
                     string Link = item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -266,7 +257,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -279,9 +270,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -296,7 +285,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(62,21, "https://ngp-ua.info/wp-content/themes/ngp-ua.info-v4.0/images/logo_white.png");
                     string Link = item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -322,7 +311,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -335,9 +324,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -352,7 +339,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(62,16, "https://www.rivnenews.com.ua/wp-content/uploads/2018/06/logo.png");
                     string Link = item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -377,7 +364,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -390,9 +377,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -407,7 +392,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(63,23, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnzOVOpZaQx-grKqy9a7yshmJV9-yM4cInamCo2SgU8g&s");
                     string Link = "https://acc.cv.ua/news/chernivtsi" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -432,7 +417,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -445,9 +430,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -462,7 +445,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(64,6, "https://transkarpatia.net/templates/Gazeta/images/logo.png");
                     string Link = "" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -487,7 +470,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -501,9 +484,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -518,7 +499,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(65,5, "https://www.ua-region.com.ua/firms/logo/33732896.jpg?ver=1633934851");
                     string Link = "https://www.zhitomir.info" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -551,7 +532,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -564,9 +545,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -581,7 +560,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(66,9, "https://www.kyivpost.com/assets/images/Kyivpost_logo_Black.svg");
                     string Link = "" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -612,7 +591,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date.Replace(",",".");
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -625,9 +604,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -642,7 +619,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(67,17, "https://sumypost.com/wp-content/themes/pt-sumy/img/name_u.png");
                     string Link = "" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -666,13 +643,49 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
             return List;
         }
-
+        /*
+              ██████████████████                                                  
+            ██                  ██                                                
+          ██                      ██                                              
+        ██                          ██      ████████      ██████▓▓██              
+        ██  ░░██████████████          ██████        ██████          ████          
+      ██    ██░░░░░░░░░░░░░░██                                          ██        
+    ████  ██░░░░░░░░░░░░░░░░░░██    ██                                    ██      
+  ██░░░░██░░░░░░██░░░░██░░░░░░██  ██░░██▒▒                                  ██    
+    ██████░░░░░░██░░░░██░░░░░░██  ██░░░░▒▒██                                  ██  
+        ██░░░░░░░░░░░░░░░░░░░░██    ████▓▓                                      ██
+      ██  ░░░░░░░░░░░░░░░░░░░░██                                                ██
+      ██░░░░░░░░░░░░░░░░░░░░░░██                                                ██
+    ██░░░░░░░░░░░░░░░░░░░░░░██                                                  ██
+    ██░░▓▓▓▓▓▓▓▓░░░░░░░░░░██                                                    ██
+    ██░░░░▓▓▓▓░░░░░░░░░░██      ░░                              ░░              ██
+      ██░░░░░░░░▒▒░░▒▒██░░░░  ░░    ░░  ░░░░      ░░        ░░  ░░              ██
+      ██░░░░░░░░▒▒░░▒▒██  ░░  ░░        ░░    ░░░░░░  ░░        ░░░░            ██
+        ██████████▓▓▓▓░░░░░░  ░░    ░░  ░░      ░░░░  ░░        ░░░░            ██
+                  ██▓▓░░                                                        ██
+                  ██▓▓░░                                                        ██
+                      ██░░                                                    ░░██
+                      ██░░                            ░░                    ░░██  
+                    ░░██░░░░                                            ░░░░░░██  
+                        ██░░░░░░░░░░░░░░░░░░    ░░░░░░░░░░░░        ░░░░██████    
+                          ██░░██░░░░░░██▓▓░░░░░░██████████░░░░░░░░██████░░██      
+                            ██▒▒██████░░▒▒██████          ██████▓▓██  ██░░██      
+                            ██░░██  ██░░░░██                ██▒▒▒▒██  ██░░██      
+                            ██░░██  ██░░▒▒██                ██░░▒▒██  ██░░██      
+                            ██░░██  ██░░░░██                ██░░▒▒██  ██░░██      
+                            ██░░██  ██░░░░██                ██░░▒▒██  ██░░██      
+                            ██████  ████████                ████▓▓██  ██████      
+                            ██▒▒██  ██▒▒▒▒██                ██▒▒▒▒██  ██▒▒██      
+                                                                                  
+                                                                                  
+                    ░░░░  ░░    ░░░░▒▒░░░░░░    ░░  ░░░░░░░░░░░░                
+         */
         public async static void chernihiv2()
         {
             string Name = "chernihiv2";
@@ -680,9 +693,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -696,7 +707,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(68,24, "https://newch.tv/wp-content/uploads/2019/12/cropped-logo_telekanal_1.png");
                     string Link = "" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -722,7 +733,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -735,9 +746,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -751,7 +760,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(69,1, "https://tsn.ua/static/pub/img/logo.svg?v=ca9");
                     string Link = "" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -775,7 +784,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch{  return List; }
@@ -788,9 +797,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -804,7 +811,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(70,10, "https://dozor.kr.ua/imgs/dozor_logo.png");
                     string Link = "" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -830,7 +837,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                    if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                    if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -843,9 +850,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -859,7 +864,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(71,15, "https://i1.poltava.to/news/63/6275/photo.jpg");
                     string Link = "https://poltava.to" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -881,7 +886,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -894,9 +899,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -910,7 +913,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(49,22, "https://chesno.ck.ua/wp-content/uploads/2021/01/1-54.jpg");
                     string Link = "" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -934,7 +937,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -947,9 +950,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name, 
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -963,7 +964,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(50,3, "https://s.0564.ua/section/logo/upload/pers/12/logo.png");
                     string Link = "" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -983,7 +984,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -996,9 +997,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -1012,7 +1011,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(51,7, "https://s.061.ua/section/logo/upload/pers/3/logo.png");
                     string Link = "" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -1033,7 +1032,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -1046,9 +1045,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -1062,7 +1059,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(52,20, "https://www.ukrinform.ua/img/logo_ukr.svg");
                     string Link = "https://www.ukrinform.ua" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -1086,7 +1083,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -1099,9 +1096,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -1115,7 +1110,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(53,14, "https://www.unn.com.ua/images/unn.svg?v=3");
                     string Link = "https://www.unn.com.ua" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -1145,7 +1140,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -1159,9 +1154,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -1175,7 +1168,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(54,13, "https://i.lb.ua/static/logo.480.jpg");
                     string Link = "" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -1200,7 +1193,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -1213,9 +1206,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -1229,7 +1220,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(55,19, "https://www.newsroom.kh.ua/wp-content/uploads/logo.png.webp");
                     string Link = "" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -1254,7 +1245,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -1268,9 +1259,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -1284,7 +1273,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(56,3, "https://www.dniprotoday.com/xlogo2.png,qver=1.pagespeed.ic.WoXxvJEz30.webp");
                     string Link = "" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -1307,7 +1296,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -1320,9 +1309,7 @@ namespace Parser_2022_
             if (NEWS != null)
                 foreach (var item in NEWS)
                 {
-                    await DB.DATABASE_INSERT(Name,
-                    DB.Connect, $"INSERT INTO {Name}" +
-                    $"(title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id)", item);
+                    await DB.DATABASE_INSERT( item);
                 }
             
         }
@@ -1336,7 +1323,7 @@ namespace Parser_2022_
                 HtmlNodeCollection Nodes = document.DocumentNode.SelectNodes(node);
                 foreach (var item in Nodes)
                 {
-                    Data tmp = new();
+                    Data tmp = new(57,11, "https://static.censor.net/censornet/images/logo/uk/logo.svg");
                     string Link = "" + item.GetAttributeValue("href", "nothing");
 
                     HtmlDocument News = new();
@@ -1371,7 +1358,7 @@ namespace Parser_2022_
                     tmp.image = img;
                     tmp.time = date;
                     tmp.info = info;
-                      if (DB.DATABASE_CHECK(tmp.title, DB.Connect, name)){return List;} List.Add(tmp);
+                      if (DB.DATABASE_CHECK(tmp)){return List;} List.Add(tmp);
                 }
             }
             catch {  return List; }
@@ -1381,3 +1368,5 @@ namespace Parser_2022_
     }
 
 }
+
+

@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
+
 namespace Parser_2022_
 {
     internal class Data
@@ -11,19 +12,37 @@ namespace Parser_2022_
             Link = "";
             Time = "";
             Info = "";
+            source_id = 0;
+            source_logo = "";
         }
 
         public string title { get { return Title; } set { Title = System.Net.WebUtility.HtmlDecode(value).Replace("\r", "").Replace("\n\n", "").Replace("\t", ""); } }
         public string image { get { return Image; } set { Image = value.Replace("\r", "").Replace("\n", "").Replace("\t", ""); } }
         public string link { get { return Link; } set { Link = value.Replace("\r", "").Replace("\n", "").Replace("\t", ""); ; } }
-        public string time { get { return Time; } set { Time = Hour(DateFormat(System.Net.WebUtility.HtmlDecode(value).Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("  ", ""))); } }
+        public string time { get { return Time; } set { Time = Final_check(Hour(DateFormat(System.Net.WebUtility.HtmlDecode(value).Replace("\r", "").Replace("\n", "").Replace("\t", "").Replace("  ", "")))); Console.WriteLine(time); } }
         public string info { get { return Info; } set { Info = System.Net.WebUtility.HtmlDecode(value).Replace("\r", "").Replace("\n\n", "").Replace("\t", ""); } }
+        public int region { get { return Region; } set { Region = value; } }
+        public int source_id { get; set; }
+        public string source_logo { get; set; }
+        public Data(int sr_id, int rg_id,string logo)
+        {
+            source_logo = logo;
+            region = rg_id;
+            source_id = sr_id;
+            Title = "";
+            Image = "";
+            Link = "";
+            Time = "";
+            Info = "";
+        }
 
         private string Title;
         private string Image;
         private string Link;
         private string Time;
         private string Info;
+        private int Region;
+
 
         public override string ToString()
         {
@@ -340,9 +359,9 @@ namespace Parser_2022_
         }
         private static string Hour(string time)
         {
-            string[] Parts = time.Split(' ');
-            string[] Clock = Parts[1].Split(':');
-            string[] D_M_Y = Parts[0].Split('.');
+            List<string> Parts = time.Split(' ').ToList();
+            List<string> Clock = Parts[1].Split(':').ToList();
+            List<string> D_M_Y = Parts[0].Split('.').ToList();
             Parts[0] = "";
             foreach (var item in D_M_Y)
             {
@@ -355,6 +374,21 @@ namespace Parser_2022_
             else { res += $"{Clock[0]}:"; }
             if (Clock[1].Length < 2) { res += $"0{Clock[1]}"; }
             else { res += $"{Clock[1]}"; }
+            return res;
+        }
+        private static string Final_check(string time)
+        {
+            string Clock = DateTime.Now.ToString("HH:mm");
+            List<string> Parts = time.Split(" ").ToList();
+            List<string> Hors_Min = Parts[1].Split(":").ToList();
+            string res = Parts[0];
+            if (Hors_Min[0] == "00" && Hors_Min[1] == "00")
+            {
+                res += " " + Clock;
+            }
+            else { res += " " + Parts[1]; }
+
+
             return res;
         }
     }
