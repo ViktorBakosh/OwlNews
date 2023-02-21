@@ -15,29 +15,7 @@ namespace Parser_2022_
 
             string cmd = $"INSERT INTO {name_all} (title,info,time,link,image,id,region_id,source_id )" +
                 $" VALUES (@title,@info,@time,@link,@image,@id,@region_id,@source_id)";
-            /*
-            //try 
-            //{
-            //    string connnnnnn = "Server=owlnews.postgres.database.azure.com;Database=vovatest;Port=5432;User Id=vBakosh;Password=OwlDBNews!;Ssl Mode=VerifyFull;";
-            //    using (var connVova = new NpgsqlConnection(connnnnnn))
-            //    {
-            //        string cmdVova = $"INSERT INTO test (title,info,time,link,image,id ) VALUES (@title,@info,@time,@link,@image,@id);";
-            //        connVova.Open();
-            //        using (var commandVova = new NpgsqlCommand(cmdVova, connVova))
-            //        {
-            //            commandVova.Parameters.AddWithValue("id", DATABASE_READ(connnnnnn, $"SELECT COUNT(*) FROM test;") + 1);
-            //            commandVova.Parameters.AddWithValue("title", obj.title);
-            //            commandVova.Parameters.AddWithValue("info", obj.info);
-            //            commandVova.Parameters.AddWithValue("time", DateTime.ParseExact(obj.time, "dd.M.yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
-            //            commandVova.Parameters.AddWithValue("link", obj.link);
-            //            commandVova.Parameters.AddWithValue("image", obj.image);
-            //            commandVova.ExecuteNonQuery();
-            //        }
-            //        connVova.Close();
-            //    }
-            //}
-            //catch(Exception exp) { Console.WriteLine(exp.Message); }
-            */
+            
             try
             {
                 if (DATABASE_CHECK(obj)) { return; }
@@ -45,15 +23,14 @@ namespace Parser_2022_
                 {
                     conn.Open();
                     CREATE_TABLE(conn, obj);
-                    //if (DATABASE_READ(conn, $"SELECT title FROM {name_all}", obj.title))
-                    //{
+
                     DATABASE_INSERT_SOURCE(obj);
 
                     conn.Open();
                     await using (var command = new NpgsqlCommand(cmd, conn))
                     {
 
-                        command.Parameters.AddWithValue("id", DATABASE_READ(Connect, $"SELECT COUNT(*) FROM all;") + 1);
+                        command.Parameters.AddWithValue("id", DATABASE_READ(Connect, $"SELECT COUNT(*) FROM {name_all};") + 1);
                         command.Parameters.AddWithValue("title", obj.title);
                         command.Parameters.AddWithValue("info", obj.info);
                         command.Parameters.AddWithValue("time", DateTime.ParseExact(obj.time, "dd.M.yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
