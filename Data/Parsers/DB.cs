@@ -5,7 +5,7 @@ namespace Parser_2022_
 
     internal class DB
     {
-        public static string Connect = "Server=owlnews.postgres.database.azure.com;Database=owlnews;Port=5432;User Id=vBakosh;Password=OwlDBNews!;Ssl Mode=VerifyFull;";
+        public static string Connect = "Server=owlnews2.postgres.database.azure.com;Database=owlnews;Port=5432;User Id=vbakosh;Password=OwlDBNews!;Ssl Mode=VerifyFull;";
         public static string name_all = "all_news";
         public static string name_sources = "sources";
         public static string name_regions = "regions";
@@ -114,9 +114,9 @@ namespace Parser_2022_
         {
             List<string> cmd = new()
             {
-                 $"CREATE TABLE IF NOT EXISTS public.{name_regions}\r\n(\r\n    region_id integer NOT NULL,\r\n    region_name text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT regions_pkey PRIMARY KEY (region_id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{name_regions}\r\n    OWNER to \"vBakosh\";"
-                ,$"CREATE TABLE IF NOT EXISTS public.{name_sources}\r\n(\r\n    source_id integer NOT NULL,\r\n    source_logo text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT sources_pkey PRIMARY KEY (source_id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{name_sources}\r\n    OWNER to \"vBakosh\";"
-                ,$"CREATE TABLE IF NOT EXISTS public.\"{name_all}\"\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    region_id integer,\r\n    source_id integer,\r\n    CONSTRAINT all_region_id_fkey FOREIGN KEY (region_id)\r\n        REFERENCES public.regions (region_id) MATCH SIMPLE\r\n        ON UPDATE NO ACTION\r\n        ON DELETE NO ACTION,\r\n    CONSTRAINT all_source_id_fkey FOREIGN KEY (source_id)\r\n        REFERENCES public.sources (source_id) MATCH SIMPLE\r\n        ON UPDATE NO ACTION\r\n        ON DELETE NO ACTION\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{name_all}\"\r\n    OWNER to \"vBakosh\";" };
+                 $"CREATE TABLE IF NOT EXISTS public.{name_regions}\r\n(\r\n    region_id integer NOT NULL,\r\n    region_name text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT regions_pkey PRIMARY KEY (region_id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{name_regions}\r\n    OWNER to \"vbakosh\";"
+                ,$"CREATE TABLE IF NOT EXISTS public.{name_sources}\r\n(\r\n    source_id integer NOT NULL,\r\n    source_logo text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    CONSTRAINT sources_pkey PRIMARY KEY (source_id)\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.{name_sources}\r\n    OWNER to \"vbakosh\";"
+                ,$"CREATE TABLE IF NOT EXISTS public.\"{name_all}\"\r\n(\r\n    id integer NOT NULL,\r\n    title text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    \"time\" timestamp without time zone NOT NULL,\r\n    info text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    link text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    image text COLLATE pg_catalog.\"default\" NOT NULL,\r\n    region_id integer,\r\n    source_id integer,\r\n    CONSTRAINT all_region_id_fkey FOREIGN KEY (region_id)\r\n        REFERENCES public.regions (region_id) MATCH SIMPLE\r\n        ON UPDATE NO ACTION\r\n        ON DELETE NO ACTION,\r\n    CONSTRAINT all_source_id_fkey FOREIGN KEY (source_id)\r\n        REFERENCES public.sources (source_id) MATCH SIMPLE\r\n        ON UPDATE NO ACTION\r\n        ON DELETE NO ACTION\r\n)\r\n\r\nTABLESPACE pg_default;\r\n\r\nALTER TABLE IF EXISTS public.\"{name_all}\"\r\n    OWNER to \"vbakosh\";" };
             foreach (var item in cmd)
             {
                 try
