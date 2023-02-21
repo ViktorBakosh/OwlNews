@@ -9,6 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddEntityFrameworkNpgsql()
     .AddDbContext<AppDBContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddHostedService<BackgroundParse>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

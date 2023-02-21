@@ -2,11 +2,13 @@
 
 namespace BackgroundParsers
 {
-    public static class BackgroundParse
+    public class BackgroundParse : BackgroundService
     {
-        public static async Task Parse()
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await Task.Delay(1);
+            Parse1.cherkassy();
+            await Task.Delay(6000);
+            Parse1.zakarpattia();
         }
     }
 }
