@@ -184,7 +184,7 @@ namespace Parser_2022_
                 using (var conn = new NpgsqlConnection(Connect))
                 {
                     conn.Open();
-                    using (var cmd = new NpgsqlCommand($"SELECT title FROM {name_all} WHERE title='{obj.title}' AND region_id={obj.region} AND source_id={obj.source_id};", conn))
+                    using (var cmd = new NpgsqlCommand($"SELECT title FROM {name_all} WHERE title='{obj.title.Replace("'","''")}' AND region_id={obj.region} AND source_id={obj.source_id};", conn))
                     {
                         NpgsqlDataReader read = cmd.ExecuteReader();
                         read.Read();
