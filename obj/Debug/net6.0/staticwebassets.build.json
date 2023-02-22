@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+9J7u8IF0DGj7Ow12pwTDvJibeep4VR92l03PVN5+bY=",
+  "Hash": "xOHNf3nfP+OX2PM0zh4QQ5nrnW821vxk43Te7Ukrm9I=",
   "Source": "OwlNews",
   "BasePath": "_content/OwlNews",
   "Mode": "Default",
@@ -49,6 +49,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\map.css"
+    },
+    {
+      "Identity": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\css\\preloader.css",
+      "SourceId": "OwlNews",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\",
+      "BasePath": "_content/OwlNews",
+      "RelativePath": "css/preloader.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\preloader.css"
     },
     {
       "Identity": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\favicon.ico",
@@ -204,12 +221,12 @@
       "OriginalItemSpec": "wwwroot\\js\\app.js"
     },
     {
-      "Identity": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\js\\backgroundParsers.js",
+      "Identity": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\js\\preloader.js",
       "SourceId": "OwlNews",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\",
       "BasePath": "_content/OwlNews",
-      "RelativePath": "js/backgroundParsers.js",
+      "RelativePath": "js/preloader.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -218,7 +235,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\backgroundParsers.js"
+      "OriginalItemSpec": "wwwroot\\js\\preloader.js"
     },
     {
       "Identity": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",

@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\css\\map.css"
     },
     {
+      "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\css\\preloader.css",
+      "PackagePath": "staticwebassets\\css\\preloader.css"
+    },
+    {
       "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
@@ -45,8 +49,8 @@
       "PackagePath": "staticwebassets\\js\\app.js"
     },
     {
-      "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\js\\backgroundParsers.js",
-      "PackagePath": "staticwebassets\\js\\backgroundParsers.js"
+      "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\js\\preloader.js",
+      "PackagePath": "staticwebassets\\js\\preloader.js"
     },
     {
       "Id": "C:\\Users\\schoo\\OneDrive\\Робочий стіл\\OwlNews\\wwwroot\\lib\\bootstrap\\LICENSE",

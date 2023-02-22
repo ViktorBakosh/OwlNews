@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Owl News - Main Map";
 }
-<link rel="stylesheet" href="/css/map.css">
 @{
+    await Html.RenderPartialAsync("_Preloader");
     await Html.RenderPartialAsync("_UkraineMap");
 }
