@@ -1,0 +1,117 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+//##########################################################################
+//##########################################################################
+
+// standart
+// @font-face { font-family: Highliner; src: url('../fonts/highliner/HighlinerRegular.otf'); } 
+// @font-face { font-family: Highliner; font-weight: bold; src: url('../fonts/highliner/HighlinerBold.otf');}
+// @font-face { font-family: Highliner; font-weight: light; src: url('../fonts/highliner/HighlinerLight.otf');}
+
+body, html {
+  margin: 0;
+  // height: 100%;
+  width: 100%;
+
+  // font-family: Highliner;
+}
+
+body {
+  background-image: linear-gradient(to bottom, #81B29A, #3D405B);
+  background-repeat:no-repeat;
+  height: 100%;
+}
+
+a, a:hover {
+  text-decoration: none;
+}
+//##########################################################################
+//##########################################################################
+
+// custom variables
+// row
+.row>* {
+  padding-right: 0;
+  padding-left: 0;
+  margin-top: var(--bs-gutter-y);
+}
+
+// container
+.container-xxl { max-width: 2200px; }
+
+// columns
+.custom-col-1  { flex: 0 0 auto; width: 20.3125% }
+.custom-col-2  { flex: 0 0 auto; width: 68.75% }
+.custom-col-3  { flex: 0 0 auto; width: 10.9375% }
+
+// colors
+$black: #3D405B;
+$white: #F1F4DE;
+$orange:#E07A5F;
+
+
+
+
+
+// classes
+.col-menu {
+  background-color: $black;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 0 10px;
+
+  .menu-logo {
+    .menu-logo div {
+      .menu-logo div h1 {
+        .menu-logo div h1 a {}
+
+      } 
+
+      .menu-logo div p {
+        .menu-logo div p a {}
+
+      } 
+
+      .menu-logo img {} 
+    }
+  }
+}
+
+.col-news {
+  background-color: $white;
+  box-shadow: 1px 1px 15px;
+  margin-bottom: 500px;
+
+  .run-text-block marquee {
+    // height: 95px;
+    font-size: 50px;
+    background: $orange;
+    color: #F1F4DE;
+    margin: 0;
+  }
+}
+
+.col-logos {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: scroll;
+  
+
+  .col-logos-block {
+
+
+    .logo-circle {
+      
+      
+      .logo-circle-img {
+        border: 2px solid black;
+        border-radius: 50%;
+        box-shadow: 15px 10px 15px rgba(0, 0, 0, 0.159);
+
+        
+      }
+    }
+  }
+}
