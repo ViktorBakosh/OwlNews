@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using Python.Runtime;
 
 namespace Parser_2022_
 {
@@ -189,17 +190,23 @@ namespace Parser_2022_
                         NpgsqlDataReader read = cmd.ExecuteReader();
                         read.Read();
 
-                        if (obj.title == read[0].ToString())
-                        {
-                            conn.Close();
-                            return true;
-                        }
+                        // Initialize Python
+                        PythonEngine.Initialize();
+                        // Import the dublicat_checker module
+                        dynamic dublicatChecker = PythonEngine.ImportModule("dublicate_checker");
+
+                        // Call the is_dublicate function
+                        bool isDublicate = dublicatChecker.is_dublicate(read.to_list(),obj.title);
+
+                        // Shut down Python
+                        PythonEngine.Shutdown();
+                        conn.Close();
+                        return isDublicate;
                     }
-                    conn.Close();
+                    
                 }
             }
             catch { return false; }
-            return false;
         }
 
     }
