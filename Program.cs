@@ -1,6 +1,7 @@
 using BackgroundParsers;
 using Microsoft.EntityFrameworkCore;
 using OwlNews.Data;
+using Python;
 
 var builder = WebApplication.CreateBuilder(args);
 
