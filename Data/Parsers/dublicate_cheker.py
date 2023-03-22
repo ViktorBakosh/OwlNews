@@ -66,6 +66,3 @@ def is_dublicate(news : list ,arr: str):
         return True
     else: 
         return False
-news = 'Злата Огнєвіч на день народження наважилась на важливий крок і дізналась майбутнє'
-
-print(is_dublicate(news,arr))

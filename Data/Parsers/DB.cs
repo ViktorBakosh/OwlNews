@@ -1,12 +1,17 @@
 ﻿using Npgsql;
-using Python.Runtime;
+using IronPython.Hosting;
+using Microsoft.Scripting.Hosting;
+using OwlNews.Models;
+using System.Linq.Expressions;
 
 namespace Parser_2022_
 {
 
     internal class DB
     {
-        public static string Connect = "Server=owlnews2.postgres.database.azure.com;Database=owlnews;Port=5432;User Id=vbakosh;Password=OwlDBNews!;Ssl Mode=VerifyFull;";
+
+        //"Server=owlnews2.postgres.database.azure.com;Database=owlnews;Port=5432;User Id=vbakosh;Password=OwlDBNews!;Ssl Mode=VerifyFull;";
+        public static string Connect = "Host=localhost;User id=postgres;Password=228522245;Database=NEWS;Port=2285;";
         public static string name_all = "all_news";
         public static string name_sources = "sources";
         public static string name_regions = "regions";
@@ -34,7 +39,14 @@ namespace Parser_2022_
                         command.Parameters.AddWithValue("id", DATABASE_READ(Connect, $"SELECT COUNT(*) FROM {name_all};") + 1);
                         command.Parameters.AddWithValue("title", obj.title);
                         command.Parameters.AddWithValue("info", obj.info);
-                        command.Parameters.AddWithValue("time", DateTime.ParseExact(obj.time, "dd.M.yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
+                        try
+                        {
+                            command.Parameters.AddWithValue("time", DateTime.ParseExact(obj.time, "dd.MM.yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
+                        }
+                        catch
+                        {
+                            command.Parameters.AddWithValue("time", DateTime.ParseExact(obj.time, "MM.dd.yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture));
+                        }
                         command.Parameters.AddWithValue("link", obj.link);
                         command.Parameters.AddWithValue("image", obj.image);
                         command.Parameters.AddWithValue("region_id", obj.region);
@@ -43,11 +55,11 @@ namespace Parser_2022_
                         await command.ExecuteNonQueryAsync();
                     }
                     conn.Close();
-                    //}
+                    
                 }
 
             }
-            catch { }
+            catch {}
             return;
         }
 
@@ -185,28 +197,31 @@ namespace Parser_2022_
                 using (var conn = new NpgsqlConnection(Connect))
                 {
                     conn.Open();
-                    using (var cmd = new NpgsqlCommand($"SELECT title FROM {name_all} WHERE title='{obj.title.Replace("'","''")}' AND region_id={obj.region} AND source_id={obj.source_id};", conn))
+                    using (var cmd = new NpgsqlCommand($"SELECT title FROM {name_all} WHERE title=@title AND region_id=@region_id AND source_id=@source_id;", conn))
                     {
+                        cmd.Parameters.AddWithValue("title", obj.title);
+                        cmd.Parameters.AddWithValue("source_id", obj.source_id);
+                        cmd.Parameters.AddWithValue("region_id", obj.region);
+
                         NpgsqlDataReader read = cmd.ExecuteReader();
+
                         read.Read();
 
-                        // Initialize Python
-                        PythonEngine.Initialize();
-                        // Import the dublicat_checker module
-                        dynamic dublicatChecker = PythonEngine.ImportModule("dublicate_checker");
+                        if (read[0] == obj.title)
+                        {
+                            Console.WriteLine(true);
+                            return true;
+                        }
 
-                        // Call the is_dublicate function
-                        bool isDublicate = dublicatChecker.is_dublicate(read.to_list(),obj.title);
-
-                        // Shut down Python
-                        PythonEngine.Shutdown();
                         conn.Close();
-                        return isDublicate;
+                        Console.WriteLine(true);
+
+                        return true;
                     }
                     
                 }
             }
-            catch { return false; }
+            catch { Console.WriteLine(false.ToString() + "CATCH");  return false; }
         }
 
     }
