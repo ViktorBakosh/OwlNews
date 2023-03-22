@@ -1,5 +1,29 @@
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+
+
+// custom variables
+// row
+.row>* {
+  padding-right: 0;
+  padding-left: 0;
+  margin-top: var(--bs-gutter-y);
+}
+
+// container
+.container-xxl { max-width: 1600px; }
+
+// columns
+.custom-col-1  { flex: 0 0 auto; width: 20.3125% }
+.custom-col-2  { flex: 0 0 auto; width: 68.75% }
+.custom-col-3  { flex: 0 0 auto; width: 10.9375% }
+
+// colors
+$black: #3D405B;
+$white: #F1F4DE;
+$orange:#E07A5F;
+$green: #81B29A;
+
 //##########################################################################
 //##########################################################################
 
@@ -22,32 +46,20 @@ body {
   height: 100%;
 }
 
-a, a:hover {
+h1, h2, h3, h4, h5, h6, p, span, a, a:hover {
   text-decoration: none;
+  color: $black;
 }
+
+ul, li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
 //##########################################################################
 //##########################################################################
 
-// custom variables
-// row
-.row>* {
-  padding-right: 0;
-  padding-left: 0;
-  margin-top: var(--bs-gutter-y);
-}
-
-// container
-.container-xxl { max-width: 2200px; }
-
-// columns
-.custom-col-1  { flex: 0 0 auto; width: 20.3125% }
-.custom-col-2  { flex: 0 0 auto; width: 68.75% }
-.custom-col-3  { flex: 0 0 auto; width: 10.9375% }
-
-// colors
-$black: #3D405B;
-$white: #F1F4DE;
-$orange:#E07A5F;
 
 
 
@@ -60,20 +72,34 @@ $orange:#E07A5F;
   top: 0;
   height: 100vh;
   padding: 0 10px;
+  box-shadow: 1px 1px 10px;
 
   .menu-logo {
-    .menu-logo div {
-      .menu-logo div h1 {
-        .menu-logo div h1 a {}
-
+    div {
+      h1 {
+        a { 
+          font-size: 45px;
+          color: $white;
+          border-bottom: 4px solid $white;
+        }  
       } 
+      
+      p {
+        margin-top:-5px;
+        a {
+          
+          color: $white;
+          font-size: 23px;
+        }
+      }
 
       .menu-logo div p {
         .menu-logo div p a {}
 
       } 
 
-      .menu-logo img {} 
+      .menu-logo img {
+      } 
     }
   }
 }
@@ -82,6 +108,7 @@ $orange:#E07A5F;
   background-color: $white;
   box-shadow: 1px 1px 15px;
   margin-bottom: 500px;
+  height: fit-content;
 
   .run-text-block marquee {
     // height: 95px;
@@ -90,28 +117,157 @@ $orange:#E07A5F;
     color: #F1F4DE;
     margin: 0;
   }
+
 }
+
+ 
+
+
 
 .col-logos {
   position: sticky;
   top: 0;
   height: 100vh;
-  overflow-y: scroll;
+  // overflow-y: scroll;
   
 
   .col-logos-block {
+    li {
+      div {
+        label {
+          border-radius: 50%;
 
-
-    .logo-circle {
-      
-      
-      .logo-circle-img {
-        border: 2px solid black;
-        border-radius: 50%;
-        box-shadow: 15px 10px 15px rgba(0, 0, 0, 0.159);
-
-        
+          .logo-circle-img {
+            border: 5px solid;
+            border-color: $white;
+            border-radius: 50%;
+            box-shadow: 15px 10px 15px rgba(0, 0, 0, 0.159);
+            height: 120px;
+          
+          }
+        }
       }
     }
   }
+
+}
+
+.newImageContainer{ 
+  a {
+    img {
+      max-width: 475px;
+      height: 280px;
+      aspect-ratio: 3/2;
+      object-fit: cover;
+      border: 1px solid black;
+      
+    }
+  }
+}
+
+.newInfoContainer {
+  // display: flex;
+  // flex-direction: column;
+  span {
+    span {
+      border-bottom: 4px solid $black;
+      // width: 100%;
+      display: block;
+      
+      h2 {
+        margin-bottom: -2px;  
+        
+        a {  
+          // text-transform: uppercase;
+          color: $black;
+        }
+      }
+    }
+  
+    h3 {
+      a {
+        color: $orange;
+        font-size: 30px;
+      }
+    }
+
+    p {
+      
+      color: $black;
+      font-size: 20px;
+      // max-height: 100px;
+      overflow: hidden;
+      // text-overflow: ellips  is;
+      max-height: 180px;
+      text-indent: 30px;
+      text-align: justify;
+      text-justify: auto;
+    
+    }
+  }
+  
+
+
+  .btn {
+    background-color: $green;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: $white;
+    float: right;
+    width: fit-content;
+    border: none;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.284);
+    
+    &:active{
+      background-color:$green;
+      color: $white;
+      opacity: 0.8;
+      
+    }
+  }
+  
+  .modal {
+    
+    .modal-dialog {
+      
+      .modal-content {
+        
+        border-radius: 0;
+        border: none;
+        background-image: linear-gradient(217deg, $white, rgba(255,0,0,0) 70.71%),            
+                          linear-gradient(127deg, $white, rgba(0,255,0,0) 70.71%),            
+                          linear-gradient(336deg, #b5b5b5, rgba(0,0,255,0) 70.71%);
+        
+        .modal-header {
+          .modal-title {
+
+          }
+
+          .btn-close {
+
+          }
+        }
+
+        .modal-body {
+          img  {
+            border: 1px solid black;
+            
+          }
+
+          p {
+            font-size: 20px;
+            text-indent: 30px;
+            text-align: justify;
+            text-justify: auto;
+            color: $black;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+.newTitleLink {
+
 }
