@@ -10,8 +10,8 @@ namespace Parser_2022_
     internal class DB
     {
 
-        //"Server=owlnews2.postgres.database.azure.com;Database=owlnews;Port=5432;User Id=vbakosh;Password=OwlDBNews!;Ssl Mode=VerifyFull;";
-        public static string Connect = "Host=localhost;User id=postgres;Password=228522245;Database=NEWS;Port=2285;";
+        //"Host=localhost;User id=postgres;Password=228522245;Database=NEWS;Port=2285;"
+        public static string Connect = "Server=projectowlnews.postgres.database.azure.com;Database=owlnews;Port=5432;User Id=vbakosh;Password=OwlDBNews!;Ssl Mode=VerifyFull;";
         public static string name_all = "all_news";
         public static string name_sources = "sources";
         public static string name_regions = "regions";
@@ -209,19 +209,17 @@ namespace Parser_2022_
 
                         if (read[0] == obj.title)
                         {
-                            Console.WriteLine(true);
                             return true;
                         }
 
                         conn.Close();
-                        Console.WriteLine(true);
 
                         return true;
                     }
                     
                 }
             }
-            catch { Console.WriteLine(false.ToString() + "CATCH");  return false; }
+            catch {return false; }
         }
 
     }
